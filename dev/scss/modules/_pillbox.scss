@@ -1,0 +1,54 @@
+.nav-pills {
+  background: $color-royal;
+  display: inline-block;
+  font-size: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  @include border-radius($base-rounded-corners);
+}
+
+.nav-pills li {
+  display: inline-block;
+  margin: 0;
+  padding: 1px;
+}
+
+.nav-pills button {
+  @extend %text-normal;
+
+  border: none;
+  background: $color-royal;
+  color: $color-white;
+  display: block;
+  font-family: $base-font-family-bold;
+  padding: 9px 20px;
+  text-decoration: none;
+
+  @include border-radius($base-rounded-corners);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.active {
+    background: $color-gold;;
+    color: $color-royal;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.nav-pills button[disabled=disabled] {
+  opacity: 0.2;
+  &:hover {
+    text-decoration: none;
+  }
+}

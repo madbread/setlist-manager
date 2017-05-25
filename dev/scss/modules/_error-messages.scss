@@ -1,0 +1,35 @@
+.error-messages {
+  @extend %text-normal;
+
+  background: $color-ltgrey;
+  border: 2px solid $color-red;
+  margin: $base-unit-half;
+  padding: $base-unit-quarter;
+
+  @include border-radius($base-rounded-corners);
+
+  .but-small {
+    font-size: 0.65em;
+  }
+}
+
+.error-messages ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.error-messages li {
+  margin-bottom: $base-unit-quarter;
+}
+
+.error-messages .media-figure {
+  @extend %text-large;
+  color: $color-red;
+  margin-top: 0;
+}
+
+.inline-error {
+  color: $color-warning;
+  margin: 0;
+}

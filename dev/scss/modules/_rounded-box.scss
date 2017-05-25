@@ -1,0 +1,15 @@
+%rounded-box,
+.rounded-box {
+  border: 1px solid $color-royal;
+  @include border-radius();
+}
+
+.filled-box,
+%filled-box {
+  @extend %rounded-box;
+}
+
+.info-box {
+  @extend %filled-box;
+  @extend %media;
+}

@@ -1,0 +1,41 @@
+<div class="game-grid grid-padded">
+  <div ng-include="'templates/login.html'"></div>
+  <error-messages
+    messages="gridVM.messages"
+  ></error-messages>
+
+  <span class="text-tiny float-right align-right" ng-if="gridVM.status.authorized">
+    Logged in as <span ng-bind="gridVM.status.email"></span>
+    <br>
+    <button
+      ng-if="gridVM.status.authorized"
+      ng-click="gridVM.logout()"
+      class="but-small"
+    >Logout</button>
+  </span>
+
+  <h4>
+    <button
+      ng-if="!gridVM.status.authorized"
+      ng-click="gridVM.showLogin = !gridVM.showLogin"
+      class="but-small float-right"
+    >Login</button>
+    <span ng-if="gridVM.board.times">
+      Slater 10x<span ng-bind="gridVM.board.times"></span> Challenge
+    </span>
+    <select
+      ng-model="gridVM.boardData.selected"
+      ng-options="option for option in gridVM.boardData.options"
+    ></select>
+  </h4>
+
+  <grid-row
+    ng-repeat="(id, game) in gridVM.board"
+    ng-if="gridVM.boardReady && id !== 'times'"
+    game="game"
+    times="gridVM.board.times"
+    players="gridVM.challenge.players"
+  ></grid-row>
+
+  <p>You must play {{gridVM.gamesPerWeek}} games per week to finish on time.</p>
+</div>

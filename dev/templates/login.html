@@ -1,0 +1,13 @@
+<div ng-show="gridVM.showLogin" ng-click="gridVM.showLogin = false" class="window-shade"></div>
+<div ng-show="gridVM.showLogin" class="shade-contents">
+  <form class="support-form" ng-submit="gridVM.login()">
+    <h3>Enter your email and password</h3>
+    <div class="input-group">
+      <input type="email" class="form-control" placeholder="Email" ng-model="gridVM.user.email">
+    </div>
+    <div class="input-group">
+      <input type="password" class="form-control" placeholder="Password" ng-model="gridVM.user.password">
+    </div>
+    <input type="submit" class="but-selection" value="Submit Login">
+  </form>
+</div>

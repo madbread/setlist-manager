@@ -1,0 +1,13 @@
+%media,
+.media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.media-figure {
+  margin: $base-unit-quarter $base-unit $base-unit-quarter $base-unit-quarter;
+}
+
+.media-body {
+  flex: 1;
+}

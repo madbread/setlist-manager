@@ -1,0 +1,10 @@
+# node files
+node_modules
+
+# sass cache files
+.sass-cache
+
+# App folder is for production only
+app
+
+.DS_Store

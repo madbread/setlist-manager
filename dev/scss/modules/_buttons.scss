@@ -1,0 +1,144 @@
+%but,
+.but {
+  background: $color-ltgrey;
+  border: none;
+  color: $color-royal;
+  cursor: pointer;
+  display: inline-block;
+  min-width: 100px;
+  padding: $base-unit-half $base-unit;
+  text-align: center;
+  text-decoration: none;
+
+  @extend %text-normal;
+  @include border-radius($base-rounded-corners);
+
+  &.active,
+  &:active {
+    background: $color-medgrey;
+    color: $color-white;
+  }
+
+  &:hover {
+    background-color: $color-agua;
+    color: $color-black;
+  }
+}
+
+.but.cancel {
+  background: none;
+  padding: $base-unit-half 0;
+}
+
+.but.cancel.small {
+  padding: $base-unit-half $base-unit;
+  min-width: 10px;
+  font-size: $base-unit;
+}
+
+a.but-selection {
+  text-decoration: none;
+
+  &:active {
+    background: $color-gold;
+    color: $color-royal;
+  }
+}
+
+.but-selection {
+  @extend %but;
+  background: $color-royal;
+  color: $color-white;
+
+  &.active,
+  &:active {
+    background: $color-gold !important;
+    color: $color-royal !important;
+  }
+
+  &:hover {
+    background-color: $color-pool;
+    color: $color-white;
+  }
+
+  @include default-box-shadow();
+}
+
+.but-state {
+  @extend %but;
+  color: $color-black;
+  min-width: 70px;
+  outline: none !important;
+
+  &.active,
+  &:active {
+    background: $color-royal !important;
+    color: $color-gold !important;
+  }
+
+  &:hover {
+    background-color: $color-ltgrey;
+    color: $color-black;
+  }
+
+}
+
+.but-small {
+  @extend %but;
+  background: $color-royal;
+  color: $color-white;
+  padding: $base-unit-quarter $base-unit-half;
+  min-width: 10px;
+  font-size: 10px;
+
+  &.active,
+  &:active {
+    background: $color-gold !important;
+    color: $color-royal !important;
+  }
+
+  &:hover {
+    background-color: $color-pool;
+    color: $color-white;
+  }
+
+  @include default-box-shadow();
+}
+
+.but-import {
+  @extend %but;
+  background: $color-royal;
+  color: $color-white;
+  padding: 0 $base-unit-half;
+  min-width: 10px;
+  font-size: .95em;
+  position: relative;
+  top: -2px;
+
+  &.active,
+  &:active {
+    background: $color-gold !important;
+    color: $color-royal !important;
+  }
+
+  &:hover {
+    background-color: $color-pool;
+    color: $color-white;
+  }
+
+  @include default-box-shadow();
+}
+
+.but-row {
+  margin-top: $base-unit;
+  margin-bottom: $base-unit;
+
+  .but {
+    margin-right: $base-unit;
+    margin-bottom: $base-unit;
+  }
+}
+
+.but[disabled] {
+  opacity: 0.2;
+}

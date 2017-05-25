@@ -1,0 +1,44 @@
+{
+  "name": "ms-cards",
+  "version": "1.1.0",
+  "description": "Mad Bread Setlists Manager",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^0.1.2",
+    "gulp": "^3.8.7",
+    "gulp-autoprefixer": "^0.0.8",
+    "gulp-cache": "^0.2.1",
+    "gulp-concat": "^2.3.4",
+    "gulp-concat-util": "^0.5.4",
+    "gulp-connect": "^2.0.6",
+    "gulp-html-replace": "^1.6.1",
+    "gulp-jscs": "^1.4.0",
+    "gulp-jshint": "^1.8.4",
+    "gulp-clean-css": "^3.4.0",
+    "gulp-ng-annotate": "^0.5.2",
+    "gulp-notify": "^1.4.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "~1.1.4",
+    "gulp-uglify": "^0.3.1",
+    "gulp-util": "^3.0.6",
+    "require-dir": "^0.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madbread/setlist-manager"
+  },
+  "keywords": [
+    "Mad Bread Chicago Bluegrass"
+  ],
+  "author": "Michael Slater",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madbread/setlist-manager/issues"
+  },
+  "homepage": "http://madbreadband.com"
+}

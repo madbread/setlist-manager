@@ -1,0 +1,70 @@
+.box {
+  @extend .vertical-align-container;
+  border: 1px solid $color-black;
+  height: $base-unit*3;
+  margin: $base-unit-quarter;
+  overflow-y: hidden;
+  padding: $base-unit-half;
+  width: $base-unit*3;
+  text-align: center;
+}
+
+.box-played {
+  @extend %text-normal;
+  text-align: center;
+  justify-content: center;
+}
+
+.game-title {
+  padding: $base-unit-half;
+  display: flex;
+  width: 25%;
+}
+
+.title-area {
+  margin-left: $base-unit-half;
+  width: 100%;
+  > input {
+    width: 100%;
+  }
+}
+
+.player-icon {
+  @include border-radius($base-rounded-corners);
+  background-color: $color-dkgrey;
+  color: $color-white;
+  display: inline-block;
+  font-weight: bold;
+  padding: $base-unit-half;
+}
+
+.controls {
+  @extend .vertical-align-container;
+  > span {
+    @extend %text-small;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 4px;
+    width: 20px;
+  }
+}
+
+.color-A {
+  background-color: #ffe67a;
+}
+
+.color-Z {
+  background-color: #ef6a6a;
+}
+
+.color-D {
+  background-color: #73bf73;
+}
+
+.color-M {
+  background-color: #8b8bff;
+}
+
+.color-F {
+  background-color: #afdbff;
+}

@@ -1,0 +1,298 @@
+// Place state change stylesheets in these files (non-module-specific shared classes)
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearboth {
+  clear: both;
+}
+
+.floated-links {
+  float: right;
+  padding: $base-unit-quarter;
+}
+
+.floated-links > a {
+  margin-left: $base-unit;
+}
+
+.display-block {
+  display: block;
+}
+
+.bottom-space-small {
+  padding-bottom: $base-unit-half;
+}
+
+.bottom-space-large {
+  padding-bottom: $base-unit * 2;
+}
+
+.indented {
+  margin-left: 20px;
+}
+
+.selected {
+  background-color: $color-soft-warning !important;
+}
+
+// color classes
+.color-black          {color: $color-black;}
+.color-white          {color: $color-white;}
+.color-royal          {color: $color-royal;}
+.color-gold           {color: $color-gold;}
+.color-soft-gold      {color: $color-soft-gold;}
+.color-pool           {color: $color-pool;}
+.color-agua           {color: $color-agua;}
+.color-dkdkblue       {color: $color-dkdkblue;}
+.color-ltgrey         {color: $color-ltgrey;}
+.color-dkgrey         {color: $color-dkgrey;}
+.color-ltltgrey       {color: $color-ltltgrey;}
+.color-medgrey        {color: $color-medgrey;}
+.color-description    {color: $color-description}
+.color-caution        {color: $color-caution}
+.color-soft-warning   {color: $color-soft-warning;}
+.color-soft-red       {color: $color-soft-red;}
+.color-warning        {color: $color-warning}
+.color-red            {color: $color-red}
+.color-disabledtext   {color: $color-disabledtext}
+.color-disabledbutton {color: $color-disabledbutton}
+.color-shadow         {color: $color-shadow;}
+.color-border         {color: $color-border;}
+.color-ltgreen        {color: $color-ltgreen;}
+.color-green          {color: $color-green;}
+.color-dirty-yellow   {color: $color-dirty-yellow;}
+
+.bg-black          {background-color: $color-black;}
+.bg-white          {background-color: $color-white;}
+.bg-royal          {background-color: $color-royal;}
+.bg-gold           {background-color: $color-gold;}
+.bg-soft-gold      {background-color: $color-soft-gold;}
+.bg-pool           {background-color: $color-pool;}
+.bg-agua           {background-color: $color-agua;}
+.bg-dkdkblue       {background-color: $color-dkdkblue;}
+.bg-ltgrey         {background-color: $color-ltgrey;}
+.bg-dkgrey         {background-color: $color-dkgrey;}
+.bg-ltltgrey       {background-color: $color-ltltgrey;}
+.bg-medgrey        {background-color: $color-medgrey;}
+.bg-description    {background-color: $color-description}
+.bg-caution        {background-color: $color-caution}
+.bg-soft-warning   {background-color: $color-soft-warning;}
+.bg-soft-red       {background-color: $color-soft-red;}
+.bg-warning        {background-color: $color-warning}
+.bg-red            {background-color: $color-red}
+.bg-disabledtext   {background-color: $color-disabledtext}
+.bg-disabledbutton {background-color: $color-disabledbutton}
+.bg-shadow         {background-color: $color-shadow}
+.bg-border         {background-color: $color-border;}
+.bg-ltgreen        {background-color: $color-ltgreen;}
+.bg-green          {background-color: $color-green;}
+.bg-dirty-yellow   {background-color: $color-dirty-yellow;}
+
+// Created for pipeline card backgrounds
+.bg-soft-green     {background-color: $color-soft-green;}
+.bg-soft-yellow    {background-color: $color-soft-yellow;}
+.bg-soft-pink      {background-color: $color-soft-pink;}
+.bg-soft-blue      {background-color: $color-soft-blue;}
+.bg-soft-purple    {background-color: $color-soft-purple;}
+.bg-soft-brown     {background-color: $color-soft-brown;}
+.bg-bright-green   {background-color: $color-bright-green;}
+.bg-bright-yellow  {background-color: $color-bright-yellow;}
+.bg-bright-blue    {background-color: $color-bright-blue;}
+.bg-soft-gray      {background-color: $color-soft-gray;}
+
+.description {
+  color: $color-description;
+  @extend %text-small;
+}
+
+.vertical-align-container {
+  display: flex;
+  align-items: center;
+}
+
+.hidden {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.slide {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  transition: max-height 300ms;
+}
+
+.slide-hide {
+  max-height: 0;
+}
+
+.slide-show {
+  max-height: 80em;
+}
+
+.shadow {
+  @include default-box-shadow();
+}
+
+.loading {
+  background: url('../images/loading.gif') 50% 50% no-repeat;
+  padding: $base-unit * 2;
+}
+
+.loading-inline {
+  background: url('../images/loading.gif') 0 50% no-repeat;
+  padding: $base-unit * 2;
+}
+
+.loading-ltblue {
+  background: url('../images/loading-ltblue.gif') 50% 50% no-repeat;
+  padding: $base-unit;
+}
+
+.loading-ltgreen {
+  background: url('../images/loading-ltgreen.gif') 50% 50% no-repeat;
+  padding: $base-unit;
+}
+
+.loading-dark {
+  padding: $base-unit * 2;
+  background: $color-royal url('../images/loading-dark.gif') 50% 50% no-repeat;
+  height: 100%;
+  opacity: 0.25;
+  position: absolute;
+    top: 0;
+    left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.success-message {
+  @extend %text-small;
+
+  background: $color-ltgreen;
+  border: 1px solid $color-green;
+  margin: $base-unit;
+  padding: $base-unit-half;
+
+  @include border-radius($base-rounded-corners);
+}
+
+.subform-inset {
+  @include border-radius($base-rounded-corners);
+
+  background: $color-ltltgrey;
+  margin: 2em;
+  padding: 1em;
+}
+
+.error {
+  border: 1px solid $color-red;
+}
+
+.form-subheading {
+  @extend %text-normal;
+
+  color: $color-royal;
+  margin: 0;
+}
+
+.form-border {
+  @include border-radius($base-rounded-corners);
+  border: 2px solid $color-royal;
+}
+
+.preserve-space {
+  white-space: pre-line;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.strike {
+  text-decoration: line-through;
+}
+
+.tag-spacer {
+  padding: 75px;
+}
+
+.hand {
+  cursor: pointer;
+}
+
+.tighten-list-item {
+  position: relative;
+  left: -3px;
+  top: 2px;
+}
+
+.truncate {
+  max-height: $base-unit * 7;
+  overflow-y: auto;
+}
+
+.extra-spacing {
+  padding: 2em;
+}
+
+a.disabled {
+  color: $color-disabledtext;
+}
+
+.soft-deleted {
+  background: $color-soft-red;
+}
+
+td .soft-deleted {
+  padding-right: $base-unit * .75;
+
+  > .icon-exclamation {
+    position: absolute;
+    right: 1px;
+  }
+}
+
+// Fixes bug/feature in Firefox that makes :invalid fields glow
+:invalid {
+  box-shadow: none;
+}
+
+:-moz-submit-invalid {
+  box-shadow: none;
+}
+
+:-moz-ui-invalid {
+  box-shadow:none;
+}

@@ -1,0 +1,99 @@
+// Hide datepicker div before instantiation
+body > .ui-datepicker {
+  display: none;
+}
+
+input[ui-date],
+input.hasDatepicker {
+  display: inline-block;
+  width: 90%;
+}
+
+.ui-datepicker-header {
+  @extend %text-small;
+
+  color: $color-royal;
+}
+
+.ui-datepicker-prev {
+  cursor: pointer;
+  float: left;
+  font-family: "wellspringiconsregular";
+}
+
+.ui-datepicker-title {
+  font-family: $base-font-family-bold;
+  text-align: center;
+}
+
+.ui-datepicker-next {
+  cursor: pointer;
+  float: right;
+  font-family: "wellspringiconsregular";
+}
+
+.ui-datepicker {
+  @include default-box-shadow;
+
+  background: $color-white;
+  border: 1px solid $color-ltgrey;
+  padding: $base-unit-half;
+}
+
+.ui-datepicker th {
+  background: $color-white;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  color: $color-pool;
+  text-align: center;
+}
+
+.ui-datepicker td {
+  text-align: center;
+  padding: $base-unit-quarter;
+}
+
+.ui-datepicker td a {
+  color: $color-medgrey;
+  text-decoration: none;
+  width: 100%;
+}
+
+.ui-datepicker tbody tr:nth-child(even) {
+  background-color: $color-white;
+}
+
+.ui-datepicker-trigger {
+  left: 4px;
+  position: relative;
+  top: 4px;
+}
+
+.ui-datepicker .ui-datepicker-today {
+  background: $color-ltgrey;
+
+  a {
+    color: $color-black;
+  }
+}
+
+.ui-datepicker-buttonpane {
+  text-align: center;
+}
+
+.ui-datepicker-current,
+.ui-datepicker-close {
+  @extend %but;
+  background: $color-royal;
+  color: $color-white;
+  padding: $base-unit-quarter $base-unit-half;
+  min-width: 10px;
+  font-size: 0.7em;
+  margin-right: $base-unit-half;
+
+  &:hover {
+    background-color: $color-pool;
+    color: $color-white;
+  }
+}

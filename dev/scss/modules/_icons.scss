@@ -1,0 +1,160 @@
+// Wellspring Icons
+// =============================
+
+.icon {
+  font-family: "wellspringiconsregular";
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "wellspringiconsregular";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  }
+
+.icon-exclamation:before   { content: '\21'; }
+.icon-arrows-up:before     { content: '\31'; }
+.icon-arrows-right:before  { content: '\32'; }
+.icon-arrows-down:before   { content: '\33'; }
+.icon-arrows-left:before   { content: '\34'; }
+.icon-calendar:before      { content: '\35'; }
+.icon-saved-search:before  { content: '\36'; }
+.icon-shared-folder:before { content: '\37'; }
+.icon-folder:before        { content: '\38'; }
+.icon-folders:before       { content: '\39'; }
+.icon-portfolio:before     { content: '\3A'; }
+.icon-briefcase:before     { content: '\3C'; }
+.icon-settings:before      { content: '\22'; }
+.icon-grid-view:before     { content: '\23'; }
+.icon-menu:before          { content: '\24'; }
+.icon-minimize:before      { content: '\25'; }
+.icon-maximize:before      { content: '\26'; }
+.icon-close:before         { content: '\27'; }
+.icon-back-to-dash:before  { content: '\28'; }
+.icon-fullscreen:before    { content: '\29'; }
+.icon-favorite:before      { content: '\2A'; }
+.icon-add:before           { content: '\2B'; }
+.icon-thumbsup:before      { content: '\2C'; }
+.icon-move:before          { content: '\2D'; }
+.icon-chart:before         { content: '\2E'; }
+.icon-check:before         { content: '\2F'; }
+.icon-start:before         { content: '\30'; }
+.icon-film:before          { content: '\3D'; }
+.icon-filter:before        { content: '\3E'; }
+.icon-chat:before          { content: '\3F'; }
+.icon-lightbulb:before     { content: '\40'; }
+.icon-alert:before         { content: '\41'; }
+.icon-bookmark:before      { content: '\42'; }
+.icon-flag1:before         { content: '\43'; }
+.icon-flag2:before         { content: '\44'; }
+.icon-audio:before         { content: '\45'; }
+.icon-mute:before          { content: '\46'; }
+.icon-group:before         { content: '\47'; }
+.icon-history:before       { content: '\48'; }
+.icon-home:before          { content: '\49'; }
+.icon-compass:before       { content: '\4A'; }
+.icon-key:before           { content: '\4B'; }
+.icon-lock:before          { content: '\4C'; }
+.icon-message:before       { content: '\4D'; }
+.icon-note:before          { content: '\4E'; }
+.icon-help:before          { content: '\4F'; }
+.icon-form:before          { content: '\50'; }
+.icon-printer:before       { content: '\51'; }
+.icon-remove:before        { content: '\52'; }
+.icon-search:before        { content: '\53'; }
+.icon-task:before          { content: '\54'; }
+.icon-unlock:before        { content: '\55'; }
+.icon-url:before           { content: '\56'; }
+.icon-warning:before       { content: '\57'; }
+.icon-tools:before         { content: '\58'; }
+.icon-list:before          { content: '\59'; }
+.icon-popout:before        { content: '\5A'; }
+.icon-hamburger:before     { content: '\5B'; }
+.icon-cancel:before        { content: '\5C'; }
+.icon-email:before         { content: '\5D'; }
+.icon-read-email:before    { content: '\5E'; }
+.icon-send-email:before    { content: '\5F'; }
+.icon-pin:before           { content: '\60'; }
+.icon-attach:before        { content: '\61'; }
+.icon-back-up:before       { content: '\62'; }
+.icon-cut:before           { content: '\63'; }
+.icon-delete:before        { content: '\64'; }
+.icon-edit:before          { content: '\65'; }
+.icon-dial:before          { content: '\66'; }
+.icon-gear:before          { content: '\67'; }
+.icon-help:before          { content: '\68'; }
+.icon-info:before          { content: '\69'; }
+.icon-database:before      { content: '\6A'; }
+.icon-unlink:before        { content: '\6B'; }
+.icon-link:before          { content: '\6C'; }
+.icon-mic:before           { content: '\6D'; }
+.icon-objects:before       { content: '\6E'; }
+.icon-refresh1:before      { content: '\6F'; }
+.icon-paste:before         { content: '\70'; }
+.icon-recycle:before       { content: '\71'; }
+.icon-reload:before        { content: '\72'; }
+.icon-refresh2:before      { content: '\73'; }
+.icon-tag:before           { content: '\74'; }
+.icon-user:before          { content: '\75'; }
+.icon-view:before          { content: '\76'; }
+.icon-wrench:before        { content: '\77'; }
+.icon-station:before       { content: '\78'; }
+.icon-forward:before       { content: '\79'; }
+.icon-add-doc:before       { content: '\7A'; }
+.icon-completed-doc:before { content: '\7B'; }
+.icon-doc:before           { content: '\7C'; }
+.icon-docs-copy:before     { content: '\7D'; }
+.icon-download:before      { content: '\7E'; }
+.icon-upload:before        { content: '\7F'; }
+.icon-circle:before        { content: '\A3'; }
+.icon-delete2:before       { content: '\A9'; }
+.icon-remove2:before       { content: '\AE'; }
+.icon-pause:before         { content: '\C0'; }
+.icon-play:before          { content: '\C1'; }
+.icon-rewind:before        { content: '\C2'; }
+.icon-stop:before          { content: '\C3'; }
+.icon-disk-save:before     { content: '\C4'; }
+.icon-save-search:before   { content: '\C5'; }
+.icon-cloud-save1:before   { content: '\C7'; }
+.icon-cloud-save2:before   { content: '\C8'; }
+.icon-upload:before        { content: '\C9'; }
+.icon-book:before          { content: '\2013'; }
+.icon-sort-asc:before      { content: '\201C'; }
+.icon-sort-desc:before     { content: '\201D'; }
+.icon-cabinet:before       { content: '\2022'; }
+.icon-camera:before        { content: '\20AC'; }
+.icon-video:before         { content: '\2018'; }
+.icon-site-map:before      { content: '\2019'; }
+.icon-server:before        { content: '\2026'; }
+
+.icon-play-down:before {
+  content: '\C1';
+  font-family: "wellspringiconsregular";
+  position: relative;
+  transform: rotate(90deg);
+}
+
+.icon-reload-flipped:before {
+  content: '\72';
+  font-family: "wellspringiconsregular";
+  position: relative;
+  transform: scale(-1, -1) translateY(3px);
+}
+
+// Use to style characters like Icons
+.icon-standard {
+  @extend %text-large;
+  color: $color-royal;
+  font-family: $base-font-family-bold;
+  cursor: pointer;
+}
+
+.icon-disabled {
+  color: $color-ltgrey;
+}

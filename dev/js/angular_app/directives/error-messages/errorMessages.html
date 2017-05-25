@@ -1,0 +1,21 @@
+<div class="error-messages media" ng-show="errorMessagesVM.messages.length">
+  <div class="media-figure">
+    <span
+      class="icon-delete2"
+    ></span>
+  </div>
+  <div class="media-body">
+    <b>Error</b>
+    <ul>
+      <li ng-repeat="message in errorMessagesVM.messages track by $index">
+        <span ng-bind-html="message"></span>
+      </li>
+    </ul>
+    <div class="align-right">
+      <button
+        class="but-small"
+        ng-click="errorMessagesVM.dismiss()"
+      >Dismiss</button>
+    </div>
+  </div>
+</div>

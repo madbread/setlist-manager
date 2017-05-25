@@ -1,0 +1,42 @@
+// Base grid class
+// ======================
+.grid {
+  display: flex;
+  &.grid-wrap {
+    flex-wrap: wrap;
+  }
+}
+
+.grid-full {
+  width: 100%;
+}
+
+.grid-padded {
+  margin: $grid-padding;
+  clear: both;
+}
+
+// ================================================================
+// Mobile single-col grid handling
+// ================================================================
+.grid.grid-main {
+  @include breakpoint(phone) {
+    display: block;
+  }
+
+  .grid-col-even {
+    @include breakpoint(phone) {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
+// ================================================================
+
+.grid-col-single {
+  flex-grow: 1;
+}
+
+.grid-col-triple {
+  flex-grow: 3;
+}
