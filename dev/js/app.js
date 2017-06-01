@@ -1,7 +1,8 @@
 angular.module('Setlists', [
   'firebase',
   'ngSanitize',
-  'ngCookies'
+  'ngCookies',
+  'ui.sortable'
 ])
 .config(function($compileProvider) {
   var config = {

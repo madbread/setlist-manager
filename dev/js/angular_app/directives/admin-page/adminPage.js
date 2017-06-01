@@ -20,7 +20,6 @@ directive('adminPage', function(
       var vm = this;
 
       vm.status          = firebaseAuthFactory.getStatus();
-      vm.challenge       = firebaseFactory.followFirebaseRootObject();
       vm.showLogin       = false;
       vm.showRegister    = false;
       vm.showUpdateEmail = false;
@@ -28,38 +27,14 @@ directive('adminPage', function(
       vm.user            = {};
       _resetUser();
 
-      vm.updateTimes  = updateTimes;
+      vm.showSonglistEditor = false;
+      vm.showSongEditor     = true;
+      vm.showUserActions    = false;
+
       vm.updateEmail  = updateEmail;
       vm.registerUser = registerUser;
       vm.login        = login;
       vm.logout       = logout;
-
-      vm.updateCompletionDate = updateCompletionDate;
-      vm.setCompletionDate = setCompletionDate;
-      vm.boardData    = firebaseFactory.getBoardData();
-
-      $scope.$watch(function() {
-        return vm.boardData.selected;
-      }, function() {
-        setCompletionDate();
-      });
-
-      function updateCompletionDate() {
-        if (!vm.challenge.data.completion) {
-          vm.challenge.data.completion = {};
-        }
-        vm.challenge.data.completion[vm.boardData.selected] = vm.completionDate;
-        firebaseFactory.saveData();
-      }
-
-      function setCompletionDate() {
-        if (vm.challenge &&
-            vm.challenge.data &&
-            vm.challenge.data.completion &&
-            vm.challenge.data.completion[vm.boardData.selected]) {
-          vm.completionDate = vm.challenge.data.completion[vm.boardData.selected];
-        }
-      }
 
       function _resetUser() {
         vm.user.email = '';

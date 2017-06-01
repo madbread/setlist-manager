@@ -1,70 +1,94 @@
 angular.module('Setlists').
-factory('firebaseFactory', function($firebaseObject) {
+factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
   var methods = {};
-  var ref = firebase.database().ref();
-  var challengeObject = $firebaseObject(ref);
 
-  var boardData = {
-    options: ['-- SELECT BOARD --', 'family', 'parents'],
-    selected: 'family'
-  };
+  var instrumentsRef = firebase.database().ref('meta/instruments');
+  var instrumentsDB = $firebaseArray(instrumentsRef);
 
-  methods.calculateGamesPerWeek = function() {
-    var completionDate = moment(new Date(challengeObject.data.completion[boardData.selected]));
-    var emptySlots = 0;
-    var times = challengeObject[boardData.selected].times;
+  var songsRef = firebase.database().ref('data/songs');
+  var songsDB = $firebaseArray(songsRef);
+  var songsObject = $firebaseObject(songsRef);
 
-    // Replace each with reduce
-    _.each(challengeObject[boardData.selected], function(game) {
-      if (game.played !== undefined) {
-        emptySlots += (times - game.played);
-      }
-    });
+  var songListsRef = firebase.database().ref('data/songLists');
+  var songListsDB = $firebaseArray(songListsRef);
+  var songListsObject = $firebaseArray(songListsRef);
 
-    // Replace with actual weeks comparison
-    var weeksLeft = completionDate.diff(moment(), 'weeks');
+  var venuesRef = firebase.database().ref('data/venues');
+  var venuesDB = $firebaseArray(venuesRef);
 
-    return emptySlots / weeksLeft;
-  };
+  // ==============================================================================================
 
-  methods.getBoardData = function() {
-    return boardData;
-  };
-
-  methods.selectBoard = function(board) {
-    if (boardData.options.indexOf(board) > -1) {
-      boardData.selected = board;
+  methods.readDataOnce = function(type) {
+    var returnVal;
+    switch (type) {
+      case 'instruments':
+        returnVal = instrumentsDB.$ref().once('value');
+        break;
+      case 'songs':
+        returnVal = songsDB.$ref().once('value');
+        break;
+      case 'songLists':
+        returnVal = songListsDB.$ref().once('value');
+        break;
+      case 'venues':
+        returnVal = venuesDB.$ref().once('value');
+        break;
+      default:
+        returnVal = instrumentsDB.$ref().once('value');
+        break;
     }
+    return returnVal;
   };
 
-  methods.followFirebaseRootObject = function() {
-    return challengeObject;
+  // ==============================================================================================
+
+  methods.followInstruments = function() {
+    return instrumentsDB;
+  };
+  methods.addInstrument = function(instrument) {
+    instrumentsDB.$add(instrument);
   };
 
-  methods.saveData = function() {
-    challengeObject.$save();
+  // ==============================================================================================
+
+  methods.followSongs = function() {
+    return songsDB;
+  };
+  methods.followSongsObject = function() {
+    return songsObject;
+  };
+  methods.addSong = function(song) {
+    return songsDB.$add(song);
+  };
+  methods.updateSong = function(song) {
+    return songsDB.$save(song);
   };
 
-  methods.setGameTimes = function(gameId, times) {
-    challengeObject[boardData.selected][gameId].played = times;
-    methods.saveData();
+  // ==============================================================================================
+
+  methods.followSongLists = function() {
+    return songListsDB;
+  };
+  methods.followSongListsObject = function() {
+    return songListsObject;
+  };
+  methods.addSongList = function(songList) {
+    return songListsDB.$add(songList);
+  };
+  methods.updateSongList = function(songList) {
+    return songListsDB.$save(songList);
   };
 
-  methods.incrementPlaycount = function(gameId) {
-    if (challengeObject[boardData.selected][gameId].played < challengeObject[boardData.selected].times) {
-      challengeObject[boardData.selected][gameId].played =
-        challengeObject[boardData.selected][gameId].played + 1;
-      methods.saveData();
-    }
+  // ==============================================================================================
+
+  methods.followVenues = function() {
+    return venuesDB;
+  };
+  methods.addVenue = function(venue) {
+    return instrumentsDB.$add(venue);
   };
 
-  methods.decrementPlaycount = function(gameId) {
-    if (challengeObject[boardData.selected][gameId].played > 0) {
-      challengeObject[boardData.selected][gameId].played =
-        challengeObject[boardData.selected][gameId].played - 1;
-      methods.saveData();
-    }
-  };
+  // ==============================================================================================
 
   return methods;
 });

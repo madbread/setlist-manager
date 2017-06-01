@@ -57,6 +57,19 @@
   background-color: $color-soft-warning !important;
 }
 
+.scrollable {
+  height: 100px;
+  margin: $base-unit-quarter;
+  padding: $base-unit-quarter $base-unit;
+  border: 1px solid $color-black;
+  overflow-y: auto;
+  width: $form-col-width;
+  > li {
+    cursor: pointer;
+    margin: $base-unit-quarter $base-unit;
+  }
+}
+
 // color classes
 .color-black          {color: $color-black;}
 .color-white          {color: $color-white;}

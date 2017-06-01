@@ -1,0 +1,66 @@
+<div class="songlist-editor">
+  <h6>Songlists:</h6>
+  <ul class="scrollable">
+    <li
+      ng-click="songListVM.displaySongList(songList)"
+      ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
+      ng-bind="songList.title"
+    ></li>
+  </ul>
+
+  <form class="edit-item" ng-if="songListVM.editSongListItem">
+    <div class="form-row">
+      <label for="songListTitle">Title</label>
+      <input id="songListTitle" ng-model="songListVM.editSongListItem.title">
+    </div>
+
+    <label>Songs:</label>
+    <ul
+      ui-sortable="songListVM.sortableSongs"
+      ng-model="songListVM.songsSorted"
+    >
+      <li
+        ng-repeat="id in songListVM.songsSorted"
+      >
+        <span ng-bind="songListVM.songsDB[id].title"></span> |
+        <span ng-click="songListVM.removeSong(id)" class="icon-cancel hand color-warning"></span>
+      </li>
+    </ul>
+
+    <div class="form-row">
+      <label for="new_song">Add Song to List:</label>
+      <select
+        id="new_song"
+        ng-model="songListVM.selectedSong"
+        ng-options="song.title for song in songListVM.songsArray"
+      ></select> <a href="#" ng-click="songListVM.addSelected()">+ Add</a>
+    </div>
+
+    <div class="but-row">
+      <button ng-click="songListVM.editSongListItem = undefined" class="but-selection">
+        Finished
+      </button>
+    </div>
+  </form>
+
+  <h5 ng-click="songListVM.toggleAddSongList()" class="hand">
+    Add New Empty Songlist:
+    <span ng-hide="songListVM.showAddSongList">+</span>
+    <span ng-show="songListVM.showAddSongList">-</span>
+  </h5>
+  <form class="add-new-item" ng-show="songListVM.showAddSongList">
+    <div class="form-row">
+      <label for="songTitle">Title</label>
+      <input id="songTitle" ng-model="songListVM.newSongList.title">
+    </div>
+    <div class="but-row">
+      <a
+        ng-click="songListVM.showAddSongList = false"
+        class="hand"
+      >Cancel</a>
+      <button ng-disabled="!songListVM.newSongList.title.length" ng-click="songListVM.addSongList()" class="but-selection">
+        Add
+      </button>
+    </div>
+  </form>
+</div>

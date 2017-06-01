@@ -1,0 +1,36 @@
+form {
+  @extend %text-tiny;
+  border: 1px solid $color-dkgrey;
+  margin: $base-unit-half;
+  padding: $base-unit-half;
+  width: $form-col-width;
+}
+
+.form-row {
+  margin: $base-unit-half;
+}
+
+.form-row:nth-child(odd) {
+  background: #F9F8F7;
+}
+
+.but-row {
+  margin: $base-unit-half;
+  text-align: right;
+
+  > * {
+    display: inline-block;
+    margin-left: $base-unit-half;
+  }
+}
+
+form label,
+form input,
+form select {
+  display: inline-block;
+  margin: $base-unit-quarter;
+}
+
+form label {
+  width: $form-col-width/3;
+}

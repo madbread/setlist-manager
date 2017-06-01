@@ -6,14 +6,15 @@ factory('firebaseDataUtilsFactory', function() {
   // Public Methods
   // ==============================================================================================
   methods.setData = function(location, object) {
-    if (!location) {
-      return false;
-    } else if (_.isObject(object)) {
-      db.ref('data/' + location).set(object);
-    } else {
-      db.ref('data/' + location).set({
-        data: object
-      });
+    if (_.isString(location) &&
+        (location !== '' || window.confirm('You are about to overwrite all data. Proceed?'))) {
+      if (_.isObject(object)) {
+        db.ref('data/' + location).set(object);
+      } else {
+        db.ref('data/' + location).set({
+          data: object
+        });
+      }
     }
   };
 

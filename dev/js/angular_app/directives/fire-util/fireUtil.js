@@ -2,7 +2,6 @@ angular.module('Setlists').
 directive('fireUtil', function(
   firebaseAuthFactory,
   firebaseDataUtilsFactory,
-  seedData,
   pathsData) {
   'use strict';
 
@@ -22,7 +21,7 @@ directive('fireUtil', function(
 
       vm.status   = firebaseAuthFactory.getStatus();
       vm.messages = [];
-      vm.data = seedData.initial_database;
+      vm.data = {};
 
       vm.source = 'data';
       vm.target = 'data';
@@ -34,6 +33,7 @@ directive('fireUtil', function(
         firebaseDataUtilsFactory.readDataOnce(vm.source).then(
           function(response) {
             $scope.$applyAsync(function() {
+              // debugger;
               vm.data = response.val();
             });
           }
