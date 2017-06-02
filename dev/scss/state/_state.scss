@@ -58,16 +58,8 @@
 }
 
 .scrollable {
-  height: 100px;
-  margin: $base-unit-quarter;
-  padding: $base-unit-quarter $base-unit;
   border: 1px solid $color-black;
   overflow-y: auto;
-  width: $form-col-width;
-  > li {
-    cursor: pointer;
-    margin: $base-unit-quarter $base-unit;
-  }
 }
 
 // color classes

@@ -22,10 +22,53 @@
       <li
         ng-repeat="id in songListVM.songsSorted"
       >
-        <span ng-bind="songListVM.songsDB[id].title"></span> |
-        <span ng-click="songListVM.removeSong(id)" class="icon-cancel hand color-warning"></span>
+        <span ng-bind="songListVM.songsDB[id].title"></span>
+        <span
+          class="note text-tiny"
+          ng-bind="songListVM.editSongListItem.notes[id]"
+          ng-if="songListVM.editSongListItem.notes[id]"
+        ></span>
+        <span
+          ng-show="songListVM.editSongListItem.notes[id] && songListVM.showNoteIcons"
+          ng-click="songListVM.editNote(id)"
+          class="icon-edit hand color-royal"
+        ></span>
+        <span
+          ng-show="!songListVM.editSongListItem.notes[id] && songListVM.showNoteIcons"
+          ng-click="songListVM.addNote(id)"
+          class="hand color-royal"
+        >+ note</span>
+        <span
+          ng-show="songListVM.showDeleteIcons"
+          ng-click="songListVM.removeSong(id)"
+          class="icon-cancel hand color-warning"
+        ></span>
       </li>
     </ul>
+
+    <div
+      class="add-note-text"
+      ng-show="songListVM.editingNote"
+      >
+      Edit Note For <span ng-bind="songListVM.songsDB[songListVM.editingNoteId].title"></span><br>
+      <input ng-model="songListVM.editSongListItem.notes[songListVM.editingNoteId]"> <button ng-click="songListVM.updateNote()" class="but-tiny">save</button>
+    </div>
+
+    <div
+      class="add-note-text"
+      ng-show="songListVM.addingNote"
+      >
+      Add Note For <span ng-bind="songListVM.songsDB[songListVM.addingNoteId].title"></span><br>
+      <input ng-model="songListVM.newNoteText"> <button ng-click="songListVM.saveNewNote()" class="but-tiny">save</button>
+    </div>
+
+    <a ng-click="songListVM.showDeleteIcons = !songListVM.showDeleteIcons" href="#">
+      <span ng-show="!songListVM.showDeleteIcons">Show</span><span ng-show="songListVM.showDeleteIcons">Hide</span> Delete Icons
+    </a>
+    <br>
+    <a ng-click="songListVM.showNoteIcons = !songListVM.showNoteIcons" href="#">
+      <span ng-show="!songListVM.showNoteIcons">Show</span><span ng-show="songListVM.showNoteIcons">Hide</span> Note Icons
+    </a>
 
     <div class="form-row">
       <label for="new_song">Add Song to List:</label>

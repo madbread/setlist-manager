@@ -30,6 +30,9 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
       case 'songLists':
         returnVal = songListsDB.$ref().once('value');
         break;
+      case 'shows':
+        returnVal = showsDB.$ref().once('value');
+        break;
       case 'venues':
         returnVal = venuesDB.$ref().once('value');
         break;
@@ -85,7 +88,10 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
     return venuesDB;
   };
   methods.addVenue = function(venue) {
-    return instrumentsDB.$add(venue);
+    return venuesDB.$add(venue);
+  };
+  methods.updateVenue = function(venue) {
+    return venuesDB.$save(venue);
   };
 
   // ==============================================================================================

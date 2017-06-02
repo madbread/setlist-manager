@@ -1,6 +1,6 @@
 <div class="song-editor">
   <h6>Songs:</h6>
-  <ul class="scrollable">
+  <ul class="scrollable song-list">
     <li
       ng-click="songVM.displaySong(song)"
       ng-repeat="song in songVM.songsDB | orderBy:'title'"

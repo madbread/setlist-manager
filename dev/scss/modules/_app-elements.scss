@@ -1,0 +1,45 @@
+.song-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  > li {
+    cursor: pointer;
+    padding: $base-unit-half $base-unit;
+    background-color: $color-ltgrey;
+    border-bottom: 1px solid $color-medgrey;
+  }
+}
+
+.song-viewer {
+  padding-top: $header-height;
+
+  h2 {
+    @extend %text-normal;
+    margin: 0 0 $base-unit-quarter;
+  }
+
+  .display-song {
+    position: absolute;
+    @extend %text-small;
+    background-color: $color-black;
+    color: $color-ltgrey;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 20px;
+    padding: 0 $base-unit-half;
+  }
+}
+
+header {
+  background-color: $color-white;
+  border-bottom: 1px solid $color-black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $layer-5;
+  height: $header-height;
+  padding: 0 $base-unit-half;
+}

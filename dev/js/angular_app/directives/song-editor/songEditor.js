@@ -19,16 +19,20 @@ directive('songEditor', function(
     controller: function($scope) {
       var vm = this;
 
-      vm.newSong     = angular.copy(staticAppData.new_song);
-      vm.keyOptions  = staticAppData.key_options;
-      vm.songsDB     = firebaseFactory.followSongs();
-      vm.addSong     = addSong;
-      vm.toggleAddSong = toggleAddSong;
-      vm.showAddSong = false;
-      vm.displaySong = displaySong;
-      vm.editSongItem = undefined;
-      vm.updateSong = updateSong;
+      // vm data
+      vm.editSongItem  = undefined;
+      vm.keyOptions    = staticAppData.key_options;
+      vm.newSong       = angular.copy(staticAppData.new_song);
+      vm.showAddSong   = false;
       vm.singerOptions = angular.copy(staticAppData.singerOptions);
+      vm.songsDB       = firebaseFactory.followSongs();
+
+      // vm functions
+      vm.addSong       = addSong;
+      vm.displaySong   = displaySong;
+      vm.toggleAddSong = toggleAddSong;
+      vm.updateSong    = updateSong;
+
 
       function toggleAddSong() {
         vm.showAddSong = !vm.showAddSong;

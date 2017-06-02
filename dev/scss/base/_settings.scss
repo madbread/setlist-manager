@@ -42,6 +42,7 @@ $base-unit-quarter: $base-unit * 0.25;
 
 // Site wrapper
 $wrapper-width: 1600px;
+$header-height: 94px;
 
 // Grid spacings
 $cell-padding: 0;
@@ -49,9 +50,7 @@ $cell-gutters: 1.25em;
 $grid-padding: 0.5em 1.25em;
 
 // Grid col widths
-$navcol-width: 210px;
-$searchcol-width: 480px;
-$form-col-width: 480px;
+$form-col-width: 420px;
 
 // Fonts
 $base-font-family: liberation_sansregular, sans-serif;
@@ -67,9 +66,6 @@ $base-rounded-corners: 7px;
 $link-transition-speed: 0.15s;
 $link-transition-type: ease-out;
 $link-transition-property: all;
-
-// Info Log Settings:
-$info-log-width: 150px;
 
 // Breakpoint mixins
 @mixin breakpoint($point) {

@@ -1,0 +1,27 @@
+<div class="song-viewer">
+  <header>
+    <h2>Mad Bread Songs ({{songViewVM.count}})</h2>
+    <label for="name-filter">Filter by: </label>
+    <input ng-model="songViewVM.titleFilter" placeholder="title or singer">
+    <button ng-click="songViewVM.randomSong()">Random Song</button>
+    <input type="checkbox" id="obey-filter" ng-model="songViewVM.obeyFilter">
+    <label for="obey-filter">Use Filter?</label>
+    <div class="display-song">
+      <span ng-show="songViewVM.displaySong">
+        {{songViewVM.displaySong.title}}<br>
+        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.singer">S: {{songViewVM.displaySong.singer}}</span> |
+        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.nate">N: {{songViewVM.displaySong.nate}}</span> |
+        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.mike">M: {{songViewVM.displaySong.mike}}</span> |
+        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.adam">A: {{songViewVM.displaySong.adam}}</span> |
+        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.carl">C: {{songViewVM.displaySong.carl}}</span>
+      </span>
+    </div>
+  </header>
+  <ul class="scrollable song-list">
+    <li
+      ng-click="songViewVM.selectSong(song)"
+      ng-repeat="song in songViewVM.songsDB | orderBy:'title' | filter:songViewVM.titleFilter"
+      ng-bind="song.title"
+    ></li>
+  </ul>
+</div>

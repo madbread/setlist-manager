@@ -22,11 +22,16 @@ constant('staticAppData', {
     singer: 'Nate'
   },
   new_songList: {
-    title: '',
-    songs: [] // will be collection of song IDs TODO: Order + combos
+    title: ''
   },
   new_venue: {
-    title: '',
-    shows: [] // collection of Show objects
+    title: ''
   }
 });
+
+// venue > shows: {
+//   datestring: {
+//     setlist_id: 0,
+//     setlist_id2: 1,
+//   }
+// } // collection of setList objects as {id: order}
