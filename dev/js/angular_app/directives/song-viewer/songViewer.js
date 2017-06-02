@@ -31,7 +31,7 @@ directive('songViewer', function(
 
       var setInitCount = $scope.$watchCollection(function() {
         return vm.songsDB;
-      }, function (newVal) {
+      }, function(newVal) {
         if (newVal && newVal.length) {
           countSongs();
           setInitCount();
@@ -40,7 +40,7 @@ directive('songViewer', function(
 
       $scope.$watch(function() {
         return vm.titleFilter;
-      }, function (newVal, oldVal) {
+      }, function(newVal, oldVal) {
         if (newVal !== undefined && newVal !== null && newVal !== oldVal) {
           countSongs();
         }

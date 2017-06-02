@@ -1,0 +1,13 @@
+<div ng-show="adminVM.showLogin" ng-click="adminVM.showLogin = false" class="window-shade"></div>
+<div ng-show="adminVM.showLogin" class="shade-contents">
+  <form class="support-form" ng-submit="adminVM.login()">
+    <h3>Enter your email and password</h3>
+    <div class="input-group">
+      <input type="email" class="form-control" placeholder="Email" ng-model="adminVM.user.email">
+    </div>
+    <div class="input-group">
+      <input type="password" class="form-control" placeholder="Password" ng-model="adminVM.user.password">
+    </div>
+    <input type="submit" class="but-selection" value="Submit Login">
+  </form>
+</div>

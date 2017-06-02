@@ -1,0 +1,70 @@
+<div class="admin-page">
+  <button
+    ng-if="!adminVM.status.authorized"
+    ng-click="adminVM.showLogin = !adminVM.showLogin"
+    class="but-small float-right"
+  >Login</button>
+
+  <button
+    ng-if="adminVM.status.authorized"
+    ng-click="adminVM.logout()"
+    class="but-small float-right"
+  >Logout</button>
+
+  <error-messages
+    messages="adminVM.messages"
+  ></error-messages>
+
+  <div
+    ng-show="!adminVM.status.authorized"
+    class="admin-login-prompt"
+  >
+    <p>Please login to view actions</p>
+  </div>
+
+  <div
+    ng-if="adminVM.status.authorized"
+    class="admin-actions"
+  >
+    <!-- <h2>Mad Bread Setlist App</h2> -->
+    <hr>
+    <h3 ng-click="adminVM.showSonglistEditor = !adminVM.showSonglistEditor" class="hand color-royal">
+      Edit Songlists
+      <span ng-show="adminVM.showSonglistEditor">-</span>
+      <span ng-hide="adminVM.showSonglistEditor">+</span>
+    </h3>
+    <song-list-editor
+      ng-if="adminVM.showSonglistEditor"
+    ></song-list-editor>
+
+    <hr>
+    <h3 ng-click="adminVM.showSongEditor = !adminVM.showSongEditor" class="hand color-royal">
+      Edit Songs
+      <span ng-show="adminVM.showSongEditor">-</span>
+      <span ng-hide="adminVM.showSongEditor">+</span>
+    </h3>
+    <song-editor
+      ng-if="adminVM.showSongEditor"
+    ></song-editor>
+
+    <hr>
+    <h3 ng-click="adminVM.showUserActions = !adminVM.showUserActions" class="hand color-royal">
+      User Actions:
+      <span ng-show="adminVM.showUserActions">-</span>
+      <span ng-hide="adminVM.showUserActions">+</span>
+    </h3>
+    <ul ng-show="adminVM.showUserActions">
+      <li ng-click="adminVM.showRegister = !adminVM.showRegister" class="hand color-royal">
+        Register User
+      </li>
+      <li ng-click="adminVM.showUpdateEmail = !adminVM.showUpdateEmail" class="hand color-royal">
+        Request Password Update
+      </li>
+    </ul>
+    <hr>
+  </div>
+  <div ng-include="'templates/admin-register-user.html'"></div>
+  <div ng-include="'templates/admin-login.html'"></div>
+  <div ng-include="'templates/admin-request-password-set.html'"></div>
+
+</div>

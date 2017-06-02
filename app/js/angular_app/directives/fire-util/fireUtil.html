@@ -1,0 +1,15 @@
+<div class="fire-util">
+  <h2>Data Copier</h2>
+  <h6>Data Loaded:</h6>
+  <div>
+    {{fireUtilVM.data}}
+  </div>
+  <hr>
+  <label for="sourcelocation">Load Data From:</label>
+  <input id="sourcelocation" ng-model="fireUtilVM.source">
+  <button ng-click="fireUtilVM.loadDataFromSource()">Load data From location</button>
+  <hr>
+  <label for="savelocation">Copy Data To:</label>
+  <input id="savelocation" ng-model="fireUtilVM.target">
+  <button ng-click="fireUtilVM.copyDataToTarget()">copy data to target</button>
+</div>
