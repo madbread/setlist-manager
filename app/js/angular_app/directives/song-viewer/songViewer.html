@@ -9,7 +9,6 @@
     <br>
     <label for="player-filter">Player:</label>
     <select
-      ng-disabled="songViewVM.titleFilter.length"
       id="player-filter"
       ng-model="songViewVM.player"
       ng-options="player for player in songViewVM.playerOptions">

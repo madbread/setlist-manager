@@ -51,14 +51,19 @@ directive('songViewer', function(
       $scope.$watchCollection(function() {
         return vm.songsDB;
       }, function(newVal) {
-        if (newVal && _.isArray(vm.songsDB)) {
-          countSongs();
-        }
+        countSongs();
+      });
+
+      $scope.$watch(function() {
+        return vm.titleFilter;
+      }, function(newVal) {
+        countSongs();
       });
 
       $scope.$watch(function() {
         return vm.instrument;
       }, function(newVal) {
+        countSongs();
         if (newVal && newVal !== '----------') {
           instrumentFilter();
         } else if (newVal && newVal === '----------') {
@@ -69,6 +74,7 @@ directive('songViewer', function(
       $scope.$watch(function() {
         return vm.player;
       }, function(newVal) {
+        countSongs();
         if (newVal && newVal === '----------') {
           vm.instrument = '----------';
         } else if (newVal && newVal !== '----------' && vm.instrument !== '----------') {
@@ -77,9 +83,8 @@ directive('songViewer', function(
       });
 
       function instrumentFilter() {
-        vm.songsDB = originalSongsDB;
-        var key = vm.player;
-        vm.songsDB = $filter('filter')(vm.songsDB, function(song) {
+        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
+        vm.songsDB = $filter('filter')(currentSongs, function(song) {
           return song[vm.player] === vm.instrument;
         });
       }
