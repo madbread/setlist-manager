@@ -557,6 +557,7 @@ form {
 table,
 .ui-datepicker-header,
 .song-viewer .display-song,
+.song-viewer label,
 .description,
 .success-message {
   font-size: 12px; }
@@ -1442,6 +1443,7 @@ a.but-selection {
     margin-bottom: 1em; }
 
 .song-list {
+  height: 200px;
   list-style-type: none;
   margin: 0;
   padding: 0; }
@@ -1452,7 +1454,7 @@ a.but-selection {
     border-bottom: 1px solid #a1a1a1; }
 
 .song-viewer {
-  padding-top: 94px; }
+  padding-top: 130px; }
   .song-viewer h2 {
     margin: 0 0 0.25em; }
   .song-viewer .display-song {
@@ -1465,6 +1467,10 @@ a.but-selection {
     height: 40px;
     line-height: 20px;
     padding: 0 0.5em; }
+  .song-viewer .song-list {
+    height: auto; }
+  .song-viewer label {
+    font-family: liberation_sansbold, sans-serif; }
 
 header {
   background-color: #fff;
@@ -1474,7 +1480,7 @@ header {
   left: 0;
   right: 0;
   z-index: 10000;
-  height: 94px;
+  height: 130px;
   padding: 0 0.5em; }
 
 .align-right {
