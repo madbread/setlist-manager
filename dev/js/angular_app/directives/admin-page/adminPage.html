@@ -19,41 +19,33 @@
     ng-show="!adminVM.status.authorized"
     class="admin-login-prompt"
   >
-    <p>Please login to view actions</p>
+    <p>Please login to access application</p>
   </div>
 
   <div
     ng-if="adminVM.status.authorized"
     class="admin-actions"
   >
-    <!-- <h2>Mad Bread Setlist App</h2> -->
-    <hr>
-    <h3 ng-click="adminVM.showSonglistEditor = !adminVM.showSonglistEditor" class="hand color-royal">
-      Edit Songlists
-      <span ng-show="adminVM.showSonglistEditor">-</span>
-      <span ng-hide="adminVM.showSonglistEditor">+</span>
-    </h3>
+    <nav class="grid grid-padded">
+      <ul class="nav nav-pills ng-isolate-scope">
+        <li>
+          <button ng-class="{'active': adminVM.openSection === 'Songlists'}" ng-click="adminVM.openSection = 'Songlists'">Songlists</button>
+        </li>
+        <li>
+          <button ng-class="{'active': adminVM.openSection === 'Songs'}" ng-click="adminVM.openSection = 'Songs'">Songs</button>
+        </li>
+        <li>
+          <button ng-class="{'active': adminVM.openSection === 'Users'}" ng-click="adminVM.openSection = 'Users'">Manage Users</button>
+        </li>
+      </ul>
+    </nav>
     <song-list-editor
-      ng-if="adminVM.showSonglistEditor"
+      ng-if="adminVM.openSection === 'Songlists'"
     ></song-list-editor>
-
-    <hr>
-    <h3 ng-click="adminVM.showSongEditor = !adminVM.showSongEditor" class="hand color-royal">
-      Edit Songs
-      <span ng-show="adminVM.showSongEditor">-</span>
-      <span ng-hide="adminVM.showSongEditor">+</span>
-    </h3>
     <song-editor
-      ng-if="adminVM.showSongEditor"
+      ng-if="adminVM.openSection === 'Songs'"
     ></song-editor>
-
-    <hr>
-    <h3 ng-click="adminVM.showUserActions = !adminVM.showUserActions" class="hand color-royal">
-      User Actions:
-      <span ng-show="adminVM.showUserActions">-</span>
-      <span ng-hide="adminVM.showUserActions">+</span>
-    </h3>
-    <ul ng-show="adminVM.showUserActions">
+    <ul ng-show="adminVM.openSection === 'Users'">
       <li ng-click="adminVM.showRegister = !adminVM.showRegister" class="hand color-royal">
         Register User
       </li>
@@ -61,10 +53,8 @@
         Request Password Update
       </li>
     </ul>
-    <hr>
   </div>
   <div ng-include="'templates/admin-register-user.html'"></div>
   <div ng-include="'templates/admin-login.html'"></div>
   <div ng-include="'templates/admin-request-password-set.html'"></div>
-
 </div>

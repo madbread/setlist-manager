@@ -19,6 +19,8 @@ directive('adminPage', function(
     controller: function($scope) {
       var vm = this;
 
+      vm.openSection = '';
+
       vm.status          = firebaseAuthFactory.getStatus();
       vm.showLogin       = false;
       vm.showRegister    = false;
@@ -39,11 +41,6 @@ directive('adminPage', function(
       function _resetUser() {
         vm.user.email = '';
         vm.user.password = '';
-      }
-
-      function updateTimes() {
-        vm.challenge.data.times = parseInt(vm.challenge.data.times);
-        firebaseFactory.saveData();
       }
 
       function updateEmail() {

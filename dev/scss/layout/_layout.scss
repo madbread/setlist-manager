@@ -8,12 +8,15 @@
 // Forms
 // ==========================
 
+.grid > form {
+  width: 49%;
+}
+
 form {
   @extend %text-tiny;
   border: 1px solid $color-dkgrey;
-  margin: $base-unit-half;
-  padding: $base-unit-half;
-  width: $form-col-width;
+  margin: $base-unit-quarter;
+  padding: $base-unit-quarter;
 }
 
 .form-row {
@@ -27,7 +30,6 @@ form {
 .but-row {
   margin: $base-unit-half;
   text-align: right;
-
   > * {
     display: inline-block;
     margin-left: $base-unit-half;
