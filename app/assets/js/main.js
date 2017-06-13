@@ -13409,6 +13409,8 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
     controller: ["$scope", function($scope) {
       var vm = this;
 
+      vm.openSection = '';
+
       vm.status          = firebaseAuthFactory.getStatus();
       vm.showLogin       = false;
       vm.showRegister    = false;
@@ -13429,11 +13431,6 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       function _resetUser() {
         vm.user.email = '';
         vm.user.password = '';
-      }
-
-      function updateTimes() {
-        vm.challenge.data.times = parseInt(vm.challenge.data.times);
-        firebaseFactory.saveData();
       }
 
       function updateEmail() {
@@ -13656,6 +13653,7 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
       vm.displaySong   = displaySong;
       vm.toggleAddSong = toggleAddSong;
       vm.updateSong    = updateSong;
+      vm.deleteSong    = deleteSong;
 
 
       function toggleAddSong() {
@@ -13684,10 +13682,144 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
         vm.editSongItem = undefined;
       }
 
+      function deleteSong() {
+        if (window.confirm('Are you sure you wish to delete this song?')) {
+          firebaseFactory.deleteSong(vm.editSongItem);
+        }
+      }
+
       function addSong() {
         firebaseFactory.addSong(angular.copy(vm.newSong));
         vm.newSong = angular.copy(staticAppData.new_song);
         vm.showAddSong = false;
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('songViewer', ["$filter", "firebaseFactory", "pathsData", "staticAppData", function(
+  $filter,
+  firebaseFactory,
+  pathsData,
+  staticAppData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'songViewVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'song-viewer/songViewer.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      // vm data
+      vm.songsDB = firebaseFactory.followSongs();
+      var originalSongsDB = vm.songsDB;
+      vm.titleFilter = '';
+      vm.blank = 'No Filter';
+      vm.displaySong = undefined;
+      vm.instrumentOptions = [
+        vm.blank,
+        'Bass',
+        'Banjo',
+        'Mandolin',
+        'Fiddle',
+        'Guitar',
+        'Electric',
+        'Harmonica'
+      ];
+      vm.instrument = vm.instrumentOptions[0];
+      vm.playerOptions = [
+        vm.blank,
+        'nate',
+        'mike',
+        'adam',
+        'carl'
+      ];
+      vm.player = vm.playerOptions[0];
+
+      vm.keyOptions = staticAppData.key_options;
+      vm.keyOptions.unshift(vm.blank);
+      vm.key = vm.keyOptions[0];
+
+      // vm functions
+      vm.selectSong = selectSong;
+      vm.randomSong = randomSong;
+
+      $scope.$watchCollection(function() {
+        return vm.songsDB;
+      }, function(newVal) {
+        countSongs();
+      });
+
+      $scope.$watch(function() {
+        return vm.titleFilter;
+      }, function(newVal) {
+        countSongs();
+      });
+
+      $scope.$watch(function() {
+        return vm.instrument;
+      }, function(newVal) {
+        countSongs();
+        if (newVal && newVal !== vm.blank) {
+          filter();
+        } else if (newVal && newVal === vm.blank) {
+          vm.songsDB = originalSongsDB;
+        }
+      });
+
+      $scope.$watch(function() {
+        return vm.player;
+      }, function(newVal) {
+        countSongs();
+        if (newVal && newVal === vm.blank) {
+          vm.instrument = vm.blank;
+        } else if (newVal && newVal !== vm.blank && vm.instrument !== vm.blank) {
+          filter();
+        }
+      });
+
+      $scope.$watch(function() {
+        return vm.key;
+      }, function(newVal) {
+        if (newVal !== vm.blank) {
+          countSongs();
+          filter();
+        }
+      });
+
+      function filter() {
+        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
+        if (vm.player !== vm.blank && vm.instrument !== vm.blank) {
+          vm.songsDB = $filter('filter')(currentSongs, function(song) {
+            return song[vm.player] === vm.instrument;
+          });
+        }
+        if (vm.key !== vm.blank) {
+          vm.songsDB = $filter('filter')(vm.songsDB, function(song) {
+            return song.key === vm.key;
+          });
+        }
+      }
+
+      function selectSong(song) {
+        vm.displaySong = song;
+      }
+
+      function randomSong() {
+        vm.displaySong = vm.songsDB[_.random(vm.songsDB.length - 1)];
+      }
+
+      function countSongs() {
+        vm.count = $filter('filter')(vm.songsDB, vm.titleFilter).length;
       }
     }],
   };
@@ -13741,16 +13873,6 @@ directive('songListEditor', ["firebaseFactory", "pathsData", "staticAppData", fu
       // ==========================================================================================
 
       function _init() {
-        var setSelectedSong =
-          $scope.$watchCollection(function() {
-            return vm.songsArray;
-          }, function(newVal) {
-            if (newVal && newVal.length) {
-              vm.selectedSong = vm.songsArray[0];
-              setSelectedSong(); // cancel watcher
-            }
-          });
-
         vm.sortableSongs = {
           cursor: 'move',
           placeholder: 'drop-zone',
@@ -13763,10 +13885,13 @@ directive('songListEditor', ["firebaseFactory", "pathsData", "staticAppData", fu
       }
 
       // ==========================================================================================
+      // Adds selected song as last one in list
 
-      function addSelected() {
-        vm.editSongListItem.songs[vm.selectedSong.$id] = _.keys(vm.editSongListItem.songs).length;
-        _updateDB();
+      function addSelected(song) {
+        if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
+          vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
+          _updateDB();
+        }
       }
 
       // ==========================================================================================
@@ -13882,112 +14007,6 @@ directive('songListEditor', ["firebaseFactory", "pathsData", "staticAppData", fu
       // ==========================================================================================
 
       _init();
-    }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('songViewer', ["$filter", "firebaseFactory", "pathsData", function(
-  $filter,
-  firebaseFactory,
-  pathsData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'songViewVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'song-viewer/songViewer.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      // vm data
-      vm.songsDB = firebaseFactory.followSongs();
-      var originalSongsDB = vm.songsDB;
-      vm.titleFilter = '';
-      vm.displaySong = undefined;
-      vm.instrumentOptions = [
-        '----------',
-        'Bass',
-        'Banjo',
-        'Mandolin',
-        'Fiddle',
-        'Guitar',
-        'Electric',
-        'Harmonica'
-      ];
-      vm.instrument = vm.instrumentOptions[0];
-      vm.playerOptions = [
-        '----------',
-        'nate',
-        'mike',
-        'adam',
-        'carl'
-      ];
-      vm.player = vm.playerOptions[0];
-
-      // vm functions
-      vm.selectSong = selectSong;
-      vm.randomSong = randomSong;
-
-      $scope.$watchCollection(function() {
-        return vm.songsDB;
-      }, function(newVal) {
-        countSongs();
-      });
-
-      $scope.$watch(function() {
-        return vm.titleFilter;
-      }, function(newVal) {
-        countSongs();
-      });
-
-      $scope.$watch(function() {
-        return vm.instrument;
-      }, function(newVal) {
-        countSongs();
-        if (newVal && newVal !== '----------') {
-          instrumentFilter();
-        } else if (newVal && newVal === '----------') {
-          vm.songsDB = originalSongsDB;
-        }
-      });
-
-      $scope.$watch(function() {
-        return vm.player;
-      }, function(newVal) {
-        countSongs();
-        if (newVal && newVal === '----------') {
-          vm.instrument = '----------';
-        } else if (newVal && newVal !== '----------' && vm.instrument !== '----------') {
-          instrumentFilter();
-        }
-      });
-
-      function instrumentFilter() {
-        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
-        vm.songsDB = $filter('filter')(currentSongs, function(song) {
-          return song[vm.player] === vm.instrument;
-        });
-      }
-
-      function selectSong(song) {
-        vm.displaySong = song;
-      }
-
-      function randomSong() {
-        vm.displaySong = vm.songsDB[_.random(vm.songsDB.length - 1)];
-      }
-
-      function countSongs() {
-        vm.count = $filter('filter')(vm.songsDB, vm.titleFilter).length;
-      }
     }],
   };
 }]);
@@ -14253,6 +14272,9 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
   };
   methods.updateSong = function(song) {
     return songsDB.$save(song);
+  };
+  methods.deleteSong = function(song) {
+    return songsDB.$remove(song);
   };
 
   // ==============================================================================================

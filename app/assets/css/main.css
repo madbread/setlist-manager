@@ -663,11 +663,13 @@ input:focus {
   max-width: 1600px;
   margin: 0 auto; }
 
+.grid > form {
+  width: 49%; }
+
 form {
   border: 1px solid #363636;
-  margin: 0.5em;
-  padding: 0.5em;
-  width: 420px; }
+  margin: 0.25em;
+  padding: 0.25em; }
 
 .form-row {
   margin: 0.5em; }
@@ -1454,7 +1456,7 @@ a.but-selection {
     border-bottom: 1px solid #a1a1a1; }
 
 .song-viewer {
-  padding-top: 130px; }
+  padding-top: 134px; }
   .song-viewer h2 {
     margin: 0 0 0.25em; }
   .song-viewer .display-song {
@@ -1470,6 +1472,9 @@ a.but-selection {
   .song-viewer .song-list {
     height: auto; }
   .song-viewer label {
+    margin: 0.25em 0;
+    display: inline-block;
+    min-width: 42px;
     font-family: liberation_sansbold, sans-serif; }
 
 header {
@@ -1480,7 +1485,7 @@ header {
   left: 0;
   right: 0;
   z-index: 10000;
-  height: 130px;
+  height: 134px;
   padding: 0 0.5em; }
 
 .align-right {

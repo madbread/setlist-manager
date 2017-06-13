@@ -1,11 +1,11 @@
 <div class="song-viewer">
   <header>
-    <h2>Mad Bread Songs ({{songViewVM.count}})</h2>
-    <label for="name-filter">Filter by: </label>
+    <h2>
+      Mad Bread Songs ({{songViewVM.count}})
+      <button class="but-small" ng-click="songViewVM.randomSong()">Random</button>
+    </h2>
+    <label for="name-filter">Filter: </label>
     <input ng-model="songViewVM.titleFilter" placeholder="title or singer">
-    <button class="but-small" ng-click="songViewVM.randomSong()">Random</button>
-    <br>
-    <span class="text-tiny"> - or - </span>
     <br>
     <label for="player-filter">Player:</label>
     <select
@@ -14,22 +14,29 @@
       ng-options="player for player in songViewVM.playerOptions">
     </select>
 
-    <span ng-show="songViewVM.player !== '----------'">
+    <span ng-show="songViewVM.player !== vm.blank">
       <label for="instrument-filter">Instrument:</label>
       <select
         id="instrument-filter"
         ng-model="songViewVM.instrument"
-        ng-options="instrument for instrument in songViewVM.instrumentOptions">
+        ng-options="instrument for instrument in songViewVM.instrumentOptions"> 
       </select>
     </span>
+    <br>
+    <label for="instrument-filter">Key:</label>
+    <select
+      id="key-filter"
+      ng-model="songViewVM.key"
+      ng-options="key for key in songViewVM.keyOptions">
+    </select>
 
-    <button class="but-small" ng-click="songViewVM.player = '----------';songViewVM.titleFilter = ''">clear all</button>
+    <button class="but-small" ng-click="songViewVM.player = songViewVM.blank;songViewVM.titleFilter = '';songViewVM.key = songViewVM.blank">clear all</button>
 
     </select>
     </select>
     <div class="display-song">
       <span ng-show="songViewVM.displaySong">
-        {{songViewVM.displaySong.title}}<br>
+        {{songViewVM.displaySong.title}} [{{songViewVM.displaySong.key}}]<br>
         <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.singer">S: {{songViewVM.displaySong.singer}}</span> |
         <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.nate">N: {{songViewVM.displaySong.nate}}</span> |
         <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.mike">M: {{songViewVM.displaySong.mike}}</span> |
