@@ -46,16 +46,6 @@ directive('songListEditor', function(
       // ==========================================================================================
 
       function _init() {
-        var setSelectedSong =
-          $scope.$watchCollection(function() {
-            return vm.songsArray;
-          }, function(newVal) {
-            if (newVal && newVal.length) {
-              vm.selectedSong = vm.songsArray[0];
-              setSelectedSong(); // cancel watcher
-            }
-          });
-
         vm.sortableSongs = {
           cursor: 'move',
           placeholder: 'drop-zone',
@@ -68,10 +58,13 @@ directive('songListEditor', function(
       }
 
       // ==========================================================================================
+      // Adds selected song as last one in list
 
-      function addSelected() {
-        vm.editSongListItem.songs[vm.selectedSong.$id] = _.keys(vm.editSongListItem.songs).length;
-        _updateDB();
+      function addSelected(song) {
+        if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
+          vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
+          _updateDB();
+        }
       }
 
       // ==========================================================================================

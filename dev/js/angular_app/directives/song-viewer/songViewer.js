@@ -2,7 +2,8 @@ angular.module('Setlists').
 directive('songViewer', function(
   $filter,
   firebaseFactory,
-  pathsData) {
+  pathsData,
+  staticAppData) {
   'use strict';
 
   return {
@@ -23,9 +24,10 @@ directive('songViewer', function(
       vm.songsDB = firebaseFactory.followSongs();
       var originalSongsDB = vm.songsDB;
       vm.titleFilter = '';
+      vm.blank = 'No Filter';
       vm.displaySong = undefined;
       vm.instrumentOptions = [
-        '----------',
+        vm.blank,
         'Bass',
         'Banjo',
         'Mandolin',
@@ -36,13 +38,17 @@ directive('songViewer', function(
       ];
       vm.instrument = vm.instrumentOptions[0];
       vm.playerOptions = [
-        '----------',
+        vm.blank,
         'nate',
         'mike',
         'adam',
         'carl'
       ];
       vm.player = vm.playerOptions[0];
+
+      vm.keyOptions = staticAppData.key_options;
+      vm.keyOptions.unshift(vm.blank);
+      vm.key = vm.keyOptions[0];
 
       // vm functions
       vm.selectSong = selectSong;
@@ -64,9 +70,9 @@ directive('songViewer', function(
         return vm.instrument;
       }, function(newVal) {
         countSongs();
-        if (newVal && newVal !== '----------') {
-          instrumentFilter();
-        } else if (newVal && newVal === '----------') {
+        if (newVal && newVal !== vm.blank) {
+          filter();
+        } else if (newVal && newVal === vm.blank) {
           vm.songsDB = originalSongsDB;
         }
       });
@@ -75,18 +81,34 @@ directive('songViewer', function(
         return vm.player;
       }, function(newVal) {
         countSongs();
-        if (newVal && newVal === '----------') {
-          vm.instrument = '----------';
-        } else if (newVal && newVal !== '----------' && vm.instrument !== '----------') {
-          instrumentFilter();
+        if (newVal && newVal === vm.blank) {
+          vm.instrument = vm.blank;
+        } else if (newVal && newVal !== vm.blank && vm.instrument !== vm.blank) {
+          filter();
         }
       });
 
-      function instrumentFilter() {
+      $scope.$watch(function() {
+        return vm.key;
+      }, function(newVal) {
+        if (newVal !== vm.blank) {
+          countSongs();
+          filter();
+        }
+      });
+
+      function filter() {
         var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
-        vm.songsDB = $filter('filter')(currentSongs, function(song) {
-          return song[vm.player] === vm.instrument;
-        });
+        if (vm.player !== vm.blank && vm.instrument !== vm.blank) {
+          vm.songsDB = $filter('filter')(currentSongs, function(song) {
+            return song[vm.player] === vm.instrument;
+          });
+        }
+        if (vm.key !== vm.blank) {
+          vm.songsDB = $filter('filter')(vm.songsDB, function(song) {
+            return song.key === vm.key;
+          });
+        }
       }
 
       function selectSong(song) {

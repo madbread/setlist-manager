@@ -1,76 +1,86 @@
 <div class="song-editor">
-  <h6>Songs:</h6>
-  <ul class="scrollable song-list">
-    <li
-      ng-click="songVM.displaySong(song)"
-      ng-repeat="song in songVM.songsDB | orderBy:'title'"
-      ng-bind="song.title"
-    ></li>
-  </ul>
+  <div class="grid">
+    <form>
+      <h6>Songs:</h6>
+      <label for="song-name-filter">Filter: </label>
+      <input id="song-name-filter" ng-model="songVM.titleFilter" placeholder="title or singer">
+      <ul class="scrollable song-list">
+        <li
+          ng-click="songVM.displaySong(song)"
+          ng-repeat="song in songVM.songsDB | orderBy:'title' | filter:songListVM.titleFilter"
+          ng-bind="song.title"
+        ></li>
+      </ul>
+    </form>
 
-  <form class="edit-item" ng-if="songVM.editSongItem">
-    <div class="form-row">
-      <label for="songTitle">Title</label>
-      <input id="songTitle" ng-model="songVM.editSongItem.title">
-    </div>
+    <form class="edit-item" ng-if="songVM.editSongItem">
+      <div class="form-row">
+        <label for="songTitle">Title</label>
+        <input id="songTitle" ng-model="songVM.editSongItem.title">
+      </div>
 
-    <div class="form-row">
-      <label for="songKey">Key (starting)</label>
-      <select
-        id="songKey"
-        ng-model="songVM.editSongItem.key"
-        ng-options="key for key in songVM.keyOptions">
-      </select>
-    </div>
-    <div class="form-row">
-      <label for="songSinger-edit">Singer</label>
-      <select
-        id="songSinger-edit"
-        ng-model="songVM.editSongItem.singer"
-        ng-options="singer for singer in songVM.singerOptions">
-      </select>
-    </div>
-    <div class="form-row">
-      <label for="songAdam">Adam</label>
-      <select
-        id="songAdam"
-        ng-model="songVM.editSongItem.adam"
-        ng-options="instrument for instrument in songVM.instrumentOptions">
-      </select>
-    </div>
-    <div class="form-row">
-      <label for="songCarl">Carl</label>
-      <select
-        id="songCarl"
-        ng-model="songVM.editSongItem.carl"
-        ng-options="instrument for instrument in songVM.instrumentOptions">
-      </select>
-    </div>
+      <div class="form-row">
+        <label for="songKey">Key (starting)</label>
+        <select
+          id="songKey"
+          ng-model="songVM.editSongItem.key"
+          ng-options="key for key in songVM.keyOptions">
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="songSinger-edit">Singer</label>
+        <select
+          id="songSinger-edit"
+          ng-model="songVM.editSongItem.singer"
+          ng-options="singer for singer in songVM.singerOptions">
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="songAdam">Adam</label>
+        <select
+          id="songAdam"
+          ng-model="songVM.editSongItem.adam"
+          ng-options="instrument for instrument in songVM.instrumentOptions">
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="songCarl">Carl</label>
+        <select
+          id="songCarl"
+          ng-model="songVM.editSongItem.carl"
+          ng-options="instrument for instrument in songVM.instrumentOptions">
+        </select>
+      </div>
 
-    <div class="form-row">
-      <label for="songMike">Mike</label>
-      <select
-        id="songMike"
-        ng-model="songVM.editSongItem.mike"
-        ng-options="instrument for instrument in songVM.instrumentOptions">
-      </select>
-    </div>
+      <div class="form-row">
+        <label for="songMike">Mike</label>
+        <select
+          id="songMike"
+          ng-model="songVM.editSongItem.mike"
+          ng-options="instrument for instrument in songVM.instrumentOptions">
+        </select>
+      </div>
 
-    <div class="form-row">
-      <label for="songNate">Nate</label>
-      <select
-        id="songNate"
-        ng-model="songVM.editSongItem.nate"
-        ng-options="instrument for instrument in songVM.instrumentOptions">
-      </select>
-    </div>
+      <div class="form-row">
+        <label for="songNate">Nate</label>
+        <select
+          id="songNate"
+          ng-model="songVM.editSongItem.nate"
+          ng-options="instrument for instrument in songVM.instrumentOptions">
+        </select>
+      </div>
 
-    <div class="but-row">
-      <button ng-click="songVM.updateSong()" class="but-selection">
-        Save
-      </button>
-    </div>
-  </form>
+      <div class="but-row">
+        <a
+          ng-click="songVM.deleteSong()"
+          class="hand"
+        >Delete</a>
+        <button ng-click="songVM.updateSong()" class="but-selection">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 
   <h5 ng-click="songVM.toggleAddSong()" class="hand">
     Add New Song:

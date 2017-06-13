@@ -32,6 +32,7 @@ directive('songEditor', function(
       vm.displaySong   = displaySong;
       vm.toggleAddSong = toggleAddSong;
       vm.updateSong    = updateSong;
+      vm.deleteSong    = deleteSong;
 
 
       function toggleAddSong() {
@@ -58,6 +59,12 @@ directive('songEditor', function(
       function updateSong() {
         firebaseFactory.updateSong(vm.editSongItem);
         vm.editSongItem = undefined;
+      }
+
+      function deleteSong() {
+        if (window.confirm('Are you sure you wish to delete this song?')) {
+          firebaseFactory.deleteSong(vm.editSongItem);
+        }
       }
 
       function addSong() {

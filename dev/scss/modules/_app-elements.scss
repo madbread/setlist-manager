@@ -37,6 +37,9 @@
   }
 
   label {
+    margin: $base-unit-quarter 0;
+    display: inline-block;
+    min-width: 42px;
     font-family: $base-font-family-bold;
     @extend %text-small;
   }

@@ -66,6 +66,9 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
   methods.updateSong = function(song) {
     return songsDB.$save(song);
   };
+  methods.deleteSong = function(song) {
+    return songsDB.$remove(song);
+  };
 
   // ==============================================================================================
 
