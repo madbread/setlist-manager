@@ -11,7 +11,7 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
 
   var songListsRef = firebase.database().ref('data/songLists');
   var songListsDB = $firebaseArray(songListsRef);
-  var songListsObject = $firebaseArray(songListsRef);
+  var songListsObject = $firebaseObject(songListsRef);
 
   var venuesRef = firebase.database().ref('data/venues');
   var venuesDB = $firebaseArray(venuesRef);
@@ -67,7 +67,26 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
     return songsDB.$save(song);
   };
   methods.deleteSong = function(song) {
+    // Remove song from all songlists
+    _.each(songListsDB, function(songList) {
+      if (_.keys(songList.songs).indexOf(song.$id) !== -1) {
+        methods.removeSongFromList(song.$id, songList);
+        methods.updateSongList(songList);
+      }
+    });
     return songsDB.$remove(song);
+  };
+
+  // ==============================================================================================
+
+  methods.removeSongFromList = function(songId, songList) {
+    var removedIdx = angular.copy(songList.songs[songId]);
+    delete songList.songs[songId];
+    _.each(songList.songs, function(order, songId) {
+      if (order > removedIdx) {
+        songList.songs[songId]--;
+      }
+    });
   };
 
   // ==============================================================================================
@@ -83,6 +102,9 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
   };
   methods.updateSongList = function(songList) {
     return songListsDB.$save(songList);
+  };
+  methods.deleteSongList = function(songList) {
+    return songListsDB.$remove(songList);
   };
 
   // ==============================================================================================

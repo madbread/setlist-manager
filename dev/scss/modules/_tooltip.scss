@@ -1,0 +1,11 @@
+.ui-tooltip {
+  @extend %text-small;
+  @include default-box-shadow();
+  background-color: $color-white;
+  color: $color-royal;
+  padding: $base-unit-half;
+}
+
+body .ui-tooltip {
+  border: 2px solid $color-royal;
+}

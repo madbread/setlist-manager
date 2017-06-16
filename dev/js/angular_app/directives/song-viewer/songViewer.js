@@ -23,9 +23,9 @@ directive('songViewer', function(
       // vm data
       vm.songsDB = firebaseFactory.followSongs();
       var originalSongsDB = vm.songsDB;
+      vm.displaySong = undefined;
       vm.titleFilter = '';
       vm.blank = 'No Filter';
-      vm.displaySong = undefined;
       vm.instrumentOptions = [
         vm.blank,
         'Bass',

@@ -1,5 +1,4 @@
 .song-list {
-  height: 200px;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -8,6 +7,33 @@
     padding: $base-unit-half $base-unit;
     background-color: $color-ltgrey;
     border-bottom: 1px solid $color-medgrey;
+    &.active {
+      background-color: $color-ltgreen;
+    }
+  }
+}
+
+.note {
+  font-family: $base-font-family-bold-italic;
+}
+
+.drop-zone {
+  padding: $base-unit-half;
+  border: 1px dotted $color-black;
+}
+
+.songlist-list {
+  @extend .song-list;
+  height: auto;
+  max-height: 200px;
+}
+
+.songlist-songs {
+  @extend %text-normal;
+  list-style-type: none;
+
+  li {
+    cursor: move;
   }
 }
 
@@ -30,10 +56,6 @@
     height: 40px;
     line-height: 20px;
     padding: 0 $base-unit-half;
-  }
-
-  .song-list {
-    height: auto;
   }
 
   label {

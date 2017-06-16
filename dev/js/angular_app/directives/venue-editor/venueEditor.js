@@ -16,23 +16,24 @@ directive('venueEditor', function(
     ].join(''),
     controller: function($scope) {
       var vm = this;
+
       // vm data
       vm.editVenueItem   = undefined;
       vm.newVenue        = angular.copy(staticAppData.new_venue);
       vm.showAddVenue    = false;
-      vm.venuesDB         = firebaseFactory.followVenues();
+      vm.venuesDB        = firebaseFactory.followVenues();
       vm.songListsDB     = firebaseFactory.followSongLists();
       vm.songListsObject = firebaseFactory.followSongListsObject();
 
       // vm functions
-      vm.addVenue       = addVenue;
-      vm.displayVenue   = displayVenue;
-      vm.toggleAddVenue = toggleAddSong;
-      vm.updateVenue    = updateVenue;
+      vm.addVenue        = addVenue;
+      vm.displayVenue    = displayVenue;
+      vm.toggleAddVenue  = toggleAddSong;
+      vm.updateVenue     = updateVenue;
 
       function addVenue() {
         firebaseFactory.addVenue(angular.copy(vm.newSong));
-        vm.newSong = angular.copy(staticAppData.new_song);
+        vm.newSong     = angular.copy(staticAppData.new_song);
         vm.showAddSong = false;
       }
 

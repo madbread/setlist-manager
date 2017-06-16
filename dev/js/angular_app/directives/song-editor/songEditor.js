@@ -26,6 +26,9 @@ directive('songEditor', function(
       vm.showAddSong   = false;
       vm.singerOptions = angular.copy(staticAppData.singerOptions);
       vm.songsDB       = firebaseFactory.followSongs();
+      vm.minuteOptions = staticAppData.minuteOptions;
+      vm.secondOptions = staticAppData.secondOptions;
+      vm.helpText      = staticAppData.songHelpText;
 
       // vm functions
       vm.addSong       = addSong;
@@ -33,7 +36,6 @@ directive('songEditor', function(
       vm.toggleAddSong = toggleAddSong;
       vm.updateSong    = updateSong;
       vm.deleteSong    = deleteSong;
-
 
       function toggleAddSong() {
         vm.showAddSong = !vm.showAddSong;
@@ -62,8 +64,13 @@ directive('songEditor', function(
       }
 
       function deleteSong() {
-        if (window.confirm('Are you sure you wish to delete this song?')) {
-          firebaseFactory.deleteSong(vm.editSongItem);
+        if (window.confirm(
+          'Are you sure you wish to delete this song?\n\n' +
+          'Doing so will also remove the song form all existing setlists')) {
+          firebaseFactory.deleteSong(vm.editSongItem)
+            .then(function() {
+              vm.editSongItem = undefined;
+            });
         }
       }
 

@@ -1,0 +1,91 @@
+<div ng-show="songVM.showAddSong" ng-click="songVM.showAddSong = false" class="window-shade"></div>
+<div ng-show="songVM.showAddSong" class="shade-contents">
+  <form class="support-form" ng-submit="songVM.addSong()">
+    <span ng-click="songVM.showAddSong = false" class="float-right hand">cancel</span>
+    <h6 ng-bind="songVM.newSong.title || '[new title]'"></h6>
+    <p ng-bind="::songVM.helpText.new" class="text-tiny"></p>
+    <div class="form-row">
+      <label for="songTitle">Title</label>
+      <input id="songTitle" ng-model="songVM.newSong.title" placeholder="[new title]">
+    </div>
+
+    <div class="form-row">
+      <label for="songKey">Key (starting)</label>
+      <select
+        id="songKey"
+        ng-model="songVM.newSong.key"
+        ng-options="key for key in songVM.keyOptions">
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="songSinger">Singer</label>
+      <select
+        id="songSinger"
+        ng-model="songVM.newSong.singer"
+        ng-options="singer for singer in songVM.singerOptions">
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="songAdam">Adam</label>
+      <select
+        id="songAdam"
+        ng-model="songVM.newSong.adam"
+        ng-options="instrument for instrument in songVM.instrumentOptions">
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="songCarl">Carl</label>
+      <select
+        id="songCarl"
+        ng-model="songVM.newSong.carl"
+        ng-options="instrument for instrument in songVM.instrumentOptions">
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="songMike">Mike</label>
+      <select
+        id="songMike"
+        ng-model="songVM.newSong.mike"
+        ng-options="instrument for instrument in songVM.instrumentOptions">
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="songNate">Nate</label>
+      <select
+        id="songNate"
+        ng-model="songVM.newSong.nate"
+        ng-options="instrument for instrument in songVM.instrumentOptions">
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label>Song Length</label>
+      <select
+        id="songMinutes"
+        ng-model="songVM.newSong.minutes"
+        ng-options="minute for minute in songVM.minuteOptions">
+      </select>
+      <label class="no-pad" for="songMinutes">Minutes</label>
+      <select
+        id="songSeconds"
+        ng-model="songVM.newSong.seconds"
+        ng-options="second for second in songVM.secondOptions">
+      </select>
+      <label for="songSeconds">Seconds</label>
+    </div>
+
+    <div class="but-row">
+      <a
+        ng-click="songVM.showAddSong = false"
+        class="hand"
+      >Cancel</a>
+      <button type="submit" ng-disabled="!songVM.newSong.title.length" class="but-selection">
+        Add
+      </button>
+    </div>
+  </form>
+</div>
