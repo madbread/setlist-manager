@@ -11,10 +11,6 @@
     class="but-small float-right"
   >Logout</button>
 
-  <error-messages
-    messages="adminVM.messages"
-  ></error-messages>
-
   <div
     ng-show="!adminVM.status.authorized"
     class="admin-login-prompt"
@@ -28,17 +24,20 @@
   >
     <nav class="grid grid-padded">
       <ul class="nav nav-pills ng-isolate-scope">
-        <li>
-          <button ng-class="{'active': adminVM.openSection === 'Songlists'}" ng-click="adminVM.openSection = 'Songlists'">Songlists</button>
+        <li ng-show="adminVM.status.email === 'slatron@gmail.com'">
+          <button ng-class="{'active': adminVM.openSection === 'Songlists'}" ng-click="adminVM.openSection = 'Songlists'">Setlists</button>
         </li>
         <li>
           <button ng-class="{'active': adminVM.openSection === 'Songs'}" ng-click="adminVM.openSection = 'Songs'">Songs</button>
         </li>
-        <li>
+        <li ng-show="adminVM.status.email === 'slatron@gmail.com'">
           <button ng-class="{'active': adminVM.openSection === 'Users'}" ng-click="adminVM.openSection = 'Users'">Manage Users</button>
         </li>
       </ul>
     </nav>
+    <error-messages
+      messages="adminVM.messages"
+    ></error-messages>
     <song-list-editor
       ng-if="adminVM.openSection === 'Songlists'"
     ></song-list-editor>

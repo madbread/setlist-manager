@@ -17,9 +17,10 @@ directive('adminPage', function(
     ].join(''),
 
     controller: function($scope) {
+      $(document).tooltip();
       var vm = this;
 
-      vm.openSection = '';
+      vm.openSection = 'Songs';
 
       vm.status          = firebaseAuthFactory.getStatus();
       vm.showLogin       = false;

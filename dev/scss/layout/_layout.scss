@@ -5,6 +5,10 @@
   margin: 0 auto;
 }
 
+.song-editor > .grid > form > ul {
+  height:275px;
+}
+
 // Forms
 // ==========================
 
@@ -21,10 +25,17 @@ form {
 
 .form-row {
   margin: $base-unit-half;
+  > label {
+    width: $form-col-width/6;
+  }
 }
 
 .form-row:nth-child(odd) {
   background: #F9F8F7;
+}
+
+input.longer {
+  width: 60%;
 }
 
 .but-row {
@@ -43,6 +54,10 @@ form select {
   margin: $base-unit-quarter;
 }
 
-form label {
-  width: $form-col-width/3;
+form > label {
+  width: $form-col-width/6;
+}
+
+form label.no-pad {
+  width: auto !important;
 }

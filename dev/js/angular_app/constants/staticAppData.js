@@ -7,10 +7,30 @@ constant('staticAppData', {
   singerOptions: [
     'Nate',
     'Carl',
-    'Joel',
     'Mike',
     'Adam',
     'Instrumental'
+  ],
+  instrumentOptions: [
+    'Bass',
+    'Banjo',
+    'Mandolin',
+    'Fiddle',
+    'Guitar',
+    'Electric',
+    'Harmonica'
+  ],
+  playerOptions: [
+    'nate',
+    'mike',
+    'adam',
+    'carl'
+  ],
+  minuteOptions: [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  ],
+  secondOptions: [
+    0, 15, 30, 45
   ],
   new_song: {
     title: '',
@@ -26,12 +46,9 @@ constant('staticAppData', {
   },
   new_venue: {
     title: ''
+  },
+  songHelpText: {
+    edit: 'Click a title below to edit the song info.',
+    new: 'Only add songs that we can perform live.'
   }
 });
-
-// venue > shows: {
-//   datestring: {
-//     setlist_id: 0,
-//     setlist_id2: 1,
-//   }
-// } // collection of setList objects as {id: order}

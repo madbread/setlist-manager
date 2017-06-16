@@ -3,7 +3,7 @@
 
 // vendor stylesheets
 // @import 'vendor/ui-select';
-// @import 'vendor/ui-tooltip';
+@import 'vendor/ui-tooltip';
 @import 'vendor/c3';
 
 // Base Stylesheets
@@ -28,6 +28,7 @@
 @import 'modules/show-grid';
 @import 'modules/window-shade';
 @import 'modules/app-elements';
+@import 'modules/tooltip';
 
 // State Stylesheets
 @import 'state/state';
