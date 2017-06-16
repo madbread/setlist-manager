@@ -13359,10 +13359,30 @@ constant('staticAppData', {
   singerOptions: [
     'Nate',
     'Carl',
-    'Joel',
     'Mike',
     'Adam',
     'Instrumental'
+  ],
+  instrumentOptions: [
+    'Bass',
+    'Banjo',
+    'Mandolin',
+    'Fiddle',
+    'Guitar',
+    'Electric',
+    'Harmonica'
+  ],
+  playerOptions: [
+    'nate',
+    'mike',
+    'adam',
+    'carl'
+  ],
+  minuteOptions: [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  ],
+  secondOptions: [
+    0, 15, 30, 45
   ],
   new_song: {
     title: '',
@@ -13378,15 +13398,12 @@ constant('staticAppData', {
   },
   new_venue: {
     title: ''
+  },
+  songHelpText: {
+    edit: 'Click a title below to edit the song info.',
+    new: 'Only add songs that we can perform live.'
   }
 });
-
-// venue > shows: {
-//   datestring: {
-//     setlist_id: 0,
-//     setlist_id2: 1,
-//   }
-// } // collection of setList objects as {id: order}
 
 angular.module('Setlists').
 directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", function(
@@ -13407,9 +13424,10 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
     ].join(''),
 
     controller: ["$scope", function($scope) {
+      $(document).tooltip();
       var vm = this;
 
-      vm.openSection = '';
+      vm.openSection = 'Songs';
 
       vm.status          = firebaseAuthFactory.getStatus();
       vm.showLogin       = false;
@@ -13647,6 +13665,9 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
       vm.showAddSong   = false;
       vm.singerOptions = angular.copy(staticAppData.singerOptions);
       vm.songsDB       = firebaseFactory.followSongs();
+      vm.minuteOptions = staticAppData.minuteOptions;
+      vm.secondOptions = staticAppData.secondOptions;
+      vm.helpText      = staticAppData.songHelpText;
 
       // vm functions
       vm.addSong       = addSong;
@@ -13654,7 +13675,6 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
       vm.toggleAddSong = toggleAddSong;
       vm.updateSong    = updateSong;
       vm.deleteSong    = deleteSong;
-
 
       function toggleAddSong() {
         vm.showAddSong = !vm.showAddSong;
@@ -13683,8 +13703,13 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
       }
 
       function deleteSong() {
-        if (window.confirm('Are you sure you wish to delete this song?')) {
-          firebaseFactory.deleteSong(vm.editSongItem);
+        if (window.confirm(
+          'Are you sure you wish to delete this song?\n\n' +
+          'Doing so will also remove the song form all existing setlists')) {
+          firebaseFactory.deleteSong(vm.editSongItem)
+            .then(function() {
+              vm.editSongItem = undefined;
+            });
         }
       }
 
@@ -13693,6 +13718,295 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
         vm.newSong = angular.copy(staticAppData.new_song);
         vm.showAddSong = false;
       }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticAppData", function(
+  $filter,
+  firebaseFactory,
+  pathsData,
+  staticAppData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'songListVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'song-list-editor/songListEditor.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      // vm data
+      vm.addingNote       = false;
+      vm.editingNote      = false;
+      vm.editSongListItem = undefined;
+      vm.newSongList      = angular.copy(staticAppData.new_songList);
+      vm.showAddSongList  = false;
+      vm.showIcons        = false;
+      vm.songListsDB      = firebaseFactory.followSongLists();
+      vm.songsArray       = firebaseFactory.followSongs();
+      vm.songsDB          = firebaseFactory.followSongsObject();
+      vm.songsSorted      = [];
+
+      var originalSongsDB = angular.copy(vm.songsArray);
+
+      // song filtering
+      vm.titleFilter       = '';
+      vm.blankFilter       = 'No Filter';
+      vm.clearSongFilters  = clearSongFilters;
+
+      vm.instrumentOptions = staticAppData.instrumentOptions;
+      vm.instrumentOptions.unshift(vm.blankFilter);
+      vm.instrumentFilter  = vm.instrumentOptions[0];
+
+      vm.playerOptions     = staticAppData.playerOptions;
+      vm.playerOptions.unshift(vm.blankFilter);
+      vm.playerFilter      = vm.playerOptions[0];
+
+      vm.keyOptions        = staticAppData.key_options;
+      vm.keyOptions.unshift(vm.blankFilter);
+      vm.keyFilter         = vm.keyOptions[0];
+
+      vm.count = 0;
+
+      // vm functions
+      vm.addNote           = addNote;
+      vm.addSelected       = addSelected;
+      vm.addSongList       = addSongList;
+      vm.displaySongList   = displaySongList;
+      vm.editNote          = editNote;
+      vm.removeSong        = removeSong;
+      vm.saveNewNote       = saveNewNote;
+      vm.toggleAddSongList = toggleAddSongList;
+      vm.updateNote        = updateNote;
+      vm.deleteList        = deleteList;
+
+      // ==========================================================================================
+
+      function _init() {
+        vm.sortableSongs = {
+          cursor: 'move',
+          placeholder: 'drop-zone',
+          update: function() {
+            $scope.$evalAsync(function() {
+              _updateSongOrder();
+            });
+          }
+        };
+
+        countSongs();
+      }
+
+      // ==========================================================================================
+      // Adds selected song as last one in list
+
+      function addSelected(song) {
+        if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
+          vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
+          _updateDB();
+        } else {
+          alert(song.title + ' is already in the setlist.');
+        }
+      }
+
+      // ==========================================================================================
+
+      function removeSong(id) {
+        firebaseFactory.removeSongFromList(id, vm.editSongListItem);
+        _updateDB();
+      }
+
+      // ==========================================================================================
+
+      function toggleAddSongList() {
+        vm.showAddSongList = !vm.showAddSongList;
+        vm.newSongList = angular.copy(staticAppData.new_songList);
+      }
+
+      // ==========================================================================================
+
+      function displaySongList(songList) {
+        vm.editSongListItem = songList;
+        if (!vm.editSongListItem.hasOwnProperty('songs')) {
+          vm.editSongListItem.songs = {};
+        }
+        vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
+      }
+
+      // ==========================================================================================
+
+      function addSongList() {
+        firebaseFactory.addSongList(angular.copy(vm.newSongList));
+        vm.newSongList = angular.copy(staticAppData.new_songList);
+        vm.showAddSongList = false;
+      }
+
+      // ==========================================================================================
+
+      function editNote(songId) {
+        vm.editingNote   = true;
+        vm.editingNoteId = songId;
+      }
+
+      // ==========================================================================================
+
+      function deleteList() {
+        if (window.confirm('Are you sure you wish to delete "' + vm.editSongListItem.title + '" ?')) {
+          firebaseFactory.deleteSongList(vm.editSongListItem);
+          vm.editSongListItem = undefined;
+        }
+      }
+
+      // ==========================================================================================
+
+      function updateNote() {
+        firebaseFactory.updateSongList(vm.editSongListItem).then(
+          function() {
+            vm.editingNote   = false;
+            vm.editingNoteId = undefined;
+            vm.showIcons = false;
+          }
+        );
+      }
+
+      // ==========================================================================================
+
+      function addNote(songId) {
+        vm.addingNote   = true;
+        vm.addingNoteId = songId;
+      }
+
+      // ==========================================================================================
+
+      function saveNewNote() {
+        if (!vm.editSongListItem.hasOwnProperty('notes')) {
+          vm.editSongListItem.notes = {};
+        }
+        vm.editSongListItem.notes[vm.addingNoteId] = vm.newNoteText;
+        firebaseFactory.updateSongList(vm.editSongListItem).then(
+          function() {
+            vm.addingNote    = false;
+            vm.addingNoteId  = undefined;
+            vm.newNoteText   = '';
+            vm.showIcons = false;
+          }
+        );
+      }
+
+      // ==========================================================================================
+
+      function _updateSongOrder() {
+        _.each(vm.songsSorted, function(songId, idx) {
+          vm.editSongListItem.songs[songId] = idx;
+        });
+        _updateDB();
+      }
+
+      // ==========================================================================================
+
+      function _updateDB() {
+        firebaseFactory.updateSongList(vm.editSongListItem).then(
+          function() {
+            vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
+          }
+        );
+      }
+
+      // ==========================================================================================
+
+      function _sortSongs(songsObject) {
+        var sorted = [];
+        _.each(songsObject, function(order, id) {
+          sorted[order] = id;
+        });
+        return sorted;
+      }
+
+      // ==========================================================================================
+      // ==========================================================================================
+      // FILTERING
+
+      $scope.$watchCollection(function() {
+        return vm.songsArray;
+      }, function(newVal) {
+        countSongs();
+      });
+
+      $scope.$watch(function() {
+        return vm.titleFilter;
+      }, function(newVal) {
+        countSongs();
+      });
+
+      $scope.$watch(function() {
+        return vm.instrumentFilter;
+      }, function(newVal) {
+        countSongs();
+        if (newVal && newVal !== vm.blankFilter) {
+          filter();
+        } else if (newVal && newVal === vm.blankFilter) {
+          vm.songsArray = originalSongsDB;
+        }
+      });
+
+      $scope.$watch(function() {
+        return vm.playerFilter;
+      }, function(newVal) {
+        countSongs();
+        if (newVal && newVal === vm.blankFilter) {
+          vm.instrumentFilter = vm.blankFilter;
+        } else if (newVal && newVal !== vm.blankFilter && vm.instrumentFilter !== vm.blankFilter) {
+          filter();
+        }
+      });
+
+      $scope.$watch(function() {
+        return vm.keyFilter;
+      }, function(newVal) {
+        if (newVal !== vm.blankFilter) {
+          countSongs();
+          filter();
+        }
+      });
+
+      function filter() {
+        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
+        if (vm.playerFilter !== vm.blankFilter && vm.instrumentFilter !== vm.blankFilter) {
+          vm.songsArray = $filter('filter')(currentSongs, function(song) {
+            return song[vm.playerFilter] === vm.instrumentFilter;
+          });
+        }
+        if (vm.keyFilter !== vm.blankFilter) {
+          vm.songsArray = $filter('filter')(vm.songsArray, function(song) {
+            return song.key === vm.keyFilter;
+          });
+        }
+      }
+
+      function clearSongFilters() {
+        vm.titleFilter      = '';
+        vm.instrumentFilter = vm.instrumentOptions[0];
+        vm.playerFilter     = vm.playerOptions[0];
+        vm.keyFilter        = vm.keyOptions[0];
+        vm.songsArray       = originalSongsDB;
+      }
+
+      function countSongs() {
+        vm.count = $filter('filter')(vm.songsArray, vm.titleFilter).length;
+      }
+
+      // ==========================================================================================
+      // ==========================================================================================
+
+      _init();
     }],
   };
 }]);
@@ -13722,9 +14036,9 @@ directive('songViewer', ["$filter", "firebaseFactory", "pathsData", "staticAppDa
       // vm data
       vm.songsDB = firebaseFactory.followSongs();
       var originalSongsDB = vm.songsDB;
+      vm.displaySong = undefined;
       vm.titleFilter = '';
       vm.blank = 'No Filter';
-      vm.displaySong = undefined;
       vm.instrumentOptions = [
         vm.blank,
         'Bass',
@@ -13826,192 +14140,6 @@ directive('songViewer', ["$filter", "firebaseFactory", "pathsData", "staticAppDa
 }]);
 
 angular.module('Setlists').
-directive('songListEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
-  firebaseFactory,
-  pathsData,
-  staticAppData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'songListVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'song-list-editor/songListEditor.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      // vm data
-      vm.addingNote       = false;
-      vm.editingNote      = false;
-      vm.editSongListItem = undefined;
-      vm.newSongList      = angular.copy(staticAppData.new_songList);
-      vm.showAddSongList  = false;
-      vm.showDeleteIcons  = false;
-      vm.showNoteIcons    = false;
-      vm.songListsDB      = firebaseFactory.followSongLists();
-      vm.songsArray       = firebaseFactory.followSongs();
-      vm.songsDB          = firebaseFactory.followSongsObject();
-      vm.songsSorted      = [];
-
-      // vm functions
-      vm.addNote           = addNote;
-      vm.addSelected       = addSelected;
-      vm.addSongList       = addSongList;
-      vm.displaySongList   = displaySongList;
-      vm.editNote          = editNote;
-      vm.removeSong        = removeSong;
-      vm.saveNewNote       = saveNewNote;
-      vm.toggleAddSongList = toggleAddSongList;
-      vm.updateNote        = updateNote;
-
-      // ==========================================================================================
-
-      function _init() {
-        vm.sortableSongs = {
-          cursor: 'move',
-          placeholder: 'drop-zone',
-          update: function() {
-            $scope.$evalAsync(function() {
-              _updateSongOrder();
-            });
-          }
-        };
-      }
-
-      // ==========================================================================================
-      // Adds selected song as last one in list
-
-      function addSelected(song) {
-        if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
-          vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
-          _updateDB();
-        }
-      }
-
-      // ==========================================================================================
-
-      function removeSong(id) {
-        var removedIdx = angular.copy(vm.editSongListItem.songs[id]);
-        delete vm.editSongListItem.songs[id];
-        _.each(vm.editSongListItem.songs, function(order, songId) {
-          if (order > removedIdx) {
-            vm.editSongListItem.songs[songId]--;
-          }
-        });
-        _updateDB();
-      }
-
-      // ==========================================================================================
-
-      function toggleAddSongList() {
-        vm.showAddSongList = !vm.showAddSongList;
-        vm.newSongList = angular.copy(staticAppData.new_songList);
-      }
-
-      // ==========================================================================================
-
-      function displaySongList(songList) {
-        vm.editSongListItem = songList;
-        if (!vm.editSongListItem.hasOwnProperty('songs')) {
-          vm.editSongListItem.songs = {};
-        }
-        vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
-      }
-
-      // ==========================================================================================
-
-      function addSongList() {
-        firebaseFactory.addSongList(angular.copy(vm.newSongList));
-        vm.newSongList = angular.copy(staticAppData.new_songList);
-        vm.showAddSongList = false;
-      }
-
-      // ==========================================================================================
-
-      function editNote(songId) {
-        vm.editingNote   = true;
-        vm.editingNoteId = songId;
-      }
-
-      // ==========================================================================================
-
-      function updateNote() {
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.editingNote   = false;
-            vm.editingNoteId = undefined;
-            vm.showNoteIcons = false;
-          }
-        );
-      }
-
-      // ==========================================================================================
-
-      function addNote(songId) {
-        vm.addingNote   = true;
-        vm.addingNoteId = songId;
-      }
-
-      // ==========================================================================================
-
-      function saveNewNote() {
-        if (!vm.editSongListItem.hasOwnProperty('notes')) {
-          vm.editSongListItem.notes = {};
-        }
-        vm.editSongListItem.notes[vm.addingNoteId] = vm.newNoteText;
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.addingNote    = false;
-            vm.addingNoteId  = undefined;
-            vm.newNoteText   = '';
-            vm.showNoteIcons = false;
-          }
-        );
-      }
-
-      // ==========================================================================================
-
-      function _updateSongOrder() {
-        _.each(vm.songsSorted, function(songId, idx) {
-          vm.editSongListItem.songs[songId] = idx;
-        });
-        _updateDB();
-      }
-
-      // ==========================================================================================
-
-      function _updateDB() {
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
-          }
-        );
-      }
-
-      // ==========================================================================================
-
-      function _sortSongs(songsObject) {
-        var sorted = [];
-        _.each(songsObject, function(order, id) {
-          sorted[order] = id;
-        });
-        return sorted;
-      }
-
-      // ==========================================================================================
-
-      _init();
-    }],
-  };
-}]);
-
-angular.module('Setlists').
 directive('venueEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
   firebaseFactory,
   pathsData,
@@ -14029,23 +14157,24 @@ directive('venueEditor', ["firebaseFactory", "pathsData", "staticAppData", funct
     ].join(''),
     controller: ["$scope", function($scope) {
       var vm = this;
+
       // vm data
       vm.editVenueItem   = undefined;
       vm.newVenue        = angular.copy(staticAppData.new_venue);
       vm.showAddVenue    = false;
-      vm.venuesDB         = firebaseFactory.followVenues();
+      vm.venuesDB        = firebaseFactory.followVenues();
       vm.songListsDB     = firebaseFactory.followSongLists();
       vm.songListsObject = firebaseFactory.followSongListsObject();
 
       // vm functions
-      vm.addVenue       = addVenue;
-      vm.displayVenue   = displayVenue;
-      vm.toggleAddVenue = toggleAddSong;
-      vm.updateVenue    = updateVenue;
+      vm.addVenue        = addVenue;
+      vm.displayVenue    = displayVenue;
+      vm.toggleAddVenue  = toggleAddSong;
+      vm.updateVenue     = updateVenue;
 
       function addVenue() {
         firebaseFactory.addVenue(angular.copy(vm.newSong));
-        vm.newSong = angular.copy(staticAppData.new_song);
+        vm.newSong     = angular.copy(staticAppData.new_song);
         vm.showAddSong = false;
       }
 
@@ -14065,68 +14194,6 @@ directive('venueEditor', ["firebaseFactory", "pathsData", "staticAppData", funct
     }]
   };
 }]);
-
-/**
-*  This factory provides a common way for
-*    directives to store API response data
-*    for further calls on the page
-*/
-angular.module('Setlists').
-factory('cacheFactory', function() {
-
-  var pageCache = {},
-      methods   = {},
-      available = _storageAvailable();
-
-  // Store value to cache and localstorage
-  methods.set = function(key, value) {
-    if (_.isString(key)) {
-      pageCache[key] = value;
-      if (!_.isString(value)) {
-        value = angular.toJson(value);
-      }
-      if (available) {
-        localStorage.setItem(key, value);
-      }
-    }
-  };
-
-  methods.get = function(key) {
-    if (available && localStorage.getItem(key)) {
-      return angular.fromJson(localStorage.getItem(key));
-    } else if (pageCache[key]) {
-      return pageCache[key];
-    } else {
-      return null;
-    }
-  };
-
-  methods.getHash = function() {
-    return pageCache;
-  };
-
-  methods.clearLocalStorage = function() {
-    pageCache = {};
-    if (available) {
-      localStorage.clear();
-    }
-  };
-
-  // helper methods
-  function _storageAvailable() {
-    try {
-      var x = 'storage_test';
-      localStorage.setItem(x, x);
-      localStorage.removeItem(x);
-      return true;
-    }
-    catch (e) {
-      return false;
-    }
-  }
-
-  return methods;
-});
 
 angular.module('Setlists').
 factory('firebaseAuthFactory', ["$firebaseAuth", function($firebaseAuth) {
@@ -14218,7 +14285,7 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
 
   var songListsRef = firebase.database().ref('data/songLists');
   var songListsDB = $firebaseArray(songListsRef);
-  var songListsObject = $firebaseArray(songListsRef);
+  var songListsObject = $firebaseObject(songListsRef);
 
   var venuesRef = firebase.database().ref('data/venues');
   var venuesDB = $firebaseArray(venuesRef);
@@ -14274,7 +14341,26 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
     return songsDB.$save(song);
   };
   methods.deleteSong = function(song) {
+    // Remove song from all songlists
+    _.each(songListsDB, function(songList) {
+      if (_.keys(songList.songs).indexOf(song.$id) !== -1) {
+        methods.removeSongFromList(song.$id, songList);
+        methods.updateSongList(songList);
+      }
+    });
     return songsDB.$remove(song);
+  };
+
+  // ==============================================================================================
+
+  methods.removeSongFromList = function(songId, songList) {
+    var removedIdx = angular.copy(songList.songs[songId]);
+    delete songList.songs[songId];
+    _.each(songList.songs, function(order, songId) {
+      if (order > removedIdx) {
+        songList.songs[songId]--;
+      }
+    });
   };
 
   // ==============================================================================================
@@ -14290,6 +14376,9 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
   };
   methods.updateSongList = function(songList) {
     return songListsDB.$save(songList);
+  };
+  methods.deleteSongList = function(songList) {
+    return songListsDB.$remove(songList);
   };
 
   // ==============================================================================================
@@ -14308,6 +14397,68 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
 
   return methods;
 }]);
+
+/**
+*  This factory provides a common way for
+*    directives to store API response data
+*    for further calls on the page
+*/
+angular.module('Setlists').
+factory('cacheFactory', function() {
+
+  var pageCache = {},
+      methods   = {},
+      available = _storageAvailable();
+
+  // Store value to cache and localstorage
+  methods.set = function(key, value) {
+    if (_.isString(key)) {
+      pageCache[key] = value;
+      if (!_.isString(value)) {
+        value = angular.toJson(value);
+      }
+      if (available) {
+        localStorage.setItem(key, value);
+      }
+    }
+  };
+
+  methods.get = function(key) {
+    if (available && localStorage.getItem(key)) {
+      return angular.fromJson(localStorage.getItem(key));
+    } else if (pageCache[key]) {
+      return pageCache[key];
+    } else {
+      return null;
+    }
+  };
+
+  methods.getHash = function() {
+    return pageCache;
+  };
+
+  methods.clearLocalStorage = function() {
+    pageCache = {};
+    if (available) {
+      localStorage.clear();
+    }
+  };
+
+  // helper methods
+  function _storageAvailable() {
+    try {
+      var x = 'storage_test';
+      localStorage.setItem(x, x);
+      localStorage.removeItem(x);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  return methods;
+});
 
 /**
  *   Helper methods for manipuating data structures missing from _

@@ -19,7 +19,7 @@
       <select
         id="instrument-filter"
         ng-model="songViewVM.instrument"
-        ng-options="instrument for instrument in songViewVM.instrumentOptions"> 
+        ng-options="instrument for instrument in songViewVM.instrumentOptions">
       </select>
     </span>
     <br>
@@ -32,8 +32,6 @@
 
     <button class="but-small" ng-click="songViewVM.player = songViewVM.blank;songViewVM.titleFilter = '';songViewVM.key = songViewVM.blank">clear all</button>
 
-    </select>
-    </select>
     <div class="display-song">
       <span ng-show="songViewVM.displaySong">
         {{songViewVM.displaySong.title}} [{{songViewVM.displaySong.key}}]<br>
