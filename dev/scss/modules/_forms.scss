@@ -1,0 +1,44 @@
+// Forms
+// ==========================
+form {
+  @extend %text-tiny;
+}
+
+.form-row {
+  margin: $base-unit-half;
+  > label {
+    width: $form-col-width/6;
+  }
+}
+
+.form-row:nth-child(odd) {
+  background: #F9F8F7;
+}
+
+input.longer {
+  width: 60%;
+}
+
+.but-row {
+  margin: $base-unit-half;
+  text-align: right;
+  > * {
+    display: inline-block;
+    margin-left: $base-unit-half;
+  }
+}
+
+form label,
+form input,
+form select {
+  display: inline-block;
+  margin: $base-unit-quarter;
+}
+
+form > label {
+  width: $form-col-width/6;
+}
+
+form label.no-pad {
+  width: auto !important;
+}

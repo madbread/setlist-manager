@@ -17,21 +17,6 @@
 }
 
 // ================================================================
-// Mobile single-col grid handling
-// ================================================================
-.grid.grid-main {
-  @include breakpoint(phone) {
-    display: block;
-  }
-
-  .grid-col-even {
-    @include breakpoint(phone) {
-      max-width: 100%;
-      width: 100%;
-    }
-  }
-}
-// ================================================================
 
 .grid-col-single {
   flex-grow: 1;
