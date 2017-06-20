@@ -1,15 +1,17 @@
-<div class="songlist-editor">
+<div class="songlist-editor grid-padded">
   <h6>Setlists</h6>
-  <form>
-    <ul class="scrollable songlist-list">
-      <li
-        ng-click="songListVM.displaySongList(songList)"
-        ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
-        ng-bind="songList.title"
-      ></li>
-    </ul>
-  </form>
-  <div class="grid" ng-if="songListVM.editSongListItem">
+  <div class="grid grid-padded">
+    <form>
+      <ul class="scrollable songlist-list">
+        <li
+          ng-click="songListVM.displaySongList(songList)"
+          ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
+          ng-bind="songList.title"
+        ></li>
+      </ul>
+    </form>
+  </div>
+  <div class="grid grid-padded" ng-if="songListVM.editSongListItem">
     <form>
       <div class="form-row">
         <a
@@ -54,7 +56,7 @@
             title="Remove {{songListVM.songsDB[id].title}}"
           ></span>
         </li>
-        <li class="align-right">
+        <li class="align-right add-song-floating-text">
           <span
             class="text-tiny"
             title="Click a song from the list"
@@ -85,32 +87,41 @@
     </form>
 
     <form>
-      <h6>Filter Songs (<span title="Total songs after applying filters" ng-bind="songListVM.count"></span>):</h6>
-      <label for="list-name-filter">Filter: </label>
-      <input class="longer" id="list-name-filter" ng-model="songListVM.titleFilter" placeholder="title or singer">
-      <br>
-      <label for="player-filter">Player:</label>
-      <select
-        id="player-filter"
-        ng-model="songListVM.playerFilter"
-        ng-options="player for player in songListVM.playerOptions">
-      </select>
-      <span ng-show="songListVM.playerFilter !== songListVM.blankFilter">
-        <label for="instrument-filter">Instrument:</label>
+      <h6 ng-click="songListVM.showFilters = !songListVM.showFilters" class="hand">
+        <span ng-show="songListVM.showFilters">-</span>
+        <span ng-show="!songListVM.showFilters">+</span>
+        Filter Songs (<span title="Total songs after applying filters" ng-bind="songListVM.count"></span>)
+      </h6>
+      <div
+        class="slide"
+        ng-class="{'slide-show': songListVM.showFilters, 'slide-hide': !songListVM.showFilters}"
+      >
+        <label for="list-name-filter">Filter: </label>
+        <input class="longer" id="list-name-filter" ng-model="songListVM.titleFilter" placeholder="title or singer">
+        <br>
+        <label for="player-filter">Player:</label>
         <select
-          id="instrument-filter"
-          ng-model="songListVM.instrumentFilter"
-          ng-options="instrument for instrument in songListVM.instrumentOptions">
+          id="player-filter"
+          ng-model="songListVM.playerFilter"
+          ng-options="player for player in songListVM.playerOptions">
         </select>
-      </span>
-      <br>
-      <label for="instrument-filter">Key:</label>
-      <select
-        id="key-filter"
-        ng-model="songListVM.keyFilter"
-        ng-options="key for key in songListVM.keyOptions">
-      </select>
-      <button class="but-small" ng-click="songListVM.clearSongFilters()">clear all</button>
+        <span ng-show="songListVM.playerFilter !== songListVM.blankFilter">
+          <label for="instrument-filter">Instrument:</label>
+          <select
+            id="instrument-filter"
+            ng-model="songListVM.instrumentFilter"
+            ng-options="instrument for instrument in songListVM.instrumentOptions">
+          </select>
+        </span>
+        <br>
+        <label for="instrument-filter">Key:</label>
+        <select
+          id="key-filter"
+          ng-model="songListVM.keyFilter"
+          ng-options="key for key in songListVM.keyOptions">
+        </select>
+        <button class="but-small" ng-click="songListVM.clearSongFilters()">clear all</button>
+      </div>
       <ul class="scrollable song-list">
         <li
           ng-click="songListVM.addSelected(song)"
@@ -129,19 +140,22 @@
     <span ng-hide="songListVM.showAddSongList">+</span>
     <span ng-show="songListVM.showAddSongList">-</span>
   </h6>
-  <form class="add-new-item" ng-show="songListVM.showAddSongList">
-    <div class="form-row">
-      <label for="songTitle">Title</label>
-      <input class="longer" id="songTitle" ng-model="songListVM.newSongList.title">
-    </div>
-    <div class="but-row">
-      <a
-        ng-click="songListVM.showAddSongList = false"
-        class="hand"
-      >Cancel</a>
-      <button ng-disabled="!songListVM.newSongList.title.length" ng-click="songListVM.addSongList()" class="but-selection">
-        Add
-      </button>
-    </div>
-  </form>
+  <div class="grid grid-padded">
+    <form class="add-new-item" ng-show="songListVM.showAddSongList">
+      <div class="form-row">
+        <label for="songTitle">Title</label>
+        <input class="longer" id="songTitle" ng-model="songListVM.newSongList.title">
+      </div>
+      <div class="but-row">
+        <a
+          ng-click="songListVM.showAddSongList = false"
+          class="hand"
+        >Cancel</a>
+        <button ng-disabled="!songListVM.newSongList.title.length" ng-click="songListVM.addSongList()" class="but-selection">
+          Add
+        </button>
+      </div>
+    </form>
+
+  </div>
 </div>

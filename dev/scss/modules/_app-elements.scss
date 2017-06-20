@@ -10,6 +10,9 @@
     &.active {
       background-color: $color-ltgreen;
     }
+    @include breakpoint(phone) {
+      padding: $base-unit;
+    }
   }
 }
 
@@ -22,10 +25,18 @@
   border: 1px dotted $color-black;
 }
 
+// Songlist Editing Page - Unique
+// ===========================================
 .songlist-list {
   @extend .song-list;
   height: auto;
   max-height: 200px;
+}
+
+.add-song-floating-text {
+  @include breakpoint(phone) {
+    display: none;
+  }
 }
 
 .songlist-songs {
@@ -35,46 +46,4 @@
   li {
     cursor: move;
   }
-}
-
-.song-viewer {
-  padding-top: $header-height;
-
-  h2 {
-    @extend %text-normal;
-    margin: 0 0 $base-unit-quarter;
-  }
-
-  .display-song {
-    position: absolute;
-    @extend %text-small;
-    background-color: $color-black;
-    color: $color-ltgrey;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    line-height: 20px;
-    padding: 0 $base-unit-half;
-  }
-
-  label {
-    margin: $base-unit-quarter 0;
-    display: inline-block;
-    min-width: 42px;
-    font-family: $base-font-family-bold;
-    @extend %text-small;
-  }
-}
-
-header {
-  background-color: $color-white;
-  border-bottom: 1px solid $color-black;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: $layer-5;
-  height: $header-height;
-  padding: 0 $base-unit-half;
 }

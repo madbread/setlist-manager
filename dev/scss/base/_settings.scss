@@ -76,7 +76,7 @@ $link-transition-property: all;
     @media (max-width: 50em) { @content ; }
   }
   @else if $point == phone {
-    @media (max-width: 37.5em)  { @content ; }
+    @media (max-width: 28em)  { @content ; }
   }
 }
 

@@ -1,3 +1,7 @@
+$list-height-normal: 300px;
+$list-height-phone: 150px;
+
+
 // Wrapper
 // ======================
 .wrapper {
@@ -5,59 +9,37 @@
   margin: 0 auto;
 }
 
-.song-editor > .grid > form > ul {
-  height:275px;
+// ================================================================
+// Grid Columns
+// ================================================================
+// ***** The ul here sets all height *****
+.grid > form > ul {
+  height:$list-height-normal;
+
+  @include breakpoint(phone) {
+    height:$list-height-phone;
+  }
 }
 
-// Forms
-// ==========================
-
+// Full-screen 2-col layout
 .grid > form {
-  width: 49%;
-}
-
-form {
-  @extend %text-tiny;
+  width: 49.9%;
   border: 1px solid $color-dkgrey;
   margin: $base-unit-quarter;
   padding: $base-unit-quarter;
 }
 
-.form-row {
-  margin: $base-unit-half;
-  > label {
-    width: $form-col-width/6;
+
+.grid {
+  @include breakpoint(phone) {
+    width: 100%;
+    display: block !important;
   }
 }
 
-.form-row:nth-child(odd) {
-  background: #F9F8F7;
-}
-
-input.longer {
-  width: 60%;
-}
-
-.but-row {
-  margin: $base-unit-half;
-  text-align: right;
-  > * {
-    display: inline-block;
-    margin-left: $base-unit-half;
+.grid > form {
+  @include breakpoint(phone) {
+    width: 100%;
+    display: block;
   }
-}
-
-form label,
-form input,
-form select {
-  display: inline-block;
-  margin: $base-unit-quarter;
-}
-
-form > label {
-  width: $form-col-width/6;
-}
-
-form label.no-pad {
-  width: auto !important;
 }

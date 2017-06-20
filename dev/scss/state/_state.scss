@@ -1,5 +1,4 @@
 // Place state change stylesheets in these files (non-module-specific shared classes)
-
 .align-right {
   text-align: right;
 }
@@ -28,25 +27,8 @@
   clear: both;
 }
 
-.floated-links {
-  float: right;
-  padding: $base-unit-quarter;
-}
-
-.floated-links > a {
-  margin-left: $base-unit;
-}
-
 .display-block {
   display: block;
-}
-
-.bottom-space-small {
-  padding-bottom: $base-unit-half;
-}
-
-.bottom-space-large {
-  padding-bottom: $base-unit * 2;
 }
 
 .indented {
@@ -127,11 +109,6 @@
 .bg-bright-blue    {background-color: $color-bright-blue;}
 .bg-soft-gray      {background-color: $color-soft-gray;}
 
-.description {
-  color: $color-description;
-  @extend %text-small;
-}
-
 .vertical-align-container {
   display: flex;
   align-items: center;
@@ -151,7 +128,7 @@
   margin: 0;
   overflow: hidden;
   padding: 0;
-  transition: max-height 300ms;
+  transition: max-height 1000ms;
 }
 
 .slide-hide {
@@ -171,21 +148,6 @@
   padding: $base-unit * 2;
 }
 
-.loading-inline {
-  background: url('../images/loading.gif') 0 50% no-repeat;
-  padding: $base-unit * 2;
-}
-
-.loading-ltblue {
-  background: url('../images/loading-ltblue.gif') 50% 50% no-repeat;
-  padding: $base-unit;
-}
-
-.loading-ltgreen {
-  background: url('../images/loading-ltgreen.gif') 50% 50% no-repeat;
-  padding: $base-unit;
-}
-
 .loading-dark {
   padding: $base-unit * 2;
   background: $color-royal url('../images/loading-dark.gif') 50% 50% no-repeat;
@@ -202,39 +164,8 @@
   display: none !important;
 }
 
-.success-message {
-  @extend %text-small;
-
-  background: $color-ltgreen;
-  border: 1px solid $color-green;
-  margin: $base-unit;
-  padding: $base-unit-half;
-
-  @include border-radius($base-rounded-corners);
-}
-
-.subform-inset {
-  @include border-radius($base-rounded-corners);
-
-  background: $color-ltltgrey;
-  margin: 2em;
-  padding: 1em;
-}
-
 .error {
   border: 1px solid $color-red;
-}
-
-.form-subheading {
-  @extend %text-normal;
-
-  color: $color-royal;
-  margin: 0;
-}
-
-.form-border {
-  @include border-radius($base-rounded-corners);
-  border: 2px solid $color-royal;
 }
 
 .preserve-space {
@@ -249,18 +180,8 @@
   text-decoration: line-through;
 }
 
-.tag-spacer {
-  padding: 75px;
-}
-
 .hand {
   cursor: pointer;
-}
-
-.tighten-list-item {
-  position: relative;
-  left: -3px;
-  top: 2px;
 }
 
 .truncate {
@@ -268,25 +189,8 @@
   overflow-y: auto;
 }
 
-.extra-spacing {
-  padding: 2em;
-}
-
-a.disabled {
+.disabled {
   color: $color-disabledtext;
-}
-
-.soft-deleted {
-  background: $color-soft-red;
-}
-
-td .soft-deleted {
-  padding-right: $base-unit * .75;
-
-  > .icon-exclamation {
-    position: absolute;
-    right: 1px;
-  }
 }
 
 // Fixes bug/feature in Firefox that makes :invalid fields glow

@@ -29,7 +29,11 @@
   margin-top: 0;
 }
 
-.inline-error {
-  color: $color-warning;
-  margin: 0;
+.success-message {
+  @extend %text-small;
+  background: $color-ltgreen;
+  border: 1px solid $color-green;
+  margin: $base-unit;
+  padding: $base-unit-half;
+  @include border-radius($base-rounded-corners);
 }
