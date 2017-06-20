@@ -92,7 +92,10 @@
         <span ng-show="!songListVM.showFilters">+</span>
         Filter Songs (<span title="Total songs after applying filters" ng-bind="songListVM.count"></span>)
       </h6>
-      <div ng-show="songListVM.showFilters">
+      <div
+        class="slide"
+        ng-class="{'slide-show': songListVM.showFilters, 'slide-hide': !songListVM.showFilters}"
+      >
         <label for="list-name-filter">Filter: </label>
         <input class="longer" id="list-name-filter" ng-model="songListVM.titleFilter" placeholder="title or singer">
         <br>
