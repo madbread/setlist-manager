@@ -666,7 +666,7 @@ body,
 .but-import,
 .but,
 .nav-pills button,
-.songlist-songs,
+.grid > form > ul.songlist-songs,
 .song-viewer h2 {
   font-size: 14px; }
 
@@ -761,10 +761,7 @@ input:focus {
       height: 150px; } }
 
 .grid > form {
-  width: 49.9%;
-  border: 1px solid #363636;
-  margin: 0.25em;
-  padding: 0.25em; }
+  width: 49.9%; }
 
 @media (max-width: 28em) {
   .grid {
@@ -1517,23 +1514,24 @@ a.but-selection {
     border: 2px solid #222;
     padding: 1em;
     height: 100%;
-    width: 100%; }
+    width: 100%;
+    overflow: hidden; }
   .shade-contents .input-group {
     margin-bottom: 1em; }
 
-.song-list, .songlist-list {
+.song-list {
   list-style-type: none;
   margin: 0;
   padding: 0; }
-  .song-list > li, .songlist-list > li {
+  .song-list > li {
     cursor: pointer;
     padding: 0.5em 1em;
     background-color: #f0eeee;
     border-bottom: 1px solid #a1a1a1; }
-    .song-list > li.active, .songlist-list > li.active {
+    .song-list > li.active {
       background-color: #eefeeb; }
     @media (max-width: 28em) {
-      .song-list > li, .songlist-list > li {
+      .song-list > li {
         padding: 1em; } }
 
 .note {
@@ -1543,18 +1541,29 @@ a.but-selection {
   padding: 0.5em;
   border: 1px dotted #222; }
 
-.songlist-list {
-  height: auto;
-  max-height: 200px; }
+.grid > form > ul.songlist-list {
+  height: 150px; }
+  @media (max-width: 28em) {
+    .grid > form > ul.songlist-list {
+      height: 75px; } }
 
 @media (max-width: 28em) {
   .add-song-floating-text {
     display: none; } }
 
-.songlist-songs {
+.grid > form > ul.songlist-songs {
+  height: auto;
+  min-height: 300px;
   list-style-type: none; }
-  .songlist-songs li {
+  .grid > form > ul.songlist-songs li {
     cursor: move; }
+  @media (max-width: 28em) {
+    .grid > form > ul.songlist-songs {
+      height: auto;
+      min-height: 150px; } }
+
+.inline-controls input {
+  width: 75px; }
 
 .ui-tooltip {
   -webkit-box-shadow: 2px 2px 1px 0px rgba(121, 121, 121, 0.65);
@@ -1596,6 +1605,11 @@ header {
   z-index: 10000;
   height: 134px;
   padding: 0 0.5em; }
+
+form {
+  border: 1px solid #363636;
+  margin: 0.25em;
+  padding: 0.25em; }
 
 .form-row {
   margin: 0.5em; }

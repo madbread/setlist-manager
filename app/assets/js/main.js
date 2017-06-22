@@ -13751,6 +13751,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       vm.newSongList      = angular.copy(staticAppData.new_songList);
       vm.showAddSongList  = false;
       vm.showIcons        = false;
+      vm.showKeys         = false;
       vm.songListsDB      = firebaseFactory.followSongLists();
       vm.songsArray       = firebaseFactory.followSongs();
       vm.songsDB          = firebaseFactory.followSongsObject();

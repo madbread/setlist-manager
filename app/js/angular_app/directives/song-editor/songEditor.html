@@ -1,10 +1,10 @@
-<div class="song-editor grid-padded">
+<div class="song-editor">
   <h6>
     <span class="icon-help text-small" title="{{::songVM.helpText.edit}}"></span>
     Songs
   </h6>
-  <div class="grid">
-    <form>
+  <div class="grid two-col">
+    <form class="two-col">
       <span>
         <label for="song-name-filter">Filter: </label>
       </span>
@@ -24,7 +24,7 @@
       </div>
     </form>
 
-    <form class="edit-item" ng-if="songVM.editSongItem">
+    <form class="edit-item two-col" ng-if="songVM.editSongItem">
       <h6 ng-bind="songVM.editSongItem.title"></h6>
       <div class="form-row">
         <label for="songTitle">Title</label>

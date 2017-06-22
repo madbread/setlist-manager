@@ -1,19 +1,17 @@
-<div class="songlist-editor grid-padded">
+<div class="songlist-editor">
   <h6>Setlists</h6>
-  <div class="grid grid-padded">
+  <form>
+    <ul class="scrollable songlist-list song-list">
+      <li
+        ng-click="songListVM.displaySongList(songList)"
+        ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
+        ng-bind="songList.title"
+      ></li>
+    </ul>
+  </form>
+  <div class="grid" ng-if="songListVM.editSongListItem">
     <form>
-      <ul class="scrollable songlist-list">
-        <li
-          ng-click="songListVM.displaySongList(songList)"
-          ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
-          ng-bind="songList.title"
-        ></li>
-      </ul>
-    </form>
-  </div>
-  <div class="grid grid-padded" ng-if="songListVM.editSongListItem">
-    <form>
-      <div class="form-row">
+      <div class="form-row text-normal">
         <a
           ng-click="songListVM.deleteList()"
           class="hand float-right color-warning"
@@ -26,7 +24,15 @@
           ng-model="songListVM.editSongListItem.title">
       </div>
 
-      <label>Songs:</label>
+      <div class="form-row but-row">
+        <button ng-click="songListVM.showIcons = !songListVM.showIcons" class="but-small">
+          <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Song Controls
+        </button>
+        <button ng-click="songListVM.showKeys = !songListVM.showKeys" class="but-small">
+          <span ng-show="!songListVM.showKeys">Show</span><span ng-show="songListVM.showKeys">Hide</span> Song Keys
+        </button>
+      </div>
+
       <ul
         ui-sortable="songListVM.sortableSongs"
         ng-model="songListVM.songsSorted"
@@ -37,15 +43,29 @@
         >
           <span ng-bind="$index + 1"></span>)
           <span ng-bind="songListVM.songsDB[id].title"></span>
-          [<span ng-bind="songListVM.songsDB[id].key"></span>]
+          <span ng-show="songListVM.showKeys">
+            [<span ng-bind="songListVM.songsDB[id].key"></span>]
+          </span>
+
+          <span ng-show="songListVM.editingNote && songListVM.editingNoteId === id" class="inline-controls">
+            <input ng-model="songListVM.editSongListItem.notes[songListVM.editingNoteId]">
+            <button ng-click="songListVM.updateNote()" class="but-small">save</button>
+          </span>
+
+          <span ng-show="songListVM.addingNote && songListVM.addingNoteId === id" class="inline-controls">
+            <input ng-model="songListVM.newNoteText">
+            <button ng-click="songListVM.saveNewNote()" class="but-small">save</button>
+          </span>
+
           <span
-            class="note text-tiny"
+            class="note text-tiny hand"
             ng-bind="songListVM.editSongListItem.notes[id]"
             ng-if="songListVM.editSongListItem.notes[id]"
+            ng-show="songListVM.editingNoteId !== id && songListVM.addingNoteId !== id"
             ng-click="songListVM.editNote(id)"
           ></span>
           <span
-            ng-show="!songListVM.editSongListItem.notes[id] && songListVM.showIcons"
+            ng-show="songListVM.showIcons && songListVM.editingNoteId !== id && songListVM.addingNoteId !== id"
             ng-click="songListVM.addNote(id)"
             class="hand color-royal"
           >note</span>
@@ -59,31 +79,19 @@
         <li class="align-right add-song-floating-text">
           <span
             class="text-tiny"
-            title="Click a song from the list"
+            title="Click a song from the list on the right"
           >Add Song <span ng-bind="songListVM.songsSorted.length + 1"></span>
           ---></span>
         </li>
       </ul>
-
-      <div
-        class="add-note-text"
-        ng-show="songListVM.editingNote"
-        >
-        Edit Note For <span ng-bind="songListVM.songsDB[songListVM.editingNoteId].title"></span><br>
-        <input ng-model="songListVM.editSongListItem.notes[songListVM.editingNoteId]"> <button ng-click="songListVM.updateNote()" class="but-tiny">save</button>
+      <div class="form-row">
+        <label>Color Songs By:</label>
+        <span>Singer</span>
+        <span>Nate</span>
+        <span>Mike</span>
+        <span>Adam</span>
+        <span>Carl</span>
       </div>
-
-      <div
-        class="add-note-text"
-        ng-show="songListVM.addingNote"
-        >
-        Add Note For <span ng-bind="songListVM.songsDB[songListVM.addingNoteId].title"></span><br>
-        <input ng-model="songListVM.newNoteText"> <button ng-click="songListVM.saveNewNote()" class="but-tiny">save</button>
-      </div>
-
-      <a ng-click="songListVM.showIcons = !songListVM.showIcons" href="#">
-        <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Song Controls
-      </a>
     </form>
 
     <form>
@@ -134,14 +142,15 @@
     </form>
   </div>
 
-
   <h6 ng-click="songListVM.toggleAddSongList()" class="hand">
     Add New Setlist
     <span ng-hide="songListVM.showAddSongList">+</span>
     <span ng-show="songListVM.showAddSongList">-</span>
   </h6>
-  <div class="grid grid-padded">
-    <form class="add-new-item" ng-show="songListVM.showAddSongList">
+  <div class="slide"
+    ng-class="{'slide-show': songListVM.showAddSongList, 'slide-hide': !songListVM.showAddSongList}"
+  >
+    <form class="add-new-item">
       <div class="form-row">
         <label for="songTitle">Title</label>
         <input class="longer" id="songTitle" ng-model="songListVM.newSongList.title">
