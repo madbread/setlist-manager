@@ -2,6 +2,9 @@
 // ==========================
 form {
   @extend %text-tiny;
+  border: 1px solid $color-dkgrey;
+  margin: $base-unit-quarter;
+  padding: $base-unit-quarter;
 }
 
 .form-row {
