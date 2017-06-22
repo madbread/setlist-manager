@@ -1,17 +1,15 @@
-<div class="songlist-editor grid-padded">
+<div class="songlist-editor">
   <h6>Setlists</h6>
-  <div class="grid grid-padded">
-    <form>
-      <ul class="scrollable songlist-list">
-        <li
-          ng-click="songListVM.displaySongList(songList)"
-          ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
-          ng-bind="songList.title"
-        ></li>
-      </ul>
-    </form>
-  </div>
-  <div class="grid grid-padded" ng-if="songListVM.editSongListItem">
+  <form>
+    <ul class="scrollable songlist-list song-list">
+      <li
+        ng-click="songListVM.displaySongList(songList)"
+        ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
+        ng-bind="songList.title"
+      ></li>
+    </ul>
+  </form>
+  <div class="grid" ng-if="songListVM.editSongListItem">
     <form>
       <div class="form-row">
         <a
@@ -140,7 +138,7 @@
     <span ng-hide="songListVM.showAddSongList">+</span>
     <span ng-show="songListVM.showAddSongList">-</span>
   </h6>
-  <div class="grid grid-padded">
+  <div class="grid">
     <form class="add-new-item" ng-show="songListVM.showAddSongList">
       <div class="form-row">
         <label for="songTitle">Title</label>

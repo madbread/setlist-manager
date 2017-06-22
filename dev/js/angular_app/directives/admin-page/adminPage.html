@@ -22,7 +22,7 @@
     ng-if="adminVM.status.authorized"
     class="admin-actions"
   >
-    <nav class="grid grid-padded">
+    <nav class="grid">
       <ul class="nav nav-pills ng-isolate-scope">
         <li ng-show="adminVM.status.email === 'slatron@gmail.com'">
           <button ng-class="{'active': adminVM.openSection === 'Songlists'}" ng-click="adminVM.openSection = 'Songlists'">Setlists</button>

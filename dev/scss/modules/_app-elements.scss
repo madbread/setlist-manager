@@ -27,10 +27,12 @@
 
 // Songlist Editing Page - Unique
 // ===========================================
-.songlist-list {
-  @extend .song-list;
-  height: auto;
-  max-height: 200px;
+.grid > form > ul.songlist-list {
+  height:$list-height-normal/2;
+
+  @include breakpoint(phone) {
+    height:$list-height-phone/2;
+  }
 }
 
 .add-song-floating-text {
@@ -39,11 +41,16 @@
   }
 }
 
-.songlist-songs {
+.grid > form > ul.songlist-songs {
   @extend %text-normal;
+  height: auto;
+  min-height:$list-height-normal;
   list-style-type: none;
-
   li {
     cursor: move;
+  }
+  @include breakpoint(phone) {
+    height: auto;
+    min-height:$list-height-phone;
   }
 }
