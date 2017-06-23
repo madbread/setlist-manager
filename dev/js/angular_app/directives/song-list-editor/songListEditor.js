@@ -220,6 +220,7 @@ directive('songListEditor', function(
         vm.colorCategoryHash = category === 'singer' ?
           staticAppData.singerColorHash : staticAppData.instrumentColorHash;
         vm.colorCategory = category;
+        _sortSongs(vm.editSongListItem.songs);
       }
 
       // ==========================================================================================
