@@ -1565,6 +1565,12 @@ a.but-selection {
 .inline-controls input {
   width: 75px; }
 
+.legend-box {
+  border: 1px solid #222;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  margin-right: 0.5em; }
+
 .ui-tooltip {
   -webkit-box-shadow: 2px 2px 1px 0px rgba(121, 121, 121, 0.65);
   box-shadow: 2px 2px 1px 0px rgba(121, 121, 121, 0.65);

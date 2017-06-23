@@ -13402,6 +13402,22 @@ constant('staticAppData', {
   songHelpText: {
     edit: 'Click a title below to edit the song info.',
     new: 'Only add songs that we can perform live.'
+  },
+  singerColorHash: {
+    'Nate': 'bg-soft-green',
+    'Carl': 'bg-soft-yellow',
+    'Mike': 'bg-soft-pink',
+    'Adam': 'bg-soft-blue',
+    'Instrumental': 'bg-soft-purple'
+  },
+  instrumentColorHash: {
+    'Bass': 'bg-soft-green',
+    'Banjo': 'bg-soft-yellow',
+    'Mandolin': 'bg-soft-pink',
+    'Fiddle': 'bg-soft-blue',
+    'Guitar': 'bg-soft-purple',
+    'Electric': 'bg-soft-brown',
+    'Harmonica': 'bg-soft-gray'
   }
 });
 
@@ -13745,19 +13761,22 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       var vm = this;
 
       // vm data
-      vm.addingNote       = false;
-      vm.editingNote      = false;
-      vm.editSongListItem = undefined;
-      vm.newSongList      = angular.copy(staticAppData.new_songList);
-      vm.showAddSongList  = false;
-      vm.showIcons        = false;
-      vm.showKeys         = false;
-      vm.songListsDB      = firebaseFactory.followSongLists();
-      vm.songsArray       = firebaseFactory.followSongs();
-      vm.songsDB          = firebaseFactory.followSongsObject();
-      vm.songsSorted      = [];
+      vm.addingNote        = false;
+      vm.colorsPresent     = [];
+      vm.editingNote       = false;
+      vm.editSongListItem  = undefined;
+      vm.newSongList       = angular.copy(staticAppData.new_songList);
+      vm.showAddSongList   = false;
+      vm.showIcons         = false;
+      vm.showKeys          = false;
+      vm.songListsDB       = firebaseFactory.followSongLists();
+      vm.songsArray        = firebaseFactory.followSongs();
+      vm.songsDB           = firebaseFactory.followSongsObject();
+      vm.songsSorted       = [];
+      vm.colorCategory     = '';
+      vm.colorCategoryHash = {};
 
-      var originalSongsDB = angular.copy(vm.songsArray);
+      var originalSongsDB  = angular.copy(vm.songsArray);
 
       // song filtering
       vm.titleFilter       = '';
@@ -13785,6 +13804,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       vm.displaySongList   = displaySongList;
       vm.editNote          = editNote;
       vm.removeSong        = removeSong;
+      vm.setSongColor      = setSongColor;
       vm.saveNewNote       = saveNewNote;
       vm.toggleAddSongList = toggleAddSongList;
       vm.updateNote        = updateNote;
@@ -13925,10 +13945,22 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
 
       function _sortSongs(songsObject) {
         var sorted = [];
+        vm.colorsPresent = [];
         _.each(songsObject, function(order, id) {
           sorted[order] = id;
+          vm.colorsPresent.push(vm.songsDB[id][vm.colorCategory]);
         });
+        vm.colorsPresent = _.uniq(vm.colorsPresent);
         return sorted;
+      }
+
+      // ==========================================================================================
+
+      function setSongColor(category) {
+        vm.colorCategoryHash = category === 'singer' ?
+          staticAppData.singerColorHash : staticAppData.instrumentColorHash;
+        vm.colorCategory = category;
+        _sortSongs(vm.editSongListItem.songs);
       }
 
       // ==========================================================================================
