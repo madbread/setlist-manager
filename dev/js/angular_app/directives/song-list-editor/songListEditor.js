@@ -21,19 +21,22 @@ directive('songListEditor', function(
       var vm = this;
 
       // vm data
-      vm.addingNote       = false;
-      vm.editingNote      = false;
-      vm.editSongListItem = undefined;
-      vm.newSongList      = angular.copy(staticAppData.new_songList);
-      vm.showAddSongList  = false;
-      vm.showIcons        = false;
-      vm.showKeys         = false;
-      vm.songListsDB      = firebaseFactory.followSongLists();
-      vm.songsArray       = firebaseFactory.followSongs();
-      vm.songsDB          = firebaseFactory.followSongsObject();
-      vm.songsSorted      = [];
+      vm.addingNote        = false;
+      vm.colorsPresent     = [];
+      vm.editingNote       = false;
+      vm.editSongListItem  = undefined;
+      vm.newSongList       = angular.copy(staticAppData.new_songList);
+      vm.showAddSongList   = false;
+      vm.showIcons         = false;
+      vm.showKeys          = false;
+      vm.songListsDB       = firebaseFactory.followSongLists();
+      vm.songsArray        = firebaseFactory.followSongs();
+      vm.songsDB           = firebaseFactory.followSongsObject();
+      vm.songsSorted       = [];
+      vm.colorCategory     = '';
+      vm.colorCategoryHash = {};
 
-      var originalSongsDB = angular.copy(vm.songsArray);
+      var originalSongsDB  = angular.copy(vm.songsArray);
 
       // song filtering
       vm.titleFilter       = '';
@@ -61,6 +64,7 @@ directive('songListEditor', function(
       vm.displaySongList   = displaySongList;
       vm.editNote          = editNote;
       vm.removeSong        = removeSong;
+      vm.setSongColor      = setSongColor;
       vm.saveNewNote       = saveNewNote;
       vm.toggleAddSongList = toggleAddSongList;
       vm.updateNote        = updateNote;
@@ -201,10 +205,21 @@ directive('songListEditor', function(
 
       function _sortSongs(songsObject) {
         var sorted = [];
+        vm.colorsPresent = [];
         _.each(songsObject, function(order, id) {
           sorted[order] = id;
+          vm.colorsPresent.push(vm.songsDB[id][vm.colorCategory]);
         });
+        vm.colorsPresent = _.uniq(vm.colorsPresent);
         return sorted;
+      }
+
+      // ==========================================================================================
+
+      function setSongColor(category) {
+        vm.colorCategoryHash = category === 'singer' ?
+          staticAppData.singerColorHash : staticAppData.instrumentColorHash;
+        vm.colorCategory = category;
       }
 
       // ==========================================================================================

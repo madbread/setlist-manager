@@ -11,6 +11,7 @@
   </form>
   <div class="grid" ng-if="songListVM.editSongListItem">
     <form>
+      [{{songListVM.colorsPresent}}]
       <div class="form-row text-normal">
         <a
           ng-click="songListVM.deleteList()"
@@ -24,15 +25,65 @@
           ng-model="songListVM.editSongListItem.title">
       </div>
 
-      <div class="form-row but-row">
-        <button ng-click="songListVM.showIcons = !songListVM.showIcons" class="but-small">
-          <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Song Controls
-        </button>
-        <button ng-click="songListVM.showKeys = !songListVM.showKeys" class="but-small">
-          <span ng-show="!songListVM.showKeys">Show</span><span ng-show="songListVM.showKeys">Hide</span> Song Keys
-        </button>
+      <div class="grid">
+        <section class="grid-col-single">
+          <div class="form-row">
+            <span
+              class="icon-help text-small"
+              title="Color-code songs to help keep instrument changes together. Select a player to see what instrument they play on each song."
+            ></span>
+            Highlight:
+            <span
+             class="hand but-small"
+             ng-class="{'active': songListVM.colorCategory === 'singer'}"
+             ng-click="songListVM.setSongColor('singer')"
+            >Singer</span>
+            <span
+             class="hand but-small"
+             ng-class="{'active': songListVM.colorCategory === 'nate'}"
+             ng-click="songListVM.setSongColor('nate')"
+            >Nate</span>
+            <span
+             class="hand but-small"
+             ng-class="{'active': songListVM.colorCategory === 'mike'}"
+             ng-click="songListVM.setSongColor('mike')"
+            >Mike</span>
+            <span
+             class="hand but-small"
+             ng-class="{'active': songListVM.colorCategory === 'adam'}"
+             ng-click="songListVM.setSongColor('adam')"
+            >Adam</span>
+            <span
+            class="hand but-small"
+             ng-class="{'active': songListVM.colorCategory === 'carl'}"
+             ng-click="songListVM.setSongColor('carl')"
+            >Carl</span>
+            <span
+             class="color-warning hand"
+             ng-show="songListVM.colorCategory.length"
+             ng-click="songListVM.setSongColor('')"
+            >Clear</span>
+          </div>
+          <div class="form-row" ng-show="songListVM.colorCategory.length">
+            <span
+              ng-repeat="(text, color) in songListVM.colorCategoryHash"
+              class="legend-box"
+              ng-class="color"
+              ng-show="songListVM.colorsPresent.indexOf(text) !== -1"
+              ng-bind="text"
+            ></span>
+          </div>
+        </section>
+        <section class="grid-col-single align-right">
+          <button ng-click="songListVM.showIcons = !songListVM.showIcons" class="but-small">
+            <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Song Controls
+          </button>
+          <br><br>
+          <button ng-click="songListVM.showKeys = !songListVM.showKeys" class="but-small">
+            <span ng-show="!songListVM.showKeys">Show</span><span ng-show="songListVM.showKeys">Hide</span> Song Keys
+          </button>
+        </section>
       </div>
-
       <ul
         ui-sortable="songListVM.sortableSongs"
         ng-model="songListVM.songsSorted"
@@ -40,6 +91,7 @@
       >
         <li
           ng-repeat="id in songListVM.songsSorted"
+          ng-class="songListVM.colorCategoryHash[songListVM.songsDB[id][songListVM.colorCategory]]"
         >
           <span ng-bind="$index + 1"></span>)
           <span ng-bind="songListVM.songsDB[id].title"></span>
@@ -85,12 +137,6 @@
         </li>
       </ul>
       <div class="form-row">
-        <label>Color Songs By:</label>
-        <span>Singer</span>
-        <span>Nate</span>
-        <span>Mike</span>
-        <span>Adam</span>
-        <span>Carl</span>
       </div>
     </form>
 
