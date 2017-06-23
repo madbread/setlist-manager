@@ -58,3 +58,10 @@
 .inline-controls input {
   width: 75px;
 }
+
+.legend-box {
+  border: 1px solid $color-black;
+  display: inline-block;
+  padding: $base-unit-quarter $base-unit-half;
+  margin-right: $base-unit-half;
+}

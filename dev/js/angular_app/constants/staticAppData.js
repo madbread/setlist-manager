@@ -50,5 +50,21 @@ constant('staticAppData', {
   songHelpText: {
     edit: 'Click a title below to edit the song info.',
     new: 'Only add songs that we can perform live.'
+  },
+  singerColorHash: {
+    'Nate': 'bg-soft-green',
+    'Carl': 'bg-soft-yellow',
+    'Mike': 'bg-soft-pink',
+    'Adam': 'bg-soft-blue',
+    'Instrumental': 'bg-soft-purple'
+  },
+  instrumentColorHash: {
+    'Bass': 'bg-soft-green',
+    'Banjo': 'bg-soft-yellow',
+    'Mandolin': 'bg-soft-pink',
+    'Fiddle': 'bg-soft-blue',
+    'Guitar': 'bg-soft-purple',
+    'Electric': 'bg-soft-brown',
+    'Harmonica': 'bg-soft-gray'
   }
 });
