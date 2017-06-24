@@ -51,6 +51,9 @@
       <li ng-click="adminVM.showUpdateEmail = !adminVM.showUpdateEmail" class="hand color-royal">
         Request Password Update
       </li>
+      <li ng-click="adminVM.populate()">
+        Run Populate Script
+      </li>
     </ul>
   </div>
   <div ng-include="'templates/admin-register-user.html'"></div>
