@@ -39,7 +39,9 @@ constant('staticAppData', {
     adam: 'Banjo',
     nate: 'Mandolin',
     mike: 'Bass',
-    singer: 'Nate'
+    singer: 'Nate',
+    minutes: 3,
+    seconds: 0
   },
   new_songList: {
     title: ''

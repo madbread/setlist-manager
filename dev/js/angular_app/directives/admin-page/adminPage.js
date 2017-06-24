@@ -38,6 +38,7 @@ directive('adminPage', function(
       vm.registerUser = registerUser;
       vm.login        = login;
       vm.logout       = logout;
+      vm.populate     = firebaseFactory.populate;
 
       function _resetUser() {
         vm.user.email = '';
