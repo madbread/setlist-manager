@@ -13391,7 +13391,9 @@ constant('staticAppData', {
     adam: 'Banjo',
     nate: 'Mandolin',
     mike: 'Bass',
-    singer: 'Nate'
+    singer: 'Nate',
+    minutes: 3,
+    seconds: 0
   },
   new_songList: {
     title: ''
@@ -13461,6 +13463,7 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       vm.registerUser = registerUser;
       vm.login        = login;
       vm.logout       = logout;
+      vm.populate     = firebaseFactory.populate;
 
       function _resetUser() {
         vm.user.email = '';
@@ -14486,6 +14489,12 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
   };
   methods.updateVenue = function(venue) {
     return venuesDB.$save(venue);
+  };
+
+  // ==============================================================================================
+
+  methods.populate = function() {
+    // Write a script here and run through admin
   };
 
   // ==============================================================================================
