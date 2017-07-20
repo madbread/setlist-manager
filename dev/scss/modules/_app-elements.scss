@@ -16,6 +16,14 @@
   }
 }
 
+.song-list-short {
+  height:$list-height-normal/3;
+
+  @include breakpoint(phone) {
+    height:$list-height-phone/3;
+  }
+}
+
 .note {
   font-family: $base-font-family-bold-italic;
 }
@@ -27,14 +35,6 @@
 
 // Songlist Editing Page - Unique
 // ===========================================
-.grid > form > ul.songlist-list {
-  height:$list-height-normal/2;
-
-  @include breakpoint(phone) {
-    height:$list-height-phone/2;
-  }
-}
-
 .add-song-floating-text {
   @include breakpoint(phone) {
     display: none;
@@ -53,6 +53,10 @@
     height: auto;
     min-height:$list-height-phone;
   }
+}
+
+.grid > form > ul.print-songlists {
+  min-height:$list-height-normal / 3;
 }
 
 .inline-controls input {
