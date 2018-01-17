@@ -13,9 +13,6 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
   var songListsDB = $firebaseArray(songListsRef);
   var songListsObject = $firebaseObject(songListsRef);
 
-  var venuesRef = firebase.database().ref('data/venues');
-  var venuesDB = $firebaseArray(venuesRef);
-
   // ==============================================================================================
 
   methods.readDataOnce = function(type) {
@@ -32,9 +29,6 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
         break;
       case 'shows':
         returnVal = showsDB.$ref().once('value');
-        break;
-      case 'venues':
-        returnVal = venuesDB.$ref().once('value');
         break;
       default:
         returnVal = instrumentsDB.$ref().once('value');
@@ -105,18 +99,6 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
   };
   methods.deleteSongList = function(songList) {
     return songListsDB.$remove(songList);
-  };
-
-  // ==============================================================================================
-
-  methods.followVenues = function() {
-    return venuesDB;
-  };
-  methods.addVenue = function(venue) {
-    return venuesDB.$add(venue);
-  };
-  methods.updateVenue = function(venue) {
-    return venuesDB.$save(venue);
   };
 
   // ==============================================================================================
