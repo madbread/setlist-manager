@@ -50,11 +50,6 @@ directive('songViewer', function(
         .then(function(response) {
           songHash = response.val();
           vm.songs = _.map(response.val());
-        })
-        .catch(function() {
-          vm.songs = staticAppData.fixtureSongs;
-        })
-        .finally(function() {
           originalSongs = angular.copy(vm.songs);
           countSongs();
         });
@@ -63,9 +58,6 @@ directive('songViewer', function(
       firebaseFactory.readDataOnce('instruments')
         .then(function(response) {
           vm.instrumentOptions = _.map(response.val(), 'title');
-        })
-        .catch()
-        .finally(function() {
           vm.instrumentOptions.unshift(vm.blank);
           vm.instrument = vm.instrumentOptions[0];
         });
@@ -74,9 +66,6 @@ directive('songViewer', function(
       firebaseFactory.readDataOnce('songLists')
         .then(function(response) {
           vm.listOptions = _.map(response.val());
-        })
-        .catch()
-        .finally(function() {
           vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
           vm.list = vm.listOptions[0];
         });
