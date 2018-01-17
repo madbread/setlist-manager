@@ -118,8 +118,7 @@ directive('songViewer', function(
 
       function setSonglist() {
         if (_.keys(vm.list.songs).length) {
-          vm.songs = getSongsInList(vm.list.songs);
-          countSongs();
+          filter();
         } else {
           clearAll();
         }
