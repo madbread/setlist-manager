@@ -1534,18 +1534,18 @@ a.but-selection {
       .song-list > li {
         padding: 1em; } }
 
+.song-list-short {
+  height: 100px; }
+  @media (max-width: 28em) {
+    .song-list-short {
+      height: 50px; } }
+
 .note {
   font-family: liberation_sansbold_italic, sans-serif; }
 
 .drop-zone {
   padding: 0.5em;
   border: 1px dotted #222; }
-
-.grid > form > ul.songlist-list {
-  height: 150px; }
-  @media (max-width: 28em) {
-    .grid > form > ul.songlist-list {
-      height: 75px; } }
 
 @media (max-width: 28em) {
   .add-song-floating-text {
@@ -1561,6 +1561,9 @@ a.but-selection {
     .grid > form > ul.songlist-songs {
       height: auto;
       min-height: 150px; } }
+
+.grid > form > ul.print-songlists {
+  min-height: 100px; }
 
 .inline-controls input {
   width: 75px; }

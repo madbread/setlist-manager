@@ -1,7 +1,7 @@
 <div class="songlist-editor">
-  <h6>Setlists</h6>
+  <h6>Song Lists</h6>
   <form>
-    <ul class="scrollable songlist-list song-list">
+    <ul class="scrollable song-list song-list-short">
       <li
         ng-click="songListVM.displaySongList(songList)"
         ng-repeat="songList in songListVM.songListsDB | orderBy:'title'"
@@ -15,7 +15,7 @@
         <a
           ng-click="songListVM.deleteList()"
           class="hand float-right color-warning"
-          title="Permanently Delete This Setlist"
+          title="Permanently Delete This Songlist"
         >[X]</a>
         <label for="songListTitle">Title</label>
         <input
@@ -188,7 +188,7 @@
   </div>
 
   <h6 ng-click="songListVM.toggleAddSongList()" class="hand">
-    Add New Setlist
+    Add New Song List
     <span ng-hide="songListVM.showAddSongList">+</span>
     <span ng-show="songListVM.showAddSongList">-</span>
   </h6>
