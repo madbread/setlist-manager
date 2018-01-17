@@ -3,21 +3,36 @@
     <h2>
       Mad Bread Songs ({{songViewVM.count}})
       <button class="but-small" ng-click="songViewVM.randomSong()">Random</button>
+      <button class="but-small" ng-click="songViewVM.clearAll()">clear all</button>
     </h2>
     <label for="name-filter">Filter: </label>
-    <input ng-model="songViewVM.titleFilter" placeholder="title or singer">
+    <input
+      ng-model="songViewVM.titleFilter"
+      ng-change="songViewVM.filter()"
+      ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 400, 'blur': 0 } }"
+      placeholder="keyword"
+    >
+    <label for="songlist-filter">Songlist: </label>
+    <select
+      id="songlist-filter"
+      ng-change="songViewVM.setSonglist()"
+      ng-model="songViewVM.list"
+      ng-options="list as list.title for list in songViewVM.listOptions">
+    </select>
     <br>
     <label for="player-filter">Player:</label>
     <select
       id="player-filter"
+      ng-change="songViewVM.instrument = songViewVM.blank"
       ng-model="songViewVM.player"
       ng-options="player for player in songViewVM.playerOptions">
     </select>
 
-    <span ng-show="songViewVM.player !== vm.blank">
+    <span ng-show="songViewVM.player !== songViewVM.blank">
       <label for="instrument-filter">Instrument:</label>
       <select
         id="instrument-filter"
+        ng-change="songViewVM.filter()"
         ng-model="songViewVM.instrument"
         ng-options="instrument for instrument in songViewVM.instrumentOptions">
       </select>
@@ -26,28 +41,28 @@
     <label for="instrument-filter">Key:</label>
     <select
       id="key-filter"
+      ng-change="songViewVM.filter()"
       ng-model="songViewVM.key"
       ng-options="key for key in songViewVM.keyOptions">
     </select>
 
-    <button class="but-small" ng-click="songViewVM.player = songViewVM.blank;songViewVM.titleFilter = '';songViewVM.key = songViewVM.blank">clear all</button>
-
     <div class="display-song">
       <span ng-show="songViewVM.displaySong">
         {{songViewVM.displaySong.title}} [{{songViewVM.displaySong.key}}]<br>
-        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.singer">S: {{songViewVM.displaySong.singer}}</span> |
-        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.nate">N: {{songViewVM.displaySong.nate}}</span> |
-        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.mike">M: {{songViewVM.displaySong.mike}}</span> |
-        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.adam">A: {{songViewVM.displaySong.adam}}</span> |
-        <span class="hand" ng-click="songViewVM.titleFilter = songViewVM.displaySong.carl">C: {{songViewVM.displaySong.carl}}</span>
+        <span>V: {{songViewVM.displaySong.singer}}</span> |
+        <span>N: {{songViewVM.displaySong.nate}}</span> |
+        <span>M: {{songViewVM.displaySong.mike}}</span> |
+        <span>A: {{songViewVM.displaySong.adam}}</span> |
+        <span>C: {{songViewVM.displaySong.carl}}</span>
       </span>
     </div>
   </header>
   <ul class="scrollable song-list">
     <li
       ng-click="songViewVM.selectSong(song)"
-      ng-repeat="song in songViewVM.songsDB | orderBy:'title' | filter:songViewVM.titleFilter"
+      ng-repeat="song in songViewVM.songs | orderBy:'title'"
       ng-bind="song.title"
+      ng-class="song.$$hashKey === songViewVM.selectedId ? 'active': ''"
     ></li>
   </ul>
 </div>

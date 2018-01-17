@@ -20,7 +20,7 @@ directive('adminPage', function(
       $(document).tooltip();
       var vm = this;
 
-      vm.openSection = 'Print';
+      vm.openSection = 'Songs';
 
       vm.status          = firebaseAuthFactory.getStatus();
       vm.showLogin       = false;

@@ -68,5 +68,40 @@ constant('staticAppData', {
     'Guitar': 'bg-soft-purple',
     'Electric': 'bg-soft-brown',
     'Harmonica': 'bg-soft-gray'
-  }
+  },
+  fixtureSongs: [
+    {
+      adam: 'Banjo',
+      carl: 'Guitar',
+      key: 'Em',
+      mike: 'Bass',
+      minutes: 3,
+      nate: 'Mandolin',
+      seconds: 0,
+      singer: 'Nate',
+      title: 'TEST One Load Lighter'
+    },
+    {
+      adam: 'Harmonica',
+      carl: 'Electric',
+      key: 'F#',
+      mike: 'Bass',
+      minutes: 3,
+      nate: 'Guitar',
+      seconds: 0,
+      singer: 'Nate',
+      title: 'TEST Old 55'
+    },
+    {
+      adam: 'Bass',
+      carl: 'Guitar',
+      key: 'A',
+      mike: 'Fiddle',
+      minutes: 3,
+      nate: 'Mandolin',
+      seconds: 0,
+      singer: 'Carl',
+      title: 'TEST Change in the Weather'
+    }
+  ]
 });

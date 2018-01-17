@@ -38,13 +38,6 @@
             Songs
           </button>
         </li>
-        <li>
-          <button
-            ng-class="{'active': adminVM.openSection === 'Print'}"
-            ng-click="adminVM.openSection = 'Print'">
-            Print
-          </button>
-        </li>
         <li ng-show="adminVM.status.email === 'slatron@gmail.com'">
           <button
             ng-class="{'active': adminVM.openSection === 'Users'}"
@@ -57,9 +50,6 @@
     <error-messages
       messages="adminVM.messages"
     ></error-messages>
-    <venue-editor
-      ng-if="adminVM.openSection === 'Print'"
-    ></venue-editor>
     <song-list-editor
       ng-if="adminVM.openSection === 'Songlists'"
     ></song-list-editor>
