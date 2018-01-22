@@ -136,6 +136,17 @@
         </li>
       </ul>
       <div class="form-row">
+        <button
+          class="but-small"
+          ng-click="songListVM.getListURL()"
+        >Get Share Link</button>
+      </div>
+      <div class="form-row">
+        <a
+          ng-href="{{songListVM.displayURL}}"
+          ng-bind="songListVM.displayURL"
+          target="_blank"
+        ></a>
       </div>
     </form>
 

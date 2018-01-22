@@ -4,7 +4,8 @@ directive('songViewer', function(
   cacheFactory,
   firebaseFactory,
   pathsData,
-  staticAppData) {
+  staticAppData,
+  urlParamsFactory) {
   'use strict';
 
   return {
@@ -20,8 +21,10 @@ directive('songViewer', function(
 
     controller: function($scope) {
       var vm = this;
+      var params = urlParamsFactory.getAllQueryParamsObject();
       var originalSongs = [];
       var songHash      = {};
+      var listHash      = {};
 
       // vm data
       vm.songs             = [];
@@ -65,9 +68,18 @@ directive('songViewer', function(
       // load songlists
       firebaseFactory.readDataOnce('songLists')
         .then(function(response) {
+          listHash = response.val();
           vm.listOptions = _.map(response.val());
           vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
-          vm.list = vm.listOptions[0];
+          // If params passed a valid list id, load it and apply filter
+          if (listHash.hasOwnProperty(params.list)) {
+            vm.list = _.find(vm.listOptions, function(option) {
+              return option.title === listHash[params.list].title;
+            });
+            filter();
+          } else {
+            vm.list = vm.listOptions[0];
+          }
         });
 
       // ======================================================================

@@ -666,6 +666,7 @@ body,
 .but-import,
 .but,
 .nav-pills button,
+.nav-pills a,
 .grid > form > ul.songlist-songs,
 .song-viewer h2 {
   font-size: 14px; }
@@ -1405,7 +1406,8 @@ a.but-selection {
   margin: 0;
   padding: 1px; }
 
-.nav-pills button {
+.nav-pills button,
+.nav-pills a {
   border: none;
   background: #1484C8;
   color: #fff;
@@ -1414,14 +1416,18 @@ a.but-selection {
   padding: 9px 20px;
   text-decoration: none;
   border-radius: 7px; }
-  .nav-pills button:hover {
+  .nav-pills button:hover,
+  .nav-pills a:hover {
     text-decoration: underline; }
-  .nav-pills button:focus {
+  .nav-pills button:focus,
+  .nav-pills a:focus {
     outline: none; }
-  .nav-pills button.active {
+  .nav-pills button.active,
+  .nav-pills a.active {
     background: #edc721;
     color: #1484C8; }
-    .nav-pills button.active:hover {
+    .nav-pills button.active:hover,
+    .nav-pills a.active:hover {
       text-decoration: none; }
 
 .nav-pills button[disabled=disabled] {

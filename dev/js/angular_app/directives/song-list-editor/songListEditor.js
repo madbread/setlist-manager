@@ -35,6 +35,7 @@ directive('songListEditor', function(
       vm.songsSorted       = [];
       vm.colorCategory     = '';
       vm.colorCategoryHash = {};
+      vm.displayURL        = '';
 
       var originalSongsDB  = angular.copy(vm.songsArray);
 
@@ -69,6 +70,7 @@ directive('songListEditor', function(
       vm.toggleAddSongList = toggleAddSongList;
       vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
+      vm.getListURL        = getListURL;
 
       // ==========================================================================================
 
@@ -297,6 +299,13 @@ directive('songListEditor', function(
       }
 
       // ==========================================================================================
+
+      function getListURL() {
+        var baseUrl = 'https://madbread.github.io/setlist-manager/app/songs.html';
+        var params = '?list=' + vm.editSongListItem.$id;
+        vm.displayURL = baseUrl + params;
+      }
+
       // ==========================================================================================
 
       _init();

@@ -13813,6 +13813,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       vm.songsSorted       = [];
       vm.colorCategory     = '';
       vm.colorCategoryHash = {};
+      vm.displayURL        = '';
 
       var originalSongsDB  = angular.copy(vm.songsArray);
 
@@ -13847,6 +13848,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       vm.toggleAddSongList = toggleAddSongList;
       vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
+      vm.getListURL        = getListURL;
 
       // ==========================================================================================
 
@@ -14075,6 +14077,13 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       }
 
       // ==========================================================================================
+
+      function getListURL() {
+        var baseUrl = 'https://madbread.github.io/setlist-manager/app/songs.html';
+        var params = '?list=' + vm.editSongListItem.$id;
+        vm.displayURL = baseUrl + params;
+      }
+
       // ==========================================================================================
 
       _init();
@@ -14145,12 +14154,13 @@ factory('cacheFactory', function() {
 });
 
 angular.module('Setlists').
-directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", function(
+directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", "urlParamsFactory", function(
   $filter,
   cacheFactory,
   firebaseFactory,
   pathsData,
-  staticAppData) {
+  staticAppData,
+  urlParamsFactory) {
   'use strict';
 
   return {
@@ -14166,8 +14176,10 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
 
     controller: ["$scope", function($scope) {
       var vm = this;
+      var params = urlParamsFactory.getAllQueryParamsObject();
       var originalSongs = [];
       var songHash      = {};
+      var listHash      = {};
 
       // vm data
       vm.songs             = [];
@@ -14211,9 +14223,18 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
       // load songlists
       firebaseFactory.readDataOnce('songLists')
         .then(function(response) {
+          listHash = response.val();
           vm.listOptions = _.map(response.val());
           vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
-          vm.list = vm.listOptions[0];
+          // If params passed a valid list id, load it and apply filter
+          if (listHash.hasOwnProperty(params.list)) {
+            vm.list = _.find(vm.listOptions, function(option) {
+              return option.title === listHash[params.list].title;
+            });
+            filter();
+          } else {
+            vm.list = vm.listOptions[0];
+          }
         });
 
       // ======================================================================
