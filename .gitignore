@@ -4,7 +4,11 @@ node_modules
 # sass cache files
 .sass-cache
 
-# App folder is for production only
-app
+dev
+gulp
+tests
+gulpfile.js
+package.js
+units.config.js
 
 .DS_Store
