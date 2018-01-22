@@ -13459,60 +13459,6 @@ constant('staticAppData', {
 });
 
 angular.module('Setlists').
-directive('datepicker', ["pathsData", function(pathsData) {
-  'use strict';
-  return {
-    replace: true,
-    restrict: 'E',
-    scope: {
-      hideIcon: '=',
-      date: '='
-    },
-    controllerAs: 'datepickerVM',
-    bindToController: true,
-    templateUrl: [
-      pathsData.directives,
-      'datepicker/datepicker.html'
-    ].join(''),
-    controller: function() {
-      var vm = this;
-      if (!vm.date) {
-        vm.date = '';
-      }
-    },
-    link: function(scope, elem, attr) {
-      var vm = scope.datepickerVM;
-      var dateConfig = {
-        buttonImage: '/assets/images/icon-cal.svg',
-        buttonImageOnly: true,
-        buttonText: 'Select date',
-        changeMonth: true,
-        changeYear: true,
-        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        dateFormat: 'M d, yy',
-        nextText: 'Á',
-        prevText: 'Â',
-        showOn: 'both',
-        showButtonPanel: true,
-        closeText: 'Close'
-      };
-      if (vm.hideIcon) {
-        dateConfig.buttonImage     = null;
-        dateConfig.buttonImageOnly = null;
-        dateConfig.buttonText      = null;
-        dateConfig.showOn          = 'focus';
-      }
-      elem.datepicker(dateConfig).keydown(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) {
-          $.datepicker._clearDate(this);
-          e.preventDefault();
-        }
-      });
-    }
-  };
-}]);
-
-angular.module('Setlists').
 directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseFactory,
@@ -13605,6 +13551,60 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
         });
       }
     }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('datepicker', ["pathsData", function(pathsData) {
+  'use strict';
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      hideIcon: '=',
+      date: '='
+    },
+    controllerAs: 'datepickerVM',
+    bindToController: true,
+    templateUrl: [
+      pathsData.directives,
+      'datepicker/datepicker.html'
+    ].join(''),
+    controller: function() {
+      var vm = this;
+      if (!vm.date) {
+        vm.date = '';
+      }
+    },
+    link: function(scope, elem, attr) {
+      var vm = scope.datepickerVM;
+      var dateConfig = {
+        buttonImage: '/assets/images/icon-cal.svg',
+        buttonImageOnly: true,
+        buttonText: 'Select date',
+        changeMonth: true,
+        changeYear: true,
+        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        dateFormat: 'M d, yy',
+        nextText: 'Á',
+        prevText: 'Â',
+        showOn: 'both',
+        showButtonPanel: true,
+        closeText: 'Close'
+      };
+      if (vm.hideIcon) {
+        dateConfig.buttonImage     = null;
+        dateConfig.buttonImageOnly = null;
+        dateConfig.buttonText      = null;
+        dateConfig.showOn          = 'focus';
+      }
+      elem.datepicker(dateConfig).keydown(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          $.datepicker._clearDate(this);
+          e.preventDefault();
+        }
+      });
+    }
   };
 }]);
 
@@ -14082,68 +14082,6 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
   };
 }]);
 
-/**
-*  This factory provides a common way for
-*    directives to store API response data
-*    for further calls on the page
-*/
-angular.module('Setlists').
-factory('cacheFactory', function() {
-
-  var pageCache = {},
-      methods   = {},
-      available = _storageAvailable();
-
-  // Store value to cache and localstorage
-  methods.set = function(key, value) {
-    if (_.isString(key)) {
-      pageCache[key] = value;
-      if (!_.isString(value)) {
-        value = angular.toJson(value);
-      }
-      if (available) {
-        localStorage.setItem(key, value);
-      }
-    }
-  };
-
-  methods.get = function(key) {
-    if (available && localStorage.getItem(key)) {
-      return angular.fromJson(localStorage.getItem(key));
-    } else if (pageCache[key]) {
-      return pageCache[key];
-    } else {
-      return null;
-    }
-  };
-
-  methods.getHash = function() {
-    return pageCache;
-  };
-
-  methods.clearLocalStorage = function() {
-    pageCache = {};
-    if (available) {
-      localStorage.clear();
-    }
-  };
-
-  // helper methods
-  function _storageAvailable() {
-    try {
-      var x = 'storage_test';
-      localStorage.setItem(x, x);
-      localStorage.removeItem(x);
-      return true;
-    }
-    catch (e) {
-      return false;
-    }
-  }
-
-  return methods;
-});
-
 angular.module('Setlists').
 directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", function(
   $filter,
@@ -14292,6 +14230,68 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
     }],
   };
 }]);
+
+/**
+*  This factory provides a common way for
+*    directives to store API response data
+*    for further calls on the page
+*/
+angular.module('Setlists').
+factory('cacheFactory', function() {
+
+  var pageCache = {},
+      methods   = {},
+      available = _storageAvailable();
+
+  // Store value to cache and localstorage
+  methods.set = function(key, value) {
+    if (_.isString(key)) {
+      pageCache[key] = value;
+      if (!_.isString(value)) {
+        value = angular.toJson(value);
+      }
+      if (available) {
+        localStorage.setItem(key, value);
+      }
+    }
+  };
+
+  methods.get = function(key) {
+    if (available && localStorage.getItem(key)) {
+      return angular.fromJson(localStorage.getItem(key));
+    } else if (pageCache[key]) {
+      return pageCache[key];
+    } else {
+      return null;
+    }
+  };
+
+  methods.getHash = function() {
+    return pageCache;
+  };
+
+  methods.clearLocalStorage = function() {
+    pageCache = {};
+    if (available) {
+      localStorage.clear();
+    }
+  };
+
+  // helper methods
+  function _storageAvailable() {
+    try {
+      var x = 'storage_test';
+      localStorage.setItem(x, x);
+      localStorage.removeItem(x);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  return methods;
+});
 
 angular.module('Setlists').
 factory('firebaseAuthFactory', ["$firebaseAuth", function($firebaseAuth) {
