@@ -15,7 +15,8 @@
   padding: 1px;
 }
 
-.nav-pills button {
+.nav-pills button,
+.nav-pills a {
   @extend %text-normal;
 
   border: none;

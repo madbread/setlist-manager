@@ -28,15 +28,20 @@
           <button
             ng-class="{'active': adminVM.openSection === 'Songlists'}"
             ng-click="adminVM.openSection = 'Songlists'">
-            Song Lists
+            Edit Song Lists
           </button>
         </li>
         <li>
           <button
             ng-class="{'active': adminVM.openSection === 'Songs'}"
             ng-click="adminVM.openSection = 'Songs'">
-            Songs
+            Edit Songs
           </button>
+        </li>
+        <li>
+          <a href="/songs.html" target="_blank">
+            View Songs
+          </a>
         </li>
         <li ng-show="adminVM.status.email === 'slatron@gmail.com'">
           <button
