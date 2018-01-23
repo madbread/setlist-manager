@@ -83,8 +83,14 @@
       </div>
 
       <div class="form-row">
-        <label for="bpm">BPM</label>
-        <input class="longer" id="bpm" ng-model="songVM.editSongItem.bpm">
+        <label for="bpm">BPM <br>(max 240)</label>
+        <input
+          type="number"
+          class="longer"
+          min="0"
+          max="240"
+          id="bpm"
+          ng-model="songVM.editSongItem.bpm">
       </div>
 
       <div class="form-row">

@@ -13473,6 +13473,60 @@ constant('staticAppData', {
 });
 
 angular.module('Setlists').
+directive('datepicker', ["pathsData", function(pathsData) {
+  'use strict';
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      hideIcon: '=',
+      date: '='
+    },
+    controllerAs: 'datepickerVM',
+    bindToController: true,
+    templateUrl: [
+      pathsData.directives,
+      'datepicker/datepicker.html'
+    ].join(''),
+    controller: function() {
+      var vm = this;
+      if (!vm.date) {
+        vm.date = '';
+      }
+    },
+    link: function(scope, elem, attr) {
+      var vm = scope.datepickerVM;
+      var dateConfig = {
+        buttonImage: '/assets/images/icon-cal.svg',
+        buttonImageOnly: true,
+        buttonText: 'Select date',
+        changeMonth: true,
+        changeYear: true,
+        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        dateFormat: 'M d, yy',
+        nextText: 'Á',
+        prevText: 'Â',
+        showOn: 'both',
+        showButtonPanel: true,
+        closeText: 'Close'
+      };
+      if (vm.hideIcon) {
+        dateConfig.buttonImage     = null;
+        dateConfig.buttonImageOnly = null;
+        dateConfig.buttonText      = null;
+        dateConfig.showOn          = 'focus';
+      }
+      elem.datepicker(dateConfig).keydown(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          $.datepicker._clearDate(this);
+          e.preventDefault();
+        }
+      });
+    }
+  };
+}]);
+
+angular.module('Setlists').
 directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseFactory,
@@ -13569,60 +13623,6 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
-directive('datepicker', ["pathsData", function(pathsData) {
-  'use strict';
-  return {
-    replace: true,
-    restrict: 'E',
-    scope: {
-      hideIcon: '=',
-      date: '='
-    },
-    controllerAs: 'datepickerVM',
-    bindToController: true,
-    templateUrl: [
-      pathsData.directives,
-      'datepicker/datepicker.html'
-    ].join(''),
-    controller: function() {
-      var vm = this;
-      if (!vm.date) {
-        vm.date = '';
-      }
-    },
-    link: function(scope, elem, attr) {
-      var vm = scope.datepickerVM;
-      var dateConfig = {
-        buttonImage: '/assets/images/icon-cal.svg',
-        buttonImageOnly: true,
-        buttonText: 'Select date',
-        changeMonth: true,
-        changeYear: true,
-        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        dateFormat: 'M d, yy',
-        nextText: 'Á',
-        prevText: 'Â',
-        showOn: 'both',
-        showButtonPanel: true,
-        closeText: 'Close'
-      };
-      if (vm.hideIcon) {
-        dateConfig.buttonImage     = null;
-        dateConfig.buttonImageOnly = null;
-        dateConfig.buttonText      = null;
-        dateConfig.showOn          = 'focus';
-      }
-      elem.datepicker(dateConfig).keydown(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) {
-          $.datepicker._clearDate(this);
-          e.preventDefault();
-        }
-      });
-    }
-  };
-}]);
-
-angular.module('Setlists').
 directive('errorMessages', ["pathsData", function(pathsData) {
   'use strict';
 
@@ -13651,55 +13651,6 @@ directive('errorMessages', ["pathsData", function(pathsData) {
 
       function dismiss() {
         vm.messages = [];
-      }
-    }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
-  firebaseAuthFactory,
-  firebaseDataUtilsFactory,
-  pathsData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'fireUtilVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'fire-util/fireUtil.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      vm.status   = firebaseAuthFactory.getStatus();
-      vm.messages = [];
-      vm.data = {};
-
-      vm.source = 'data';
-      vm.target = 'data';
-
-      vm.loadDataFromSource = loadDataFromSource;
-      vm.copyDataToTarget = copyDataToTarget;
-
-      function loadDataFromSource() {
-        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
-          function(response) {
-            $scope.$applyAsync(function() {
-              // debugger;
-              vm.data = response.val();
-            });
-          }
-        );
-      }
-
-      function copyDataToTarget() {
-        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
       }
     }],
   };
@@ -13795,6 +13746,140 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
         window.print();
       }
 
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
+  firebaseAuthFactory,
+  firebaseDataUtilsFactory,
+  pathsData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'fireUtilVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'fire-util/fireUtil.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      vm.status   = firebaseAuthFactory.getStatus();
+      vm.messages = [];
+      vm.data = {};
+
+      vm.source = 'data';
+      vm.target = 'data';
+
+      vm.loadDataFromSource = loadDataFromSource;
+      vm.copyDataToTarget = copyDataToTarget;
+
+      function loadDataFromSource() {
+        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
+          function(response) {
+            $scope.$applyAsync(function() {
+              // debugger;
+              vm.data = response.val();
+            });
+          }
+        );
+      }
+
+      function copyDataToTarget() {
+        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
+  firebaseFactory,
+  pathsData,
+  staticAppData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'songVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'song-editor/songEditor.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      // vm data
+      vm.editSongItem  = undefined;
+      vm.keyOptions    = staticAppData.key_options;
+      vm.newSong       = angular.copy(staticAppData.new_song);
+      vm.showAddSong   = false;
+      vm.singerOptions = angular.copy(staticAppData.singerOptions);
+      vm.songsDB       = firebaseFactory.followSongs();
+      vm.minuteOptions = staticAppData.minuteOptions;
+      vm.secondOptions = staticAppData.secondOptions;
+      vm.helpText      = staticAppData.songHelpText;
+
+      // vm functions
+      vm.addSong       = addSong;
+      vm.displaySong   = displaySong;
+      vm.toggleAddSong = toggleAddSong;
+      vm.updateSong    = updateSong;
+      vm.deleteSong    = deleteSong;
+
+      function toggleAddSong() {
+        vm.showAddSong = !vm.showAddSong;
+        vm.newSong     = angular.copy(staticAppData.new_song);
+      }
+
+      function displaySong(song) {
+        vm.editSongItem = song;
+      }
+
+      // Set Instrument Options from meta/instruments
+      vm.instrumentOptions = [];
+      firebaseFactory.readDataOnce('instruments').then(
+        function(response) {
+          $scope.$applyAsync(function() {
+            _.each(response.val(), function(instrument, key) {
+              vm.instrumentOptions.push(instrument.title);
+            });
+          });
+        }
+      );
+
+      function updateSong() {
+        firebaseFactory.updateSong(vm.editSongItem);
+        vm.editSongItem = undefined;
+      }
+
+      function deleteSong() {
+        if (window.confirm(
+          'Are you sure you wish to delete this song?\n\n' +
+          'Doing so will also remove the song form all existing setlists')) {
+          firebaseFactory.deleteSong(vm.editSongItem)
+            .then(function() {
+              vm.editSongItem = undefined;
+            });
+        }
+      }
+
+      function addSong() {
+        firebaseFactory.addSong(angular.copy(vm.newSong));
+        vm.newSong = angular.copy(staticAppData.new_song);
+        vm.showAddSong = false;
+      }
     }],
   };
 }]);
@@ -14639,88 +14724,3 @@ factory('urlParamsFactory', function() {
 
   return methods;
 });
-
-angular.module('Setlists').
-directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
-  firebaseFactory,
-  pathsData,
-  staticAppData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'songVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'song-editor/songEditor.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      // vm data
-      vm.editSongItem  = undefined;
-      vm.keyOptions    = staticAppData.key_options;
-      vm.newSong       = angular.copy(staticAppData.new_song);
-      vm.showAddSong   = false;
-      vm.singerOptions = angular.copy(staticAppData.singerOptions);
-      vm.songsDB       = firebaseFactory.followSongs();
-      vm.minuteOptions = staticAppData.minuteOptions;
-      vm.secondOptions = staticAppData.secondOptions;
-      vm.helpText      = staticAppData.songHelpText;
-
-      // vm functions
-      vm.addSong       = addSong;
-      vm.displaySong   = displaySong;
-      vm.toggleAddSong = toggleAddSong;
-      vm.updateSong    = updateSong;
-      vm.deleteSong    = deleteSong;
-
-      function toggleAddSong() {
-        vm.showAddSong = !vm.showAddSong;
-        vm.newSong     = angular.copy(staticAppData.new_song);
-      }
-
-      function displaySong(song) {
-        vm.editSongItem = song;
-      }
-
-      // Set Instrument Options from meta/instruments
-      vm.instrumentOptions = [];
-      firebaseFactory.readDataOnce('instruments').then(
-        function(response) {
-          $scope.$applyAsync(function() {
-            _.each(response.val(), function(instrument, key) {
-              vm.instrumentOptions.push(instrument.title);
-            });
-          });
-        }
-      );
-
-      function updateSong() {
-        firebaseFactory.updateSong(vm.editSongItem);
-        vm.editSongItem = undefined;
-      }
-
-      function deleteSong() {
-        if (window.confirm(
-          'Are you sure you wish to delete this song?\n\n' +
-          'Doing so will also remove the song form all existing setlists')) {
-          firebaseFactory.deleteSong(vm.editSongItem)
-            .then(function() {
-              vm.editSongItem = undefined;
-            });
-        }
-      }
-
-      function addSong() {
-        firebaseFactory.addSong(angular.copy(vm.newSong));
-        vm.newSong = angular.copy(staticAppData.new_song);
-        vm.showAddSong = false;
-      }
-    }],
-  };
-}]);
