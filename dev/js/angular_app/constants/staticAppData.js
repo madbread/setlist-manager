@@ -1,5 +1,33 @@
 angular.module('Setlists').
 constant('staticAppData', {
+
+  // SETTINGS
+  // ==========================================================================
+  defaultBassist: 'mike',
+  defaultNate: 'Mandolin',
+  singerColorHash: {
+    'Nate': 'bg-soft-green',
+    'Carl': 'bg-soft-yellow',
+    'Mike': 'bg-soft-pink',
+    'Adam': 'bg-soft-blue',
+    'Instrumental': 'bg-soft-purple'
+  },
+  instrumentColorHash: {
+    'Bass': 'bg-soft-green',
+    'Banjo': 'bg-soft-yellow',
+    'Mandolin': 'bg-soft-pink',
+    'Fiddle': 'bg-soft-blue',
+    'Guitar': 'bg-soft-purple',
+    'Electric': 'bg-soft-brown',
+    'Harmonica': 'bg-soft-gray'
+  },
+  songHelpText: {
+    edit: 'Click a title below to edit the song info.',
+    new: 'Only add songs that we can perform live.'
+  },
+
+  // APP DATA
+  // ==========================================================================
   key_options: [
     'A', 'Am', 'Bb', 'Bbm', 'B', 'Bm', 'C', 'Cm', 'C#', 'C#m', 'D', 'Dm',
     'Eb', 'Ebm', 'E', 'Em', 'F', 'Fm', 'F#', 'F#m', 'G', 'Gm', 'Ab', 'Abm'
@@ -49,26 +77,9 @@ constant('staticAppData', {
   new_venue: {
     title: ''
   },
-  songHelpText: {
-    edit: 'Click a title below to edit the song info.',
-    new: 'Only add songs that we can perform live.'
-  },
-  singerColorHash: {
-    'Nate': 'bg-soft-green',
-    'Carl': 'bg-soft-yellow',
-    'Mike': 'bg-soft-pink',
-    'Adam': 'bg-soft-blue',
-    'Instrumental': 'bg-soft-purple'
-  },
-  instrumentColorHash: {
-    'Bass': 'bg-soft-green',
-    'Banjo': 'bg-soft-yellow',
-    'Mandolin': 'bg-soft-pink',
-    'Fiddle': 'bg-soft-blue',
-    'Guitar': 'bg-soft-purple',
-    'Electric': 'bg-soft-brown',
-    'Harmonica': 'bg-soft-gray'
-  },
+
+  // Fixtures
+  // ==========================================================================
   fixtureSongs: [
     {
       adam: 'Banjo',
@@ -79,7 +90,8 @@ constant('staticAppData', {
       nate: 'Mandolin',
       seconds: 0,
       singer: 'Nate',
-      title: 'TEST One Load Lighter'
+      title: 'TEST One Load Lighter',
+      order: 2
     },
     {
       adam: 'Harmonica',
@@ -90,7 +102,8 @@ constant('staticAppData', {
       nate: 'Guitar',
       seconds: 0,
       singer: 'Nate',
-      title: 'TEST Old 55'
+      title: 'TEST Old 55',
+      order: 0
     },
     {
       adam: 'Bass',
@@ -101,7 +114,8 @@ constant('staticAppData', {
       nate: 'Mandolin',
       seconds: 0,
       singer: 'Carl',
-      title: 'TEST Change in the Weather'
+      title: 'TEST Change in the Weather',
+      order: 1
     }
   ]
 });

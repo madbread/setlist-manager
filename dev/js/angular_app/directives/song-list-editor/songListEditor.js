@@ -27,8 +27,8 @@ directive('songListEditor', function(
       vm.editSongListItem  = undefined;
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
-      vm.showIcons         = false;
-      vm.showKeys          = false;
+      vm.showIcons         = true;
+      vm.showKeys          = true;
       vm.songListsDB       = firebaseFactory.followSongLists();
       vm.songsArray        = firebaseFactory.followSongs();
       vm.songsDB           = firebaseFactory.followSongsObject();

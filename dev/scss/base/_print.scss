@@ -4,10 +4,19 @@
    ========================================================================== */
 .print-records-page {
   margin: $base-unit;
-}
 
-.print-link a {
-  text-decoration: none;
+  thead tr {
+    background: none;
+    border-bottom: 1px solid #000000;
+  }
+
+  td, th {
+    border: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 @media print {
@@ -70,8 +79,5 @@
   }
   .noprint {
     display: none;
-  }
-  .print-records-page {
-    margin: 0;
   }
 }

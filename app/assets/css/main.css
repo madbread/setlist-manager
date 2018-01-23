@@ -1961,9 +1961,13 @@ form label.no-pad {
    ========================================================================== */
 .print-records-page {
   margin: 1em; }
-
-.print-link a {
-  text-decoration: none; }
+  .print-records-page thead tr {
+    background: none;
+    border-bottom: 1px solid #000000; }
+  .print-records-page td, .print-records-page th {
+    border: none; }
+  .print-records-page a {
+    text-decoration: none; }
 
 @media print {
   *,
@@ -2012,6 +2016,4 @@ form label.no-pad {
   h3 {
     page-break-after: avoid; }
   .noprint {
-    display: none; }
-  .print-records-page {
-    margin: 0; } }
+    display: none; } }
