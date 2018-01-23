@@ -13569,6 +13569,40 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
+directive('errorMessages', ["pathsData", function(pathsData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {
+      messages: '=',
+    },
+    controllerAs: 'errorMessagesVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'error-messages/errorMessages.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+      vm.dismiss = dismiss;
+
+      $scope.$watchCollection(angular.bind(vm.messages, function() {
+        return vm.messages;
+      }), function(newVal) {
+        vm.messages = _.uniq(newVal);
+      });
+
+      function dismiss() {
+        vm.messages = [];
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
 directive('datepicker', ["pathsData", function(pathsData) {
   'use strict';
   return {
@@ -13623,40 +13657,6 @@ directive('datepicker', ["pathsData", function(pathsData) {
 }]);
 
 angular.module('Setlists').
-directive('errorMessages', ["pathsData", function(pathsData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {
-      messages: '=',
-    },
-    controllerAs: 'errorMessagesVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'error-messages/errorMessages.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-      vm.dismiss = dismiss;
-
-      $scope.$watchCollection(angular.bind(vm.messages, function() {
-        return vm.messages;
-      }), function(newVal) {
-        vm.messages = _.uniq(newVal);
-      });
-
-      function dismiss() {
-        vm.messages = [];
-      }
-    }],
-  };
-}]);
-
-angular.module('Setlists').
 directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseDataUtilsFactory,
@@ -13700,91 +13700,6 @@ directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "paths
 
       function copyDataToTarget() {
         firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
-      }
-    }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
-  firebaseFactory,
-  pathsData,
-  staticAppData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'songVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'song-editor/songEditor.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      // vm data
-      vm.editSongItem  = undefined;
-      vm.keyOptions    = staticAppData.key_options;
-      vm.newSong       = angular.copy(staticAppData.new_song);
-      vm.showAddSong   = false;
-      vm.singerOptions = angular.copy(staticAppData.singerOptions);
-      vm.songsDB       = firebaseFactory.followSongs();
-      vm.minuteOptions = staticAppData.minuteOptions;
-      vm.secondOptions = staticAppData.secondOptions;
-      vm.helpText      = staticAppData.songHelpText;
-
-      // vm functions
-      vm.addSong       = addSong;
-      vm.displaySong   = displaySong;
-      vm.toggleAddSong = toggleAddSong;
-      vm.updateSong    = updateSong;
-      vm.deleteSong    = deleteSong;
-
-      function toggleAddSong() {
-        vm.showAddSong = !vm.showAddSong;
-        vm.newSong     = angular.copy(staticAppData.new_song);
-      }
-
-      function displaySong(song) {
-        vm.editSongItem = song;
-      }
-
-      // Set Instrument Options from meta/instruments
-      vm.instrumentOptions = [];
-      firebaseFactory.readDataOnce('instruments').then(
-        function(response) {
-          $scope.$applyAsync(function() {
-            _.each(response.val(), function(instrument, key) {
-              vm.instrumentOptions.push(instrument.title);
-            });
-          });
-        }
-      );
-
-      function updateSong() {
-        firebaseFactory.updateSong(vm.editSongItem);
-        vm.editSongItem = undefined;
-      }
-
-      function deleteSong() {
-        if (window.confirm(
-          'Are you sure you wish to delete this song?\n\n' +
-          'Doing so will also remove the song form all existing setlists')) {
-          firebaseFactory.deleteSong(vm.editSongItem)
-            .then(function() {
-              vm.editSongItem = undefined;
-            });
-        }
-      }
-
-      function addSong() {
-        firebaseFactory.addSong(angular.copy(vm.newSong));
-        vm.newSong = angular.copy(staticAppData.new_song);
-        vm.showAddSong = false;
       }
     }],
   };
@@ -13880,6 +13795,91 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
         window.print();
       }
 
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
+  firebaseFactory,
+  pathsData,
+  staticAppData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'songVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'song-editor/songEditor.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      // vm data
+      vm.editSongItem  = undefined;
+      vm.keyOptions    = staticAppData.key_options;
+      vm.newSong       = angular.copy(staticAppData.new_song);
+      vm.showAddSong   = false;
+      vm.singerOptions = angular.copy(staticAppData.singerOptions);
+      vm.songsDB       = firebaseFactory.followSongs();
+      vm.minuteOptions = staticAppData.minuteOptions;
+      vm.secondOptions = staticAppData.secondOptions;
+      vm.helpText      = staticAppData.songHelpText;
+
+      // vm functions
+      vm.addSong       = addSong;
+      vm.displaySong   = displaySong;
+      vm.toggleAddSong = toggleAddSong;
+      vm.updateSong    = updateSong;
+      vm.deleteSong    = deleteSong;
+
+      function toggleAddSong() {
+        vm.showAddSong = !vm.showAddSong;
+        vm.newSong     = angular.copy(staticAppData.new_song);
+      }
+
+      function displaySong(song) {
+        vm.editSongItem = song;
+      }
+
+      // Set Instrument Options from meta/instruments
+      vm.instrumentOptions = [];
+      firebaseFactory.readDataOnce('instruments').then(
+        function(response) {
+          $scope.$applyAsync(function() {
+            _.each(response.val(), function(instrument, key) {
+              vm.instrumentOptions.push(instrument.title);
+            });
+          });
+        }
+      );
+
+      function updateSong() {
+        firebaseFactory.updateSong(vm.editSongItem);
+        vm.editSongItem = undefined;
+      }
+
+      function deleteSong() {
+        if (window.confirm(
+          'Are you sure you wish to delete this song?\n\n' +
+          'Doing so will also remove the song form all existing setlists')) {
+          firebaseFactory.deleteSong(vm.editSongItem)
+            .then(function() {
+              vm.editSongItem = undefined;
+            });
+        }
+      }
+
+      function addSong() {
+        firebaseFactory.addSong(angular.copy(vm.newSong));
+        vm.newSong = angular.copy(staticAppData.new_song);
+        vm.showAddSong = false;
+      }
     }],
   };
 }]);
@@ -14199,68 +14199,6 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
   };
 }]);
 
-/**
-*  This factory provides a common way for
-*    directives to store API response data
-*    for further calls on the page
-*/
-angular.module('Setlists').
-factory('cacheFactory', function() {
-
-  var pageCache = {},
-      methods   = {},
-      available = _storageAvailable();
-
-  // Store value to cache and localstorage
-  methods.set = function(key, value) {
-    if (_.isString(key)) {
-      pageCache[key] = value;
-      if (!_.isString(value)) {
-        value = angular.toJson(value);
-      }
-      if (available) {
-        localStorage.setItem(key, value);
-      }
-    }
-  };
-
-  methods.get = function(key) {
-    if (available && localStorage.getItem(key)) {
-      return angular.fromJson(localStorage.getItem(key));
-    } else if (pageCache[key]) {
-      return pageCache[key];
-    } else {
-      return null;
-    }
-  };
-
-  methods.getHash = function() {
-    return pageCache;
-  };
-
-  methods.clearLocalStorage = function() {
-    pageCache = {};
-    if (available) {
-      localStorage.clear();
-    }
-  };
-
-  // helper methods
-  function _storageAvailable() {
-    try {
-      var x = 'storage_test';
-      localStorage.setItem(x, x);
-      localStorage.removeItem(x);
-      return true;
-    }
-    catch (e) {
-      return false;
-    }
-  }
-
-  return methods;
-});
-
 angular.module('Setlists').
 directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", "urlParamsFactory", function(
   $filter,
@@ -14421,6 +14359,68 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
     }],
   };
 }]);
+
+/**
+*  This factory provides a common way for
+*    directives to store API response data
+*    for further calls on the page
+*/
+angular.module('Setlists').
+factory('cacheFactory', function() {
+
+  var pageCache = {},
+      methods   = {},
+      available = _storageAvailable();
+
+  // Store value to cache and localstorage
+  methods.set = function(key, value) {
+    if (_.isString(key)) {
+      pageCache[key] = value;
+      if (!_.isString(value)) {
+        value = angular.toJson(value);
+      }
+      if (available) {
+        localStorage.setItem(key, value);
+      }
+    }
+  };
+
+  methods.get = function(key) {
+    if (available && localStorage.getItem(key)) {
+      return angular.fromJson(localStorage.getItem(key));
+    } else if (pageCache[key]) {
+      return pageCache[key];
+    } else {
+      return null;
+    }
+  };
+
+  methods.getHash = function() {
+    return pageCache;
+  };
+
+  methods.clearLocalStorage = function() {
+    pageCache = {};
+    if (available) {
+      localStorage.clear();
+    }
+  };
+
+  // helper methods
+  function _storageAvailable() {
+    try {
+      var x = 'storage_test';
+      localStorage.setItem(x, x);
+      localStorage.removeItem(x);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  return methods;
+});
 
 angular.module('Setlists').
 factory('firebaseAuthFactory', ["$firebaseAuth", function($firebaseAuth) {
