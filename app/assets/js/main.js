@@ -13922,6 +13922,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       vm.colorCategory     = '';
       vm.colorCategoryHash = {};
       vm.displayURL        = '';
+      vm.printURL          = '';
 
       var originalSongsDB  = angular.copy(vm.songsArray);
 
@@ -14187,9 +14188,12 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       // ==========================================================================================
 
       function getListURL() {
-        var baseUrl = 'https://madbread.github.io/setlist-manager/app/songs.html';
+        var baseUrl = 'https://madbread.github.io/setlist-manager/app/';
+        var songsPage = 'songs.html';
+        var printPage = 'print.html';
         var params = '?list=' + vm.editSongListItem.$id;
-        vm.displayURL = baseUrl + params;
+        vm.displayURL = baseUrl + songsPage + params;
+        vm.printURL   = baseUrl + printPage + params;
       }
 
       // ==========================================================================================

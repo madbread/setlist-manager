@@ -139,12 +139,21 @@
         <button
           class="but-small"
           ng-click="songListVM.getListURL()"
-        >Get Share Link</button>
+        >Get Share Links</button>
       </div>
-      <div class="form-row">
+      <div class="form-row" ng-if="songListVM.displayURL.length">
+        Share List:<br>
         <a
           ng-href="{{songListVM.displayURL}}"
           ng-bind="songListVM.displayURL"
+          target="_blank"
+        ></a>
+      </div>
+      <div class="form-row" ng-if="songListVM.printURL.length">
+        Print:<br>
+        <a
+          ng-href="{{songListVM.printURL}}"
+          ng-bind="songListVM.printURL"
           target="_blank"
         ></a>
       </div>
