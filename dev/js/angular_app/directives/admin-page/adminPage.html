@@ -39,7 +39,7 @@
           </button>
         </li>
         <li>
-          <a href="/songs.html" target="_blank">
+          <a href="songs.html" target="_blank">
             View Songs
           </a>
         </li>
@@ -68,6 +68,24 @@
       <li ng-click="adminVM.showUpdateEmail = !adminVM.showUpdateEmail" class="hand color-royal">
         Request Password Update
       </li>
+      <!--
+      Uncomment to run populate script in firebasefactory.js
+      <li>
+        <button ng-click="adminVM.populate()">populate</button>
+      </li>
+      -->
+      <!--
+      Uncomment to add new instrument
+      <li>
+        Add Instrument:<br>
+        <input ng-model="adminVM.newInstrument">
+        <button
+          ng-disabled="!adminVM.newInstrument.length"
+          ng-click="adminVM.addInstrument()"
+          class="but"
+        >add</button>
+      </li>
+      -->
     </ul>
   </div>
   <div ng-include="'templates/admin-register-user.html'"></div>

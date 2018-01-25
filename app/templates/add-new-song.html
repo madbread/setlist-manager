@@ -63,6 +63,15 @@
     </div>
 
     <div class="form-row">
+      <label for="songMark">Mark</label>
+      <select
+        id="songMark"
+        ng-model="songVM.newSong.mark"
+        ng-options="instrument for instrument in songVM.instrumentOptions">
+      </select>
+    </div>
+
+    <div class="form-row">
       <label>Song Length</label>
       <select
         id="songMinutes"

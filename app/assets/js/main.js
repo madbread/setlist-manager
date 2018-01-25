@@ -13398,13 +13398,16 @@ constant('staticAppData', {
     'Fiddle',
     'Guitar',
     'Electric',
-    'Harmonica'
+    'Harmonica',
+    'Kit',
+    'Cajon'
   ],
   playerOptions: [
     'nate',
     'mike',
     'adam',
-    'carl'
+    'carl',
+    'mark'
   ],
   minuteOptions: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -13419,6 +13422,7 @@ constant('staticAppData', {
     adam: 'Banjo',
     nate: 'Mandolin',
     mike: 'Bass',
+    mark: 'Cajon',
     singer: 'Nate',
     minutes: 3,
     seconds: 0
@@ -13554,6 +13558,7 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       vm.showLogin       = false;
       vm.showRegister    = false;
       vm.showUpdateEmail = false;
+      vm.newInstrument   = '';
       vm.messages        = [];
       vm.user            = {};
       _resetUser();
@@ -13562,11 +13567,17 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       vm.showSongEditor     = true;
       vm.showUserActions    = false;
 
-      vm.updateEmail  = updateEmail;
-      vm.registerUser = registerUser;
-      vm.login        = login;
-      vm.logout       = logout;
-      vm.populate     = firebaseFactory.populate;
+      vm.updateEmail   = updateEmail;
+      vm.addInstrument = addInstrument;
+      vm.registerUser  = registerUser;
+      vm.login         = login;
+      vm.logout        = logout;
+      vm.populate      = firebaseFactory.populate;
+
+      function addInstrument() {
+        firebaseFactory.addInstrument({title: angular.copy(vm.newInstrument)});
+        vm.newInstrument = '';
+      }
 
       function _resetUser() {
         vm.user.email = '';
@@ -13617,6 +13628,55 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
           vm.showRegister = false;
           _resetUser();
         });
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
+  firebaseAuthFactory,
+  firebaseDataUtilsFactory,
+  pathsData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'fireUtilVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'fire-util/fireUtil.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      vm.status   = firebaseAuthFactory.getStatus();
+      vm.messages = [];
+      vm.data = {};
+
+      vm.source = 'data';
+      vm.target = 'data';
+
+      vm.loadDataFromSource = loadDataFromSource;
+      vm.copyDataToTarget = copyDataToTarget;
+
+      function loadDataFromSource() {
+        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
+          function(response) {
+            $scope.$applyAsync(function() {
+              // debugger;
+              vm.data = response.val();
+            });
+          }
+        );
+      }
+
+      function copyDataToTarget() {
+        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
       }
     }],
   };
@@ -13746,55 +13806,6 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
         window.print();
       }
 
-    }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
-  firebaseAuthFactory,
-  firebaseDataUtilsFactory,
-  pathsData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'fireUtilVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'fire-util/fireUtil.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      vm.status   = firebaseAuthFactory.getStatus();
-      vm.messages = [];
-      vm.data = {};
-
-      vm.source = 'data';
-      vm.target = 'data';
-
-      vm.loadDataFromSource = loadDataFromSource;
-      vm.copyDataToTarget = copyDataToTarget;
-
-      function loadDataFromSource() {
-        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
-          function(response) {
-            $scope.$applyAsync(function() {
-              // debugger;
-              vm.data = response.val();
-            });
-          }
-        );
-      }
-
-      function copyDataToTarget() {
-        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
-      }
     }],
   };
 }]);
@@ -14609,7 +14620,7 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
   // ==============================================================================================
 
   methods.populate = function() {
-    // Write a script here and run through admin
+    // Enter population function here
   };
 
   // ==============================================================================================

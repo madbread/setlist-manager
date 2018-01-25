@@ -74,6 +74,15 @@
       </div>
 
       <div class="form-row">
+        <label for="songMark">Mark</label>
+        <select
+          id="songMark"
+          ng-model="songVM.editSongItem.mark"
+          ng-options="instrument for instrument in songVM.instrumentOptions">
+        </select>
+      </div>
+
+      <div class="form-row">
         <label for="songNate">Nate</label>
         <select
           id="songNate"

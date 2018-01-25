@@ -26,6 +26,7 @@ directive('adminPage', function(
       vm.showLogin       = false;
       vm.showRegister    = false;
       vm.showUpdateEmail = false;
+      vm.newInstrument   = '';
       vm.messages        = [];
       vm.user            = {};
       _resetUser();
@@ -34,11 +35,17 @@ directive('adminPage', function(
       vm.showSongEditor     = true;
       vm.showUserActions    = false;
 
-      vm.updateEmail  = updateEmail;
-      vm.registerUser = registerUser;
-      vm.login        = login;
-      vm.logout       = logout;
-      vm.populate     = firebaseFactory.populate;
+      vm.updateEmail   = updateEmail;
+      vm.addInstrument = addInstrument;
+      vm.registerUser  = registerUser;
+      vm.login         = login;
+      vm.logout        = logout;
+      vm.populate      = firebaseFactory.populate;
+
+      function addInstrument() {
+        firebaseFactory.addInstrument({title: angular.copy(vm.newInstrument)});
+        vm.newInstrument = '';
+      }
 
       function _resetUser() {
         vm.user.email = '';
