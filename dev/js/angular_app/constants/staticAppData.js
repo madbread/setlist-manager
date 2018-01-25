@@ -46,13 +46,16 @@ constant('staticAppData', {
     'Fiddle',
     'Guitar',
     'Electric',
-    'Harmonica'
+    'Harmonica',
+    'Kit',
+    'Cajon'
   ],
   playerOptions: [
     'nate',
     'mike',
     'adam',
-    'carl'
+    'carl',
+    'mark'
   ],
   minuteOptions: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -67,6 +70,7 @@ constant('staticAppData', {
     adam: 'Banjo',
     nate: 'Mandolin',
     mike: 'Bass',
+    mark: 'Cajon',
     singer: 'Nate',
     minutes: 3,
     seconds: 0

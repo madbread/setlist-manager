@@ -104,7 +104,7 @@ factory('firebaseFactory', function($firebaseObject, $firebaseArray) {
   // ==============================================================================================
 
   methods.populate = function() {
-    // Write a script here and run through admin
+    // Enter population function here
   };
 
   // ==============================================================================================

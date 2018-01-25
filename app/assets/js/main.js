@@ -13398,13 +13398,16 @@ constant('staticAppData', {
     'Fiddle',
     'Guitar',
     'Electric',
-    'Harmonica'
+    'Harmonica',
+    'Kit',
+    'Cajon'
   ],
   playerOptions: [
     'nate',
     'mike',
     'adam',
-    'carl'
+    'carl',
+    'mark'
   ],
   minuteOptions: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -13419,6 +13422,7 @@ constant('staticAppData', {
     adam: 'Banjo',
     nate: 'Mandolin',
     mike: 'Bass',
+    mark: 'Cajon',
     singer: 'Nate',
     minutes: 3,
     seconds: 0
@@ -13500,6 +13504,7 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       vm.showLogin       = false;
       vm.showRegister    = false;
       vm.showUpdateEmail = false;
+      vm.newInstrument   = '';
       vm.messages        = [];
       vm.user            = {};
       _resetUser();
@@ -13508,11 +13513,17 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       vm.showSongEditor     = true;
       vm.showUserActions    = false;
 
-      vm.updateEmail  = updateEmail;
-      vm.registerUser = registerUser;
-      vm.login        = login;
-      vm.logout       = logout;
-      vm.populate     = firebaseFactory.populate;
+      vm.updateEmail   = updateEmail;
+      vm.addInstrument = addInstrument;
+      vm.registerUser  = registerUser;
+      vm.login         = login;
+      vm.logout        = logout;
+      vm.populate      = firebaseFactory.populate;
+
+      function addInstrument() {
+        firebaseFactory.addInstrument({title: angular.copy(vm.newInstrument)});
+        vm.newInstrument = '';
+      }
 
       function _resetUser() {
         vm.user.email = '';
@@ -14609,7 +14620,7 @@ factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($fireb
   // ==============================================================================================
 
   methods.populate = function() {
-    // Write a script here and run through admin
+    // Enter population function here
   };
 
   // ==============================================================================================
