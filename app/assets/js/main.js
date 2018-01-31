@@ -14120,7 +14120,6 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       // ==========================================================================================
 
       function setSongColor(category) {
-        // debugger;
         vm.colorCategoryHash = category === 'singer' ?
           staticAppData.singerColorHash : staticAppData.instrumentColorHash;
         vm.colorCategory = category;
