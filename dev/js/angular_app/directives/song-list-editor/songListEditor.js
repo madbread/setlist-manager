@@ -123,6 +123,8 @@ directive('songListEditor', function(
           vm.editSongListItem.songs = {};
         }
         vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
+        vm.displayURL = '';
+        vm.printURL   = '';
       }
 
       // ==========================================================================================
