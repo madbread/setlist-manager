@@ -13803,7 +13803,7 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
 
           // Do not show default bassist on print page
           thisSong.bassist = thisSong.bassist === staticAppData.defaultBassist ?
-            '' : thisSong.bassist.capitalize();
+            '' : (_.isString(thisSong.bassist) ? thisSong.bassist.capitalize() : '');
 
           // Do not show Nate's default instrument on print page
           thisSong.nate = thisSong.nate === staticAppData.defaultNate ?
@@ -14033,6 +14033,8 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
           vm.editSongListItem.songs = {};
         }
         vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
+        vm.displayURL = '';
+        vm.printURL   = '';
       }
 
       // ==========================================================================================

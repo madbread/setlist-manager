@@ -82,7 +82,7 @@ directive('printList', function(
 
           // Do not show default bassist on print page
           thisSong.bassist = thisSong.bassist === staticAppData.defaultBassist ?
-            '' : thisSong.bassist.capitalize();
+            '' : (_.isString(thisSong.bassist) ? thisSong.bassist.capitalize() : '');
 
           // Do not show Nate's default instrument on print page
           thisSong.nate = thisSong.nate === staticAppData.defaultNate ?
