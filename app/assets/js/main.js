@@ -13480,6 +13480,60 @@ constant('staticAppData', {
 });
 
 angular.module('Setlists').
+directive('datepicker', ["pathsData", function(pathsData) {
+  'use strict';
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      hideIcon: '=',
+      date: '='
+    },
+    controllerAs: 'datepickerVM',
+    bindToController: true,
+    templateUrl: [
+      pathsData.directives,
+      'datepicker/datepicker.html'
+    ].join(''),
+    controller: function() {
+      var vm = this;
+      if (!vm.date) {
+        vm.date = '';
+      }
+    },
+    link: function(scope, elem, attr) {
+      var vm = scope.datepickerVM;
+      var dateConfig = {
+        buttonImage: '/assets/images/icon-cal.svg',
+        buttonImageOnly: true,
+        buttonText: 'Select date',
+        changeMonth: true,
+        changeYear: true,
+        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        dateFormat: 'M d, yy',
+        nextText: 'Á',
+        prevText: 'Â',
+        showOn: 'both',
+        showButtonPanel: true,
+        closeText: 'Close'
+      };
+      if (vm.hideIcon) {
+        dateConfig.buttonImage     = null;
+        dateConfig.buttonImageOnly = null;
+        dateConfig.buttonText      = null;
+        dateConfig.showOn          = 'focus';
+      }
+      elem.datepicker(dateConfig).keydown(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          $.datepicker._clearDate(this);
+          e.preventDefault();
+        }
+      });
+    }
+  };
+}]);
+
+angular.module('Setlists').
 directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseFactory,
@@ -13583,60 +13637,6 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
-directive('datepicker', ["pathsData", function(pathsData) {
-  'use strict';
-  return {
-    replace: true,
-    restrict: 'E',
-    scope: {
-      hideIcon: '=',
-      date: '='
-    },
-    controllerAs: 'datepickerVM',
-    bindToController: true,
-    templateUrl: [
-      pathsData.directives,
-      'datepicker/datepicker.html'
-    ].join(''),
-    controller: function() {
-      var vm = this;
-      if (!vm.date) {
-        vm.date = '';
-      }
-    },
-    link: function(scope, elem, attr) {
-      var vm = scope.datepickerVM;
-      var dateConfig = {
-        buttonImage: '/assets/images/icon-cal.svg',
-        buttonImageOnly: true,
-        buttonText: 'Select date',
-        changeMonth: true,
-        changeYear: true,
-        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        dateFormat: 'M d, yy',
-        nextText: 'Á',
-        prevText: 'Â',
-        showOn: 'both',
-        showButtonPanel: true,
-        closeText: 'Close'
-      };
-      if (vm.hideIcon) {
-        dateConfig.buttonImage     = null;
-        dateConfig.buttonImageOnly = null;
-        dateConfig.buttonText      = null;
-        dateConfig.showOn          = 'focus';
-      }
-      elem.datepicker(dateConfig).keydown(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) {
-          $.datepicker._clearDate(this);
-          e.preventDefault();
-        }
-      });
-    }
-  };
-}]);
-
-angular.module('Setlists').
 directive('errorMessages', ["pathsData", function(pathsData) {
   'use strict';
 
@@ -13714,91 +13714,6 @@ directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "paths
 
       function copyDataToTarget() {
         firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
-      }
-    }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
-  firebaseFactory,
-  pathsData,
-  staticAppData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'songVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'song-editor/songEditor.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      // vm data
-      vm.editSongItem  = undefined;
-      vm.keyOptions    = staticAppData.key_options;
-      vm.newSong       = angular.copy(staticAppData.new_song);
-      vm.showAddSong   = false;
-      vm.singerOptions = angular.copy(staticAppData.singerOptions);
-      vm.songsDB       = firebaseFactory.followSongs();
-      vm.minuteOptions = staticAppData.minuteOptions;
-      vm.secondOptions = staticAppData.secondOptions;
-      vm.helpText      = staticAppData.songHelpText;
-
-      // vm functions
-      vm.addSong       = addSong;
-      vm.displaySong   = displaySong;
-      vm.toggleAddSong = toggleAddSong;
-      vm.updateSong    = updateSong;
-      vm.deleteSong    = deleteSong;
-
-      function toggleAddSong() {
-        vm.showAddSong = !vm.showAddSong;
-        vm.newSong     = angular.copy(staticAppData.new_song);
-      }
-
-      function displaySong(song) {
-        vm.editSongItem = song;
-      }
-
-      // Set Instrument Options from meta/instruments
-      vm.instrumentOptions = [];
-      firebaseFactory.readDataOnce('instruments').then(
-        function(response) {
-          $scope.$applyAsync(function() {
-            _.each(response.val(), function(instrument, key) {
-              vm.instrumentOptions.push(instrument.title);
-            });
-          });
-        }
-      );
-
-      function updateSong() {
-        firebaseFactory.updateSong(vm.editSongItem);
-        vm.editSongItem = undefined;
-      }
-
-      function deleteSong() {
-        if (window.confirm(
-          'Are you sure you wish to delete this song?\n\n' +
-          'Doing so will also remove the song form all existing setlists')) {
-          firebaseFactory.deleteSong(vm.editSongItem)
-            .then(function() {
-              vm.editSongItem = undefined;
-            });
-        }
-      }
-
-      function addSong() {
-        firebaseFactory.addSong(angular.copy(vm.newSong));
-        vm.newSong = angular.copy(staticAppData.new_song);
-        vm.showAddSong = false;
       }
     }],
   };
@@ -13905,6 +13820,252 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
       }
 
     }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", function(
+  firebaseFactory,
+  pathsData,
+  staticAppData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'songVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'song-editor/songEditor.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      // vm data
+      vm.editSongItem  = undefined;
+      vm.keyOptions    = staticAppData.key_options;
+      vm.newSong       = angular.copy(staticAppData.new_song);
+      vm.showAddSong   = false;
+      vm.singerOptions = angular.copy(staticAppData.singerOptions);
+      vm.songsDB       = firebaseFactory.followSongs();
+      vm.minuteOptions = staticAppData.minuteOptions;
+      vm.secondOptions = staticAppData.secondOptions;
+      vm.helpText      = staticAppData.songHelpText;
+
+      // vm functions
+      vm.addSong       = addSong;
+      vm.displaySong   = displaySong;
+      vm.toggleAddSong = toggleAddSong;
+      vm.updateSong    = updateSong;
+      vm.deleteSong    = deleteSong;
+
+      function toggleAddSong() {
+        vm.showAddSong = !vm.showAddSong;
+        vm.newSong     = angular.copy(staticAppData.new_song);
+      }
+
+      function displaySong(song) {
+        vm.editSongItem = song;
+      }
+
+      // Set Instrument Options from meta/instruments
+      vm.instrumentOptions = [];
+      firebaseFactory.readDataOnce('instruments').then(
+        function(response) {
+          $scope.$applyAsync(function() {
+            _.each(response.val(), function(instrument, key) {
+              vm.instrumentOptions.push(instrument.title);
+            });
+          });
+        }
+      );
+
+      function updateSong() {
+        firebaseFactory.updateSong(vm.editSongItem);
+        vm.editSongItem = undefined;
+      }
+
+      function deleteSong() {
+        if (window.confirm(
+          'Are you sure you wish to delete this song?\n\n' +
+          'Doing so will also remove the song form all existing setlists')) {
+          firebaseFactory.deleteSong(vm.editSongItem)
+            .then(function() {
+              vm.editSongItem = undefined;
+            });
+        }
+      }
+
+      function addSong() {
+        firebaseFactory.addSong(angular.copy(vm.newSong));
+        vm.newSong = angular.copy(staticAppData.new_song);
+        vm.showAddSong = false;
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", "urlParamsFactory", function(
+  $filter,
+  cacheFactory,
+  firebaseFactory,
+  pathsData,
+  staticAppData,
+  urlParamsFactory) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'songViewVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'song-viewer/songViewer.html'
+    ].join(''),
+
+    controller: function() {
+      var vm = this;
+      var params = urlParamsFactory.getAllQueryParamsObject();
+      var originalSongs = [];
+      var songHash      = {};
+      var listHash      = {};
+
+      // vm data
+      vm.songs             = [];
+      vm.displaySong       = undefined;
+      vm.titleFilter       = '';
+      vm.blank             = 'No Filter';
+      vm.instrumentOptions = [];
+      vm.listOptions       = [];
+      vm.playerOptions     = staticAppData.playerOptions;
+      vm.keyOptions        = staticAppData.key_options;
+
+      vm.keyOptions.unshift(vm.blank);
+      vm.key               = vm.keyOptions[0];
+      vm.playerOptions.unshift(vm.blank);
+      vm.player            = vm.playerOptions[0];
+
+      // vm functions
+      vm.selectSong  = selectSong;
+      vm.setSonglist = setSonglist;
+      vm.randomSong  = randomSong;
+      vm.clearAll    = clearAll;
+      vm.filter      = filter;
+
+      // firebase data initialiations
+      firebaseFactory.readDataOnce('songs')
+        .then(function(response) {
+          songHash = response.val();
+          vm.songs = _.map(response.val());
+          originalSongs = angular.copy(vm.songs);
+          countSongs();
+        });
+
+      // load instrument Options
+      firebaseFactory.readDataOnce('instruments')
+        .then(function(response) {
+          vm.instrumentOptions = _.map(response.val(), 'title');
+          vm.instrumentOptions.unshift(vm.blank);
+          vm.instrument = vm.instrumentOptions[0];
+        });
+
+      // load songlists
+      firebaseFactory.readDataOnce('songLists')
+        .then(function(response) {
+          listHash = response.val();
+          vm.listOptions = _.map(response.val());
+          vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
+          // If params passed a valid list id, load it and apply filter
+          if (listHash.hasOwnProperty(params.list)) {
+            vm.list = _.find(vm.listOptions, function(option) {
+              return option.title === listHash[params.list].title;
+            });
+            filter();
+          } else {
+            vm.list = vm.listOptions[0];
+          }
+        });
+
+      // ======================================================================
+
+      function getFilteredSongs() {
+        var currentSongs = _.keys(vm.list.songs).length ?
+          getSongsInList(vm.list.songs) :
+          angular.copy(originalSongs);
+
+        currentSongs = $filter('filter')(currentSongs, vm.titleFilter);
+
+        if (vm.instrument !== vm.blank) {
+          currentSongs = $filter('filter')(currentSongs, function(song) {
+            return song[vm.player] === vm.instrument;
+          });
+        }
+        if (vm.key !== vm.blank) {
+          currentSongs = $filter('filter')(currentSongs, function(song) {
+            return song.key === vm.key;
+          });
+        }
+        return currentSongs;
+      }
+
+      // ======================================================================
+
+      function filter() {
+        vm.songs = getFilteredSongs();
+        countSongs();
+      }
+
+      function getSongsInList(songs) {
+        return _.map(songs, function(order, key) {
+          return songHash[key];
+        });
+      }
+
+      function setSonglist() {
+        if (_.keys(vm.list.songs).length) {
+          filter();
+        } else {
+          clearAll();
+        }
+      }
+
+      function clearAll() {
+        vm.list        = vm.listOptions[0];
+        vm.player      = vm.blank;
+        vm.titleFilter = '';
+        vm.key         = vm.blank;
+        vm.songs       = angular.copy(originalSongs);
+        vm.displaySong = undefined;
+        countSongs();
+      }
+
+      function selectSong(song) {
+        vm.displaySong = song;
+        vm.selectedId  = song.$$hashKey;
+      }
+
+      function randomSong() {
+        vm.displaySong = vm.songs[_.random(vm.songs.length - 1)];
+        vm.selectedId  = vm.displaySong.$$hashKey;
+      }
+
+      function countSongs() {
+        vm.count = $filter('filter')(vm.songs, vm.titleFilter).length;
+      }
+
+      function resetSongs() {
+        vm.songs = angular.copy(originalSongs);
+        countSongs();
+      }
+
+      // ======================================================================
+    },
   };
 }]);
 
@@ -14224,167 +14385,6 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
 
       _init();
     }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", "urlParamsFactory", function(
-  $filter,
-  cacheFactory,
-  firebaseFactory,
-  pathsData,
-  staticAppData,
-  urlParamsFactory) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'songViewVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'song-viewer/songViewer.html'
-    ].join(''),
-
-    controller: function() {
-      var vm = this;
-      var params = urlParamsFactory.getAllQueryParamsObject();
-      var originalSongs = [];
-      var songHash      = {};
-      var listHash      = {};
-
-      // vm data
-      vm.songs             = [];
-      vm.displaySong       = undefined;
-      vm.titleFilter       = '';
-      vm.blank             = 'No Filter';
-      vm.instrumentOptions = [];
-      vm.listOptions       = [];
-      vm.playerOptions     = staticAppData.playerOptions;
-      vm.keyOptions        = staticAppData.key_options;
-
-      vm.keyOptions.unshift(vm.blank);
-      vm.key               = vm.keyOptions[0];
-      vm.playerOptions.unshift(vm.blank);
-      vm.player            = vm.playerOptions[0];
-
-      // vm functions
-      vm.selectSong  = selectSong;
-      vm.setSonglist = setSonglist;
-      vm.randomSong  = randomSong;
-      vm.clearAll    = clearAll;
-      vm.filter      = filter;
-
-      // firebase data initialiations
-      firebaseFactory.readDataOnce('songs')
-        .then(function(response) {
-          songHash = response.val();
-          vm.songs = _.map(response.val());
-          originalSongs = angular.copy(vm.songs);
-          countSongs();
-        });
-
-      // load instrument Options
-      firebaseFactory.readDataOnce('instruments')
-        .then(function(response) {
-          vm.instrumentOptions = _.map(response.val(), 'title');
-          vm.instrumentOptions.unshift(vm.blank);
-          vm.instrument = vm.instrumentOptions[0];
-        });
-
-      // load songlists
-      firebaseFactory.readDataOnce('songLists')
-        .then(function(response) {
-          listHash = response.val();
-          vm.listOptions = _.map(response.val());
-          vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
-          // If params passed a valid list id, load it and apply filter
-          if (listHash.hasOwnProperty(params.list)) {
-            vm.list = _.find(vm.listOptions, function(option) {
-              return option.title === listHash[params.list].title;
-            });
-            filter();
-          } else {
-            vm.list = vm.listOptions[0];
-          }
-        });
-
-      // ======================================================================
-
-      function getFilteredSongs() {
-        var currentSongs = _.keys(vm.list.songs).length ?
-          getSongsInList(vm.list.songs) :
-          angular.copy(originalSongs);
-
-        currentSongs = $filter('filter')(currentSongs, vm.titleFilter);
-
-        if (vm.instrument !== vm.blank) {
-          currentSongs = $filter('filter')(currentSongs, function(song) {
-            return song[vm.player] === vm.instrument;
-          });
-        }
-        if (vm.key !== vm.blank) {
-          currentSongs = $filter('filter')(currentSongs, function(song) {
-            return song.key === vm.key;
-          });
-        }
-        return currentSongs;
-      }
-
-      // ======================================================================
-
-      function filter() {
-        vm.songs = getFilteredSongs();
-        countSongs();
-      }
-
-      function getSongsInList(songs) {
-        return _.map(songs, function(order, key) {
-          return songHash[key];
-        });
-      }
-
-      function setSonglist() {
-        if (_.keys(vm.list.songs).length) {
-          filter();
-        } else {
-          clearAll();
-        }
-      }
-
-      function clearAll() {
-        vm.list        = vm.listOptions[0];
-        vm.player      = vm.blank;
-        vm.titleFilter = '';
-        vm.key         = vm.blank;
-        vm.songs       = angular.copy(originalSongs);
-        vm.displaySong = undefined;
-        countSongs();
-      }
-
-      function selectSong(song) {
-        vm.displaySong = song;
-        vm.selectedId  = song.$$hashKey;
-      }
-
-      function randomSong() {
-        vm.displaySong = vm.songs[_.random(vm.songs.length - 1)];
-        vm.selectedId  = vm.displaySong.$$hashKey;
-      }
-
-      function countSongs() {
-        vm.count = $filter('filter')(vm.songs, vm.titleFilter).length;
-      }
-
-      function resetSongs() {
-        vm.songs = angular.copy(originalSongs);
-        countSongs();
-      }
-
-      // ======================================================================
-    },
   };
 }]);
 
