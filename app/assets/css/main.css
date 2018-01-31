@@ -1656,6 +1656,15 @@ form > label {
 form label.no-pad {
   width: auto !important; }
 
+.print_controls {
+  border: 2px #000 dashed;
+  background-color: #c7beda;
+  padding: 1em; }
+
+.print_controls label {
+  display: inline-block;
+  min-width: 3em; }
+
 .align-right {
   text-align: right; }
 

@@ -27,6 +27,16 @@ directive('printList', function(
       var songHash = {};
       var listHash = {};
 
+      vm.cols = {
+        nate: true,
+        key: true,
+        bass: true,
+        length: false,
+        mike: false,
+        adam: false,
+        carl: false,
+        mark: false
+      };
       vm.songs  = [];
       vm.errors = [];
       vm.print  = print;

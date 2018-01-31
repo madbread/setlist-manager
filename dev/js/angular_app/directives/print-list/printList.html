@@ -1,5 +1,18 @@
 <div class="print-records-page">
 
+  <div class="noprint print_controls">
+    <h5>Display Columns:</h5>
+    <label for="cb_Nate">Nate</label> <input id="cb_Nate" type="checkbox" ng-model="printListVM.cols.nate"><br>
+    <label for="cb_Bass">Bass</label> <input id="cb_Bass" type="checkbox" ng-model="printListVM.cols.bass"><br>
+    <label for="cb_Mike">Mike</label> <input id="cb_Mike" type="checkbox" ng-model="printListVM.cols.mike"><br>
+    <label for="cb_Adam">Adam</label> <input id="cb_Adam" type="checkbox" ng-model="printListVM.cols.adam"><br>
+    <label for="cb_Carl">Carl</label> <input id="cb_Carl" type="checkbox" ng-model="printListVM.cols.carl"><br>
+    <label for="cb_Mark">Mark</label> <input id="cb_Mark" type="checkbox" ng-model="printListVM.cols.mark"><br>
+    <label for="cb_Key">Key</label> <input id="cb_Key" type="checkbox" ng-model="printListVM.cols.key"><br>
+    <label for="cb_Length">Length</label> <input id="cb_Length" type="checkbox" ng-model="printListVM.cols.length"><br>
+    <label for="cb_Bpm">BPM</label> <input id="cb_Bpm" type="checkbox" ng-model="printListVM.cols.bpm"><br>
+  </div>
+
   <h1>
     <span ng-bind="printListVM.title"></span>
     <span
@@ -14,17 +27,25 @@
     <thead>
       <tr>
         <th></th>
-        <th>Nate</th>
-        <th>Bass</th>
-        <th>Key</th>
+        <th ng-show="printListVM.cols.nate">Nate</th>
+        <th ng-show="printListVM.cols.adam">Adam</th>
+        <th ng-show="printListVM.cols.carl">Carl</th>
+        <th ng-show="printListVM.cols.mike">Mike</th>
+        <th ng-show="printListVM.cols.mark">Mark</th>
+        <th ng-show="printListVM.cols.bass">Bass</th>
+        <th ng-show="printListVM.cols.key">Key</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="song in printListVM.songs | orderBy:'order'">
         <td ng-bind="song.title"></td>
-        <td ng-bind="song.nate"></td>
-        <td ng-bind="song.bassist"></td>
-        <td ng-bind="song.key"></td>
+        <td ng-show="printListVM.cols.nate" ng-bind="song.nate"></td>
+        <td ng-show="printListVM.cols.adam" ng-bind="song.adam"></td>
+        <td ng-show="printListVM.cols.carl" ng-bind="song.carl"></td>
+        <td ng-show="printListVM.cols.mike" ng-bind="song.mike"></td>
+        <td ng-show="printListVM.cols.mark" ng-bind="song.mark"></td>
+        <td ng-show="printListVM.cols.bass" ng-bind="song.bassist"></td>
+        <td ng-show="printListVM.cols.key" ng-bind="song.key"></td>
       </tr>
     </tbody>
   </table>
