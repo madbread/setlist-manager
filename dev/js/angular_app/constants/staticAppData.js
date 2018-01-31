@@ -10,6 +10,7 @@ constant('staticAppData', {
     'Carl': 'bg-soft-yellow',
     'Mike': 'bg-soft-pink',
     'Adam': 'bg-soft-blue',
+    'Mark': 'bg-soft-red',
     'Instrumental': 'bg-soft-purple'
   },
   instrumentColorHash: {
@@ -19,7 +20,9 @@ constant('staticAppData', {
     'Fiddle': 'bg-soft-blue',
     'Guitar': 'bg-soft-purple',
     'Electric': 'bg-soft-brown',
-    'Harmonica': 'bg-soft-gray'
+    'Harmonica': 'bg-soft-gray',
+    'Cajon': 'bg-soft-red',
+    'Kit': 'bg-soft-gold',
   },
   songHelpText: {
     edit: 'Click a title below to edit the song info.',

@@ -19,7 +19,7 @@ directive('songViewer', function(
       'song-viewer/songViewer.html'
     ].join(''),
 
-    controller: function($scope) {
+    controller: function() {
       var vm = this;
       var params = urlParamsFactory.getAllQueryParamsObject();
       var originalSongs = [];

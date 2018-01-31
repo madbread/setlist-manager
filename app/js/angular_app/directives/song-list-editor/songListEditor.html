@@ -33,34 +33,39 @@
             ></span>
             Highlight:
             <span
-             class="hand but-small"
-             ng-class="{'active': songListVM.colorCategory === 'singer'}"
-             ng-click="songListVM.setSongColor('singer')"
+              class="hand but-small"
+              ng-class="{'active': songListVM.colorCategory === 'singer'}"
+              ng-click="songListVM.setSongColor('singer')"
             >Singer</span>
             <span
-             class="hand but-small"
-             ng-class="{'active': songListVM.colorCategory === 'nate'}"
-             ng-click="songListVM.setSongColor('nate')"
+              class="hand but-small"
+              ng-class="{'active': songListVM.colorCategory === 'nate'}"
+              ng-click="songListVM.setSongColor('nate')"
             >Nate</span>
             <span
-             class="hand but-small"
-             ng-class="{'active': songListVM.colorCategory === 'mike'}"
-             ng-click="songListVM.setSongColor('mike')"
+              class="hand but-small"
+              ng-class="{'active': songListVM.colorCategory === 'mike'}"
+              ng-click="songListVM.setSongColor('mike')"
             >Mike</span>
             <span
-             class="hand but-small"
-             ng-class="{'active': songListVM.colorCategory === 'adam'}"
-             ng-click="songListVM.setSongColor('adam')"
+              class="hand but-small"
+              ng-class="{'active': songListVM.colorCategory === 'adam'}"
+              ng-click="songListVM.setSongColor('adam')"
             >Adam</span>
             <span
-            class="hand but-small"
-             ng-class="{'active': songListVM.colorCategory === 'carl'}"
-             ng-click="songListVM.setSongColor('carl')"
+              class="hand but-small"
+              ng-class="{'active': songListVM.colorCategory === 'carl'}"
+              ng-click="songListVM.setSongColor('carl')"
             >Carl</span>
             <span
-             class="color-warning hand"
-             ng-show="songListVM.colorCategory.length"
-             ng-click="songListVM.setSongColor('')"
+              class="hand but-small"
+              ng-class="{'active': songListVM.colorCategory === 'mark'}"
+              ng-click="songListVM.setSongColor('mark')"
+            >Mark</span>
+            <span
+              class="color-warning hand"
+              ng-show="songListVM.colorCategory.length"
+              ng-click="songListVM.setSongColor('')"
             >Clear</span>
           </div>
           <div class="form-row" ng-show="songListVM.colorCategory.length">

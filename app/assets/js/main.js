@@ -13362,6 +13362,7 @@ constant('staticAppData', {
     'Carl': 'bg-soft-yellow',
     'Mike': 'bg-soft-pink',
     'Adam': 'bg-soft-blue',
+    'Mark': 'bg-soft-red',
     'Instrumental': 'bg-soft-purple'
   },
   instrumentColorHash: {
@@ -13371,7 +13372,9 @@ constant('staticAppData', {
     'Fiddle': 'bg-soft-blue',
     'Guitar': 'bg-soft-purple',
     'Electric': 'bg-soft-brown',
-    'Harmonica': 'bg-soft-gray'
+    'Harmonica': 'bg-soft-gray',
+    'Cajon': 'bg-soft-red',
+    'Kit': 'bg-soft-gold',
   },
   songHelpText: {
     edit: 'Click a title below to edit the song info.',
@@ -14117,6 +14120,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       // ==========================================================================================
 
       function setSongColor(category) {
+        // debugger;
         vm.colorCategoryHash = category === 'singer' ?
           staticAppData.singerColorHash : staticAppData.instrumentColorHash;
         vm.colorCategory = category;
@@ -14235,7 +14239,7 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
       'song-viewer/songViewer.html'
     ].join(''),
 
-    controller: ["$scope", function($scope) {
+    controller: function() {
       var vm = this;
       var params = urlParamsFactory.getAllQueryParamsObject();
       var originalSongs = [];
@@ -14371,7 +14375,7 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
       }
 
       // ======================================================================
-    }],
+    },
   };
 }]);
 
