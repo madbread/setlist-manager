@@ -1,0 +1,1361 @@
+// jscs:disable
+angular.module('Setlists').
+constant('sampleDB', {
+  "data" : {
+    "songLists" : {
+      "-KnCoUtm2svjssI15VCJ" : {
+        "notes" : {
+          "-KlWkZjSzfX6z0ncATKS" : "",
+          "-KlWq0i1krZf3O1vcp7b" : "",
+          "-Kl_YK-3FC93bq514Fyf" : "",
+          "-L31M9LMLdU6QHIuIr3t" : "-->"
+        },
+        "songs" : {
+          "-Kl04oyBIn1R-9JxK_KJ" : 0,
+          "-Kl09C7Q1Q2C4LX-31CC" : 12,
+          "-KlWkZjSzfX6z0ncATKS" : 19,
+          "-KlWkm72X0Nmmt6y0Agy" : 6,
+          "-KlWq0i1krZf3O1vcp7b" : 14,
+          "-KlWqO8esIFARO-ItDKG" : 1,
+          "-KlWrtZRHAbdh5iSrMbx" : 7,
+          "-KlWu5qtE8TWPwjzPC7q" : 2,
+          "-KlWuEjavNkqhoDkdnEb" : 4,
+          "-KlWuY9TBU4eLK65DkhE" : 11,
+          "-Kl_YK-3FC93bq514Fyf" : 8,
+          "-Kl_ZWY-ueOc2_IoQvI7" : 3,
+          "-Kl_aiNL4rE6mERvgN7O" : 5,
+          "-Kl_bZpuihgiQ8JWCu6U" : 13,
+          "-Kl_byfal4gq2RUOUOVA" : 16,
+          "-KlahC6pCCesMtGmPQkN" : 17,
+          "-KnAtW5twNWQa0U2gXQH" : 10,
+          "-KnAtsPTVcgub4tBysZ-" : 15,
+          "-L3-2k9K_wreGQl7hg5_" : 18,
+          "-L31M9LMLdU6QHIuIr3t" : 9
+        },
+        "title" : "Fiddle Set"
+      },
+      "-L3JCuppTdqkfqapSYBU" : {
+        "notes" : {
+          "-KlWpBmF740Ery7CuXX9" : "sc"
+        },
+        "songs" : {
+          "-KlWjFORdNnL3HjKo6E0" : 6,
+          "-KlWjPNlisc6uwFKsNos" : 0,
+          "-KlWjkP1zluflnMYdQW2" : 9,
+          "-KlWjx_T0W41nLJGxL4o" : 14,
+          "-KlWkIqp2xvQNwQfO397" : 4,
+          "-KlWkc70-RvI2zHR7oSj" : 5,
+          "-KlWom6wezkIiRdi3Y_V" : 8,
+          "-KlWp5oYf-ktH0zaTJh_" : 1,
+          "-KlWqmdbbFWHhJ__Q3tZ" : 2,
+          "-KlWtkENKEFdnYA88cgE" : 7,
+          "-KlWtx1jytr8x69xS0ln" : 10,
+          "-KlWu-sB2I_cCV7H0wZt" : 22,
+          "-KlWu5qtE8TWPwjzPC7q" : 11,
+          "-KlWu9yH15YNCfMPU1gV" : 21,
+          "-Kl__lrJVRCQ0ff8I7Oj" : 3,
+          "-Kl_a0Hm_TN6qLlHaK5G" : 16,
+          "-Kl_a3VVTK7gz8trjP4g" : 13,
+          "-L3KCFVF6M27FJVVfJGW" : 19,
+          "-L3KC_CcKAI2A6ezmSqb" : 15,
+          "-L3KCjYSFnSDR0GVnJvp" : 12,
+          "-L3KCuoiGQT8qMOqcir_" : 18,
+          "-L3KDEp3YvgMFd_jR_fi" : 20,
+          "-L3KDQJMLjIoj0jwEfU4" : 17
+        },
+        "title" : "Old Songs to Practice"
+      }
+    },
+    "songs" : {
+      "-Kl01Z0Dp7nKL0cCv8vB" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 4,
+        "nate" : "Mandolin",
+        "seconds" : 30,
+        "singer" : "Nate",
+        "title" : "Miss Chicago"
+      },
+      "-Kl01kPvZq0rIo08qlmY" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Em",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "One Load Lighter"
+      },
+      "-Kl02lrl1NdNxopdbWMk" : {
+        "adam" : "Harmonica",
+        "carl" : "Electric",
+        "key" : "F#",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Old '55"
+      },
+      "-Kl04oyBIn1R-9JxK_KJ" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Change in the Weather"
+      },
+      "-Kl09C7Q1Q2C4LX-31CC" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Dark as a Dungeon"
+      },
+      "-Kl0KRI5GeNxSVMsa7eh" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "I Was Gonna Leave"
+      },
+      "-Kl0KX6HvCsaQqrx3S4A" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "F",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Gone Too Long"
+      },
+      "-Kl0KgFxRkAY6vkdAta3" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "title" : "New Breed of Jailbird"
+      },
+      "-Kl0KwJH4AgR_S9ECi4a" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Bb",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Fat Bottomed Girls"
+      },
+      "-Kl0L5c_llF4fgpp6eYj" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Instrumental",
+        "title" : "Foggy Mountain Breakdown"
+      },
+      "-Kl0LDzfVm9oPSOlksnK" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "E",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Playing my Heartstrings Again"
+      },
+      "-Kl0LLSUzxHx0ab5l_Ho" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "B",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Captain's Lament"
+      },
+      "-Kl0Lq0hXXuf-qMeQHM3" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Shovel"
+      },
+      "-Kl0LwIG2t8Vhlsm6rQH" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Country Radio"
+      },
+      "-Kl0M5_tWi-DuqSLleX4" : {
+        "adam" : "Harmonica",
+        "carl" : "Electric",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Sad Beautiful"
+      },
+      "-KlWjFORdNnL3HjKo6E0" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Bb",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Goin South"
+      },
+      "-KlWjJKDtjgH6Q6DYcoj" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Bb",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Instrumental",
+        "title" : "Southport"
+      },
+      "-KlWjPNlisc6uwFKsNos" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Anyway"
+      },
+      "-KlWjkP1zluflnMYdQW2" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Longest Day of Summer"
+      },
+      "-KlWjqBdFSWBF3Tp9QuE" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Darker Waters"
+      },
+      "-KlWjx_T0W41nLJGxL4o" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "title" : "This Old Stone"
+      },
+      "-KlWk7xqNtErrxEmm-pL" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "F#m",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Time"
+      },
+      "-KlWkCsmcnHLMptBq6EV" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mark" : "Cajon",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "40 oz to Freedom"
+      },
+      "-KlWkIqp2xvQNwQfO397" : {
+        "adam" : "Harmonica",
+        "carl" : "Electric",
+        "key" : "E",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Deep Elem Blues"
+      },
+      "-KlWkNcmWLmJZskBhl1t" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "E",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "title" : "Fool Like You"
+      },
+      "-KlWkZjSzfX6z0ncATKS" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Old Shoes"
+      },
+      "-KlWkc70-RvI2zHR7oSj" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Mike",
+        "title" : "Fearless"
+      },
+      "-KlWkfI5opD_jcIY2oNM" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "How Mountain Girls Can Love"
+      },
+      "-KlWkm72X0Nmmt6y0Agy" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Creole Belle"
+      },
+      "-KlWktDAjfC4RrmyaXtd" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Feel The Same"
+      },
+      "-KlWkzLuvTv2xXk_PIYO" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Heart Hand Song"
+      },
+      "-KlWoBCYm49TcX1D09j0" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Maybe My Heart"
+      },
+      "-KlWoFUBMu7hHZMvpNiU" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Wagon Wheel"
+      },
+      "-KlWoLabOjKOHd3r6-Kq" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Whiskey in the Jar"
+      },
+      "-KlWoXXzI0Vo-0yfytgF" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Whiskey River"
+      },
+      "-KlWob5c0gmFeo3cfPJm" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "I Know You Rider"
+      },
+      "-KlWom6wezkIiRdi3Y_V" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "E",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "In The Pines"
+      },
+      "-KlWouRO0k-M734ycgpE" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Working On A Building"
+      },
+      "-KlWp2B_ag7wG2-wJHm9" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Done Laid Around"
+      },
+      "-KlWp5oYf-ktH0zaTJh_" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Baby's in Black"
+      },
+      "-KlWpBmF740Ery7CuXX9" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "City of New Orleans"
+      },
+      "-KlWpmvDsU-bSzXYIZDY" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Pascal's Bubbler"
+      },
+      "-KlWq0i1krZf3O1vcp7b" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Bass",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Bile 'em Cabbage Down"
+      },
+      "-KlWqGngePfucVSQz-C5" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Nine Pound Hammer"
+      },
+      "-KlWqO8esIFARO-ItDKG" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Cripple Creek"
+      },
+      "-KlWqWqQEOdKYttwm31a" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Country Roads"
+      },
+      "-KlWqmdbbFWHhJ__Q3tZ" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "F",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Chattering Teeth"
+      },
+      "-KlWqsUQQPA7a2q4HNlU" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Like A Working Man"
+      },
+      "-KlWr0KBuVE7F1xQSXdi" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Make Me Down A Pallet"
+      },
+      "-KlWrG_utZQ6JoKaDTxX" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Grand Trunk Western"
+      },
+      "-KlWrKDSe7cB5rcG4E4F" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "F",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Red Tail Lights"
+      },
+      "-KlWrOhTIsOyFyl2R83t" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Little Maggie"
+      },
+      "-KlWrS0TN3VdftDFcS3u" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Tennessee Waltz"
+      },
+      "-KlWrVLsi7-AKDDlPb-d" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Foggy Mountain Top"
+      },
+      "-KlWrZ4An-TMh7qj0vD3" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Hole In The Ground"
+      },
+      "-KlWrtZRHAbdh5iSrMbx" : {
+        "adam" : "Bass",
+        "carl" : "Electric",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Name A Drink After You"
+      },
+      "-KlWrzPQCLuxWaW3rAZn" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Squeezebox"
+      },
+      "-KlWs1VhXs5M0K6xrZo5" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Penny"
+      },
+      "-KlWs5o8uqWZ539rZccS" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Instrumental",
+        "title" : "Awful Falafel (Beast Of Bourbon)"
+      },
+      "-KlWsAzoxABFBGrKTKlZ" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Blue Moon of Kentucky"
+      },
+      "-KlWsOk7rm7w96XTgHr0" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Minglewood Blues"
+      },
+      "-KlWsZclwkb5BMR6XKdT" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "White Freight Liner"
+      },
+      "-KlWtXAhluiEQknqoxZY" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Red Clay Halo"
+      },
+      "-KlWtaXv_YzeTFNCFswI" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "All The Daves"
+      },
+      "-KlWtexNTe8h7H5TLUBj" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "E",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Crooked Line"
+      },
+      "-KlWtkENKEFdnYA88cgE" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Mike",
+        "title" : "I've Just Seen A Face"
+      },
+      "-KlWtrxdqv7qo4JDka5e" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Bb",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Rolling In My Sweet Baby's Arms"
+      },
+      "-KlWtx1jytr8x69xS0ln" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Lookin' Out My Back Door"
+      },
+      "-KlWu-sB2I_cCV7H0wZt" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "What's Time To A Hog"
+      },
+      "-KlWu5qtE8TWPwjzPC7q" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Instrumental",
+        "title" : "Old Joe Clark"
+      },
+      "-KlWu9yH15YNCfMPU1gV" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Step It Up And Go"
+      },
+      "-KlWuEjavNkqhoDkdnEb" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "From A Buick 6"
+      },
+      "-KlWuHLPzIg7cOxRCGCR" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Freight Train"
+      },
+      "-KlWuY9TBU4eLK65DkhE" : {
+        "adam" : "Banjo",
+        "carl" : "Bass",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "I've Endured"
+      },
+      "-KlWuhi_1n169NwIVJ2L" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Song By Band"
+      },
+      "-KlWuzE3gnzedVX51NXQ" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Let Down"
+      },
+      "-KlWv2445pKB6ouo-lzK" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Orphan Girl"
+      },
+      "-Kl_Y26Ke9gqnihpIebL" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Bb",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Cora Is Gone (Cora-Corey segue)"
+      },
+      "-Kl_Y5cuYA9gfkc3Fgrh" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Bb",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Darling Corey (Cora-Corey segue)"
+      },
+      "-Kl_YK-3FC93bq514Fyf" : {
+        "adam" : "Bass",
+        "bpm" : "80",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 2,
+        "nate" : "Mandolin",
+        "seconds" : 45,
+        "singer" : "Nate",
+        "title" : "Angel From Montgomery"
+      },
+      "-Kl_YQLz7PnrxkUE-Lko" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Georgia Mail"
+      },
+      "-Kl_YakygJTfv0s4RzSf" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "E",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Folsom Prison"
+      },
+      "-Kl_YgRT0A7GfwE4oEco" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "C#",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Lost Highway"
+      },
+      "-Kl_YqQMva1SFAeKf2_x" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Ain't That A Shame"
+      },
+      "-Kl_ZIH25kBRTpxgmXr6" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Man Of Constant Sorrow"
+      },
+      "-Kl_ZWY-ueOc2_IoQvI7" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Paradise"
+      },
+      "-Kl__FJejGgMXgIBjL0v" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Uncle Penn"
+      },
+      "-Kl__f8jlttQrEFWQJnB" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Mary"
+      },
+      "-Kl__lrJVRCQ0ff8I7Oj" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Em",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Adam",
+        "title" : "Chocolate Jesus"
+      },
+      "-Kl__rpgZICw2GdIuv87" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Dm",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Off To Sea Once More"
+      },
+      "-Kl_a0Hm_TN6qLlHaK5G" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "Gm",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "St. James Infirmary"
+      },
+      "-Kl_a3VVTK7gz8trjP4g" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "Em",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Shady Grove"
+      },
+      "-Kl_aGjkE62iWe90FBTU" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "C",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Pistol Packin' Mama"
+      },
+      "-Kl_aiNL4rE6mERvgN7O" : {
+        "adam" : "Bass",
+        "carl" : "Electric",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Souvenirs"
+      },
+      "-Kl_bLKyluBMnUXCoC5s" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "F",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Ocean Of Diamonds"
+      },
+      "-Kl_bZpuihgiQ8JWCu6U" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Bass",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "The Cuckoo"
+      },
+      "-Kl_bhMRN-qaFPCsHfAc" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Roseville Fair"
+      },
+      "-Kl_byfal4gq2RUOUOVA" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "D",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Pancho & Lefty"
+      },
+      "-KlagJCMktNNHPWhTWYQ" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Dark Hollow"
+      },
+      "-KlahC6pCCesMtGmPQkN" : {
+        "adam" : "Banjo",
+        "carl" : "Bass",
+        "key" : "C",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Keep On Loving You"
+      },
+      "-KnAtW5twNWQa0U2gXQH" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Bass",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Fox on the Run"
+      },
+      "-KnAtsPTVcgub4tBysZ-" : {
+        "adam" : "Banjo",
+        "carl" : "Bass",
+        "key" : "D",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "New River Train"
+      },
+      "-L3-2k9K_wreGQl7hg5_" : {
+        "adam" : "Banjo",
+        "carl" : "Bass",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Old Home Place"
+      },
+      "-L31M9LMLdU6QHIuIr3t" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Willin"
+      },
+      "-L3A6t6-W8KG_9PQRP0o" : {
+        "adam" : "Banjo",
+        "carl" : "Electric",
+        "key" : "D",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Guitar",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "One Eyed Dog"
+      },
+      "-L3JF2b9LYka7ys2Sy0t" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Rocky Top"
+      },
+      "-L3JFVkJ_WpFIxGshkZ-" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Carl",
+        "title" : "Waltz For You"
+      },
+      "-L3KCFVF6M27FJVVfJGW" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Bass",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Mountain Dew"
+      },
+      "-L3KC_CcKAI2A6ezmSqb" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Las Vacas De Reggae"
+      },
+      "-L3KCjYSFnSDR0GVnJvp" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "C",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "Moonshiner"
+      },
+      "-L3KCuoiGQT8qMOqcir_" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "The Weight"
+      },
+      "-L3KDEp3YvgMFd_jR_fi" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "When I Paint My Masterpiece"
+      },
+      "-L3KDQJMLjIoj0jwEfU4" : {
+        "adam" : "Banjo",
+        "carl" : "Guitar",
+        "key" : "G",
+        "mike" : "Bass",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "The Man In Me"
+      },
+      "-L3ObOyO_f7NL2w6IVyI" : {
+        "adam" : "Bass",
+        "carl" : "Guitar",
+        "key" : "A",
+        "mike" : "Fiddle",
+        "minutes" : 3,
+        "nate" : "Mandolin",
+        "seconds" : 0,
+        "singer" : "Nate",
+        "title" : "God is in the radio"
+      }
+    },
+    "venues" : {
+      "-KnQW7U0gfWQARVttrlN" : {
+        "title" : "Celtic Knot!"
+      }
+    }
+  },
+  "meta" : {
+    "instruments" : {
+      "-Kl-uSaZfnIOZdH74uhX" : {
+        "title" : "Banjo"
+      },
+      "-Kl-u_0c1aD-ibS7Zd3V" : {
+        "title" : "Mandolin"
+      },
+      "-Kl-uaANiUIeaVe0OlBL" : {
+        "title" : "Bass"
+      },
+      "-Kl-ubDFhHq6QgWp8rZb" : {
+        "title" : "Guitar"
+      },
+      "-Kl-uca71mOGVtGewe_v" : {
+        "title" : "Electric"
+      },
+      "-Kl-ue2FWcowOcdJf0WU" : {
+        "title" : "Fiddle"
+      },
+      "-Kl-uiCtnWC9dD5YMR5Y" : {
+        "title" : "Harmonica"
+      },
+      "-L3is7ADi65Jgegzb_Ng" : {
+        "title" : "Cajon"
+      },
+      "-L3isBGS96kypdVoxKNl" : {
+        "title" : "Kit"
+      }
+    }
+  }
+});
