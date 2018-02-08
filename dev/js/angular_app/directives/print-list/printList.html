@@ -1,28 +1,41 @@
 <div class="print-records-page">
-
   <div class="noprint print_controls">
     <h5>Display Columns:</h5>
-    <label for="cb_Nate">Nate</label> <input id="cb_Nate" type="checkbox" ng-model="printListVM.cols.nate"><br>
-    <label for="cb_Bass">Bass</label> <input id="cb_Bass" type="checkbox" ng-model="printListVM.cols.bass"><br>
-    <label for="cb_Mike">Mike</label> <input id="cb_Mike" type="checkbox" ng-model="printListVM.cols.mike"><br>
-    <label for="cb_Adam">Adam</label> <input id="cb_Adam" type="checkbox" ng-model="printListVM.cols.adam"><br>
-    <label for="cb_Carl">Carl</label> <input id="cb_Carl" type="checkbox" ng-model="printListVM.cols.carl"><br>
-    <label for="cb_Mark">Mark</label> <input id="cb_Mark" type="checkbox" ng-model="printListVM.cols.mark"><br>
-    <label for="cb_Key">Key</label> <input id="cb_Key" type="checkbox" ng-model="printListVM.cols.key"><br>
-    <label for="cb_Length">Length</label> <input id="cb_Length" type="checkbox" ng-model="printListVM.cols.length"><br>
-    <label for="cb_Bpm">BPM</label> <input id="cb_Bpm" type="checkbox" ng-model="printListVM.cols.bpm"><br>
+    <div class="grid">
+      <div class="grid-col-single">
+        <label for="cb_Nate">Nate</label>
+        <input id="cb_Nate" type="checkbox" ng-model="printListVM.cols.nate"><br>
+        <label for="cb_Adam">Adam</label>
+        <input id="cb_Adam" type="checkbox" ng-model="printListVM.cols.adam"><br>
+        <label for="cb_Carl">Carl</label>
+        <input id="cb_Carl" type="checkbox" ng-model="printListVM.cols.carl"><br>
+        <label for="cb_Mike">Mike</label>
+        <input id="cb_Mike" type="checkbox" ng-model="printListVM.cols.mike"><br>
+        <label for="cb_Mark">Mark</label>
+        <input id="cb_Mark" type="checkbox" ng-model="printListVM.cols.mark"><br>
+      </div>
+      <div class="grid-col-single">
+        <label for="cb_Bass">Bass</label>
+        <input id="cb_Bass" type="checkbox" ng-model="printListVM.cols.bass"><br>
+        <label for="cb_Key">Key</label>
+        <input id="cb_Key" type="checkbox" ng-model="printListVM.cols.key"><br>
+        <label for="cb_Length">Length</label>
+        <input id="cb_Length" type="checkbox" ng-model="printListVM.cols.length"><br>
+        <label for="cb_Bpm">BPM</label>
+        <input id="cb_Bpm" type="checkbox" ng-model="printListVM.cols.bpm"><br>
+        <hr>
+        <input id="cb_Bold" type="checkbox" ng-model="printListVM.bold">
+        <label for="cb_Bold">Bold Titles</label><br>
+      </div>
+    </div>
   </div>
-
   <h1>
     <span ng-bind="printListVM.title"></span>
     <span
       class="noprint float-right text-small hand"
       ng-click="printListVM.print()"
-    >
-      print
-    </span>
+    >print</span>
   </h1>
-
   <table>
     <thead>
       <tr>
@@ -34,11 +47,13 @@
         <th ng-show="printListVM.cols.mark">Mark</th>
         <th ng-show="printListVM.cols.bass">Bass</th>
         <th ng-show="printListVM.cols.key">Key</th>
+        <th ng-show="printListVM.cols.length">Length</th>
+        <th ng-show="printListVM.cols.bpm">BPM</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="song in printListVM.songs | orderBy:'order'">
-        <td ng-bind="song.title"></td>
+        <td ng-class="{'embolden': printListVM.bold}" ng-bind="song.title"></td>
         <td ng-show="printListVM.cols.nate" ng-bind="song.nate"></td>
         <td ng-show="printListVM.cols.adam" ng-bind="song.adam"></td>
         <td ng-show="printListVM.cols.carl" ng-bind="song.carl"></td>
@@ -46,6 +61,11 @@
         <td ng-show="printListVM.cols.mark" ng-bind="song.mark"></td>
         <td ng-show="printListVM.cols.bass" ng-bind="song.bassist"></td>
         <td ng-show="printListVM.cols.key" ng-bind="song.key"></td>
+        <td ng-show="printListVM.cols.length">
+          <span ng-bind="song.minutes"></span>min
+          <span ng-bind="song.seconds"></span>sec
+        </td>
+        <td ng-show="printListVM.cols.bpm" ng-bind="song.bpm"></td>
       </tr>
     </tbody>
   </table>
