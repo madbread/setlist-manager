@@ -1,6 +1,7 @@
 angular.module('Setlists').
 directive('songListEditor', function(
   $filter,
+  baseUrl,
   firebaseFactory,
   pathsData,
   staticAppData) {
@@ -76,6 +77,8 @@ directive('songListEditor', function(
       // ==========================================================================================
 
       function _init() {
+        vm.songListsDB.unshift({title: 'Select A List:'});
+        vm.selectedList = vm.songListsDB[0];
         vm.sortableSongs = {
           cursor: 'move',
           placeholder: 'drop-zone',
@@ -117,12 +120,17 @@ directive('songListEditor', function(
 
       // ==========================================================================================
 
-      function displaySongList(songList) {
-        vm.editSongListItem = songList;
-        if (!vm.editSongListItem.hasOwnProperty('songs')) {
-          vm.editSongListItem.songs = {};
+      function displaySongList() {
+        if (vm.selectedList.$id) {
+          vm.editSongListItem = vm.selectedList;
+          if (!vm.editSongListItem.hasOwnProperty('songs')) {
+            vm.editSongListItem.songs = {};
+          }
+          vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
+        } else {
+          vm.editSongListItem = undefined;
+          vm.songsSorted      = [];
         }
-        vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
         vm.displayURL = '';
         vm.printURL   = '';
       }
@@ -148,6 +156,7 @@ directive('songListEditor', function(
         if (window.confirm('Are you sure you wish to delete "' + vm.editSongListItem.title + '" ?')) {
           firebaseFactory.deleteSongList(vm.editSongListItem);
           vm.editSongListItem = undefined;
+          vm.selectedList = vm.songListsDB[0];
         }
       }
 
@@ -304,10 +313,10 @@ directive('songListEditor', function(
       // ==========================================================================================
 
       function getListURL() {
-        var baseUrl = 'https://madbread.github.io/setlist-manager/app/';
+        // var baseUrl   = 'https://madbread.github.io/setlist-manager/app/';
         var songsPage = 'songs.html';
         var printPage = 'print.html';
-        var params = '?list=' + vm.editSongListItem.$id;
+        var params    = '?list=' + vm.editSongListItem.$id;
         vm.displayURL = baseUrl + songsPage + params;
         vm.printURL   = baseUrl + printPage + params;
       }

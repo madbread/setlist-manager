@@ -13305,6 +13305,24 @@ angular.module('Setlists', [
 }]);
 
 angular.module('Setlists')
+.constant('baseUrl', (function() {
+  /**
+  *  This backfills any browser without an origin
+  *    key on location object, most notably IE, by
+  *    building the origin string manually
+  **/
+  if (!window.location.origin) {
+    window.location.origin = window.location.protocol +
+                              '//' +
+                              window.location.hostname +
+                              (window.location.port ? ':' + window.location.port : '');
+  }
+
+  return window.location.hostname === 'localhost' ?
+    '/' : [window.location.origin, 'setlist-manager/app/'].join('/');
+})());
+
+angular.module('Setlists')
 .constant('getDateData', {
 
   oneYearAgo: function() {
@@ -15131,6 +15149,7 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
         carl: false,
         mark: false
       };
+      vm.bold   = true;
       vm.songs  = [];
       vm.errors = [];
       vm.print  = print;
@@ -15282,8 +15301,9 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
 }]);
 
 angular.module('Setlists').
-directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticAppData", function(
+directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData", "staticAppData", function(
   $filter,
+  baseUrl,
   firebaseFactory,
   pathsData,
   staticAppData) {
@@ -15359,6 +15379,8 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       // ==========================================================================================
 
       function _init() {
+        vm.songListsDB.unshift({title: 'Select A List:'});
+        vm.selectedList = vm.songListsDB[0];
         vm.sortableSongs = {
           cursor: 'move',
           placeholder: 'drop-zone',
@@ -15400,12 +15422,17 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
 
       // ==========================================================================================
 
-      function displaySongList(songList) {
-        vm.editSongListItem = songList;
-        if (!vm.editSongListItem.hasOwnProperty('songs')) {
-          vm.editSongListItem.songs = {};
+      function displaySongList() {
+        if (vm.selectedList.$id) {
+          vm.editSongListItem = vm.selectedList;
+          if (!vm.editSongListItem.hasOwnProperty('songs')) {
+            vm.editSongListItem.songs = {};
+          }
+          vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
+        } else {
+          vm.editSongListItem = undefined;
+          vm.songsSorted      = [];
         }
-        vm.songsSorted = _sortSongs(vm.editSongListItem.songs);
         vm.displayURL = '';
         vm.printURL   = '';
       }
@@ -15431,6 +15458,7 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
         if (window.confirm('Are you sure you wish to delete "' + vm.editSongListItem.title + '" ?')) {
           firebaseFactory.deleteSongList(vm.editSongListItem);
           vm.editSongListItem = undefined;
+          vm.selectedList = vm.songListsDB[0];
         }
       }
 
@@ -15587,10 +15615,10 @@ directive('songListEditor', ["$filter", "firebaseFactory", "pathsData", "staticA
       // ==========================================================================================
 
       function getListURL() {
-        var baseUrl = 'https://madbread.github.io/setlist-manager/app/';
+        // var baseUrl   = 'https://madbread.github.io/setlist-manager/app/';
         var songsPage = 'songs.html';
         var printPage = 'print.html';
-        var params = '?list=' + vm.editSongListItem.$id;
+        var params    = '?list=' + vm.editSongListItem.$id;
         vm.displayURL = baseUrl + songsPage + params;
         vm.printURL   = baseUrl + printPage + params;
       }

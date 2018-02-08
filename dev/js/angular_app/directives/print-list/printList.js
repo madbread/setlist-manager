@@ -37,6 +37,7 @@ directive('printList', function(
         carl: false,
         mark: false
       };
+      vm.bold   = true;
       vm.songs  = [];
       vm.errors = [];
       vm.print  = print;
