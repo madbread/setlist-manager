@@ -1,16 +1,49 @@
 <div class="songlist-editor">
-  <h6>Song Lists</h6>
+  <h6 class="grid">
+    <div class="grid-col-single">
+      Song Lists
+    </div>
+    <div class="grid-col-single align-right">
+      <a class="but-selection" ng-click="songListVM.toggleAddSongList()">
+        Add New Song List
+        <span ng-hide="songListVM.showAddSongList">+</span>
+        <span ng-show="songListVM.showAddSongList">-</span>
+      </a>
+    <div>
+  </h6>
+
+  <div class="slide"
+    ng-class="{'slide-show': songListVM.showAddSongList, 'slide-hide': !songListVM.showAddSongList}"
+  >
+    <form class="add-new-item">
+      <div class="form-row">
+        <label for="songTitle">New List Title</label>
+        <input class="longer" id="songTitle" ng-model="songListVM.newSongList.title">
+      </div>
+      <div class="but-row">
+        <a
+          ng-click="songListVM.showAddSongList = false"
+          class="hand"
+        >Cancel</a>
+        <button ng-disabled="!songListVM.newSongList.title.length" ng-click="songListVM.addSongList()" class="but-selection">
+          Add
+        </button>
+      </div>
+    </form>
+  </div>
+
   <form>
+    <label for="selected_list">Selected List: </label>
     <select
+      id="selected_list"
       ng-options="songlist as songlist.title for songlist in songListVM.songListsDB"
       ng-change="songListVM.displaySongList()"
       ng-model="songListVM.selectedList"
     ></select>
   </form>
-
-  <div class="grid" ng-if="songListVM.editSongListItem">
+  <div ng-if="songListVM.editSongListItem">
     <form>
-      <div class="form-row text-normal">
+      <div class="form-row">
         <a
           ng-click="songListVM.deleteList()"
           class="hand float-right color-warning"
@@ -23,69 +56,32 @@
           ng-model="songListVM.editSongListItem.title">
       </div>
 
-      <div class="grid">
-        <section class="grid-col-single">
-          <div class="form-row">
-            <span
-              class="icon-help text-small"
-              title="Color-code songs to help keep instrument changes together. Select a player to see what instrument they play on each song."
-            ></span>
-            Highlight:
-            <span
-              class="hand but-small"
-              ng-class="{'active': songListVM.colorCategory === 'singer'}"
-              ng-click="songListVM.setSongColor('singer')"
-            >Singer</span>
-            <span
-              class="hand but-small"
-              ng-class="{'active': songListVM.colorCategory === 'nate'}"
-              ng-click="songListVM.setSongColor('nate')"
-            >Nate</span>
-            <span
-              class="hand but-small"
-              ng-class="{'active': songListVM.colorCategory === 'mike'}"
-              ng-click="songListVM.setSongColor('mike')"
-            >Mike</span>
-            <span
-              class="hand but-small"
-              ng-class="{'active': songListVM.colorCategory === 'adam'}"
-              ng-click="songListVM.setSongColor('adam')"
-            >Adam</span>
-            <span
-              class="hand but-small"
-              ng-class="{'active': songListVM.colorCategory === 'carl'}"
-              ng-click="songListVM.setSongColor('carl')"
-            >Carl</span>
-            <span
-              class="hand but-small"
-              ng-class="{'active': songListVM.colorCategory === 'mark'}"
-              ng-click="songListVM.setSongColor('mark')"
-            >Mark</span>
-            <span
-              class="color-warning hand"
-              ng-show="songListVM.colorCategory.length"
-              ng-click="songListVM.setSongColor('')"
-            >Clear</span>
-          </div>
-          <div class="form-row" ng-show="songListVM.colorCategory.length">
-            <span
-              ng-repeat="(text, color) in songListVM.colorCategoryHash"
-              class="legend-box"
-              ng-class="color"
-              ng-show="songListVM.colorsPresent.indexOf(text) !== -1"
-              ng-bind="text"
-            ></span>
-          </div>
-        </section>
-        <section class="grid-col-single align-right">
-          <button ng-click="songListVM.showIcons = !songListVM.showIcons" class="but-small">
-            <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Song Controls
-          </button>
-          <br><br>
-          <button ng-click="songListVM.showKeys = !songListVM.showKeys" class="but-small">
-            <span ng-show="!songListVM.showKeys">Show</span><span ng-show="songListVM.showKeys">Hide</span> Song Keys
-          </button>
-        </section>
+      <div class="form-row">
+        <span
+          class="icon-help text-small"
+          title="Color-code songs to help keep instrument changes together. Select a player to see what instrument they play on each song."
+        ></span>
+        Highlight:
+        <select
+          ng-options="player as player.label for player in songListVM.highlightOptions"
+          ng-model="songListVM.selectedHighlight"
+          ng-change="songListVM.setSongColor(songListVM.selectedHighlight.action)"
+        ></select>
+        <button ng-click="songListVM.showIcons = !songListVM.showIcons" class="but-small">
+          <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Controls
+        </button>
+        <button ng-click="songListVM.showKeys = !songListVM.showKeys" class="but-small">
+          <span ng-show="!songListVM.showKeys">Show</span><span ng-show="songListVM.showKeys">Hide</span> Keys
+        </button>
+      </div>
+      <div class="form-row" ng-show="songListVM.colorCategory.length">
+        <span
+          ng-repeat="(text, color) in songListVM.colorCategoryHash"
+          class="legend-box"
+          ng-class="color"
+          ng-show="songListVM.colorsPresent.indexOf(text) !== -1"
+          ng-bind="text"
+        ></span>
       </div>
       <ul
         ui-sortable="songListVM.sortableSongs"
@@ -113,7 +109,7 @@
           </span>
 
           <span
-            class="note text-tiny hand"
+            class="note hand"
             ng-bind="songListVM.editSongListItem.notes[id]"
             ng-if="songListVM.editSongListItem.notes[id]"
             ng-show="songListVM.editingNoteId !== id && songListVM.addingNoteId !== id"
@@ -127,18 +123,16 @@
           <span
             ng-show="songListVM.showIcons"
             ng-click="songListVM.removeSong(id)"
-            class="icon-cancel hand color-warning text-tiny"
+            class="icon-cancel hand color-warning"
             title="Remove {{songListVM.songsDB[id].title}}"
           ></span>
         </li>
-        <li class="align-right add-song-floating-text">
-          <span
-            class="text-tiny"
-            title="Click a song from the list on the right"
-          >Add Song <span ng-bind="songListVM.songsSorted.length + 1"></span>
-          ---></span>
-        </li>
       </ul>
+      <div class="align-right">
+        <a class="but-selection" ng-click="songListVM.showSelectSongs = true">
+          Add Songs
+        </a>
+      </div>
       <div class="form-row">
         <button
           class="but-small"
@@ -162,78 +156,6 @@
         ></a>
       </div>
     </form>
-
-    <form>
-      <h6 ng-click="songListVM.showFilters = !songListVM.showFilters" class="hand">
-        <span ng-show="songListVM.showFilters">-</span>
-        <span ng-show="!songListVM.showFilters">+</span>
-        Filter Songs (<span title="Total songs after applying filters" ng-bind="songListVM.count"></span>)
-      </h6>
-      <div
-        class="slide"
-        ng-class="{'slide-show': songListVM.showFilters, 'slide-hide': !songListVM.showFilters}"
-      >
-        <label for="list-name-filter">Filter: </label>
-        <input class="longer" id="list-name-filter" ng-model="songListVM.titleFilter" placeholder="title or singer">
-        <br>
-        <label for="player-filter">Player:</label>
-        <select
-          id="player-filter"
-          ng-model="songListVM.playerFilter"
-          ng-options="player for player in songListVM.playerOptions">
-        </select>
-        <span ng-show="songListVM.playerFilter !== songListVM.blankFilter">
-          <label for="instrument-filter">Instrument:</label>
-          <select
-            id="instrument-filter"
-            ng-model="songListVM.instrumentFilter"
-            ng-options="instrument for instrument in songListVM.instrumentOptions">
-          </select>
-        </span>
-        <br>
-        <label for="instrument-filter">Key:</label>
-        <select
-          id="key-filter"
-          ng-model="songListVM.keyFilter"
-          ng-options="key for key in songListVM.keyOptions">
-        </select>
-        <button class="but-small" ng-click="songListVM.clearSongFilters()">clear all</button>
-      </div>
-      <ul class="scrollable song-list">
-        <li
-          ng-click="songListVM.addSelected(song)"
-          ng-repeat="song in songListVM.songsArray | orderBy:'title' | filter:songListVM.titleFilter"
-        >
-          <span ng-bind="song.title"></span>
-          [<span ng-bind="song.key"></span>]
-        </li>
-      </ul>
-    </form>
   </div>
-
-  <h6 ng-click="songListVM.toggleAddSongList()" class="hand">
-    Add New Song List
-    <span ng-hide="songListVM.showAddSongList">+</span>
-    <span ng-show="songListVM.showAddSongList">-</span>
-  </h6>
-  <div class="slide"
-    ng-class="{'slide-show': songListVM.showAddSongList, 'slide-hide': !songListVM.showAddSongList}"
-  >
-    <form class="add-new-item">
-      <div class="form-row">
-        <label for="songTitle">Title</label>
-        <input class="longer" id="songTitle" ng-model="songListVM.newSongList.title">
-      </div>
-      <div class="but-row">
-        <a
-          ng-click="songListVM.showAddSongList = false"
-          class="hand"
-        >Cancel</a>
-        <button ng-disabled="!songListVM.newSongList.title.length" ng-click="songListVM.addSongList()" class="but-selection">
-          Add
-        </button>
-      </div>
-    </form>
-
-  </div>
+  <div ng-include="'templates/select-songs.html'"></div>
 </div>

@@ -1,0 +1,49 @@
+<div ng-show="songListVM.showSelectSongs" ng-click="songListVM.showSelectSongs = false" class="window-shade"></div>
+<div ng-show="songListVM.showSelectSongs" class="shade-contents">
+  <form class="support-form" ng-submit="songListVM.addSong()">
+    <span ng-click="songListVM.showSelectSongs = false" class="float-right hand">[ close ]</span>
+
+    <form>
+      <h6>
+        Filter Songs (<span title="Total songs after applying filters" ng-bind="songListVM.count"></span>)
+      </h6>
+      <div>
+        <label for="list-name-filter">Filter: </label>
+        <input class="longer" id="list-name-filter" ng-model="songListVM.titleFilter" placeholder="title or singer">
+        <br>
+        <label for="player-filter">Player:</label>
+        <select
+          id="player-filter"
+          ng-model="songListVM.playerFilter"
+          ng-options="player for player in songListVM.playerOptions">
+        </select>
+        <span ng-show="songListVM.playerFilter !== songListVM.blankFilter">
+          <label for="instrument-filter">Instrument:</label>
+          <select
+            id="instrument-filter"
+            ng-model="songListVM.instrumentFilter"
+            ng-options="instrument for instrument in songListVM.instrumentOptions">
+          </select>
+        </span>
+        <br>
+        <label for="instrument-filter">Key:</label>
+        <select
+          id="key-filter"
+          ng-model="songListVM.keyFilter"
+          ng-options="key for key in songListVM.keyOptions">
+        </select>
+        <button class="but-small" ng-click="songListVM.clearSongFilters()">clear all</button>
+      </div>
+      <ul class="scrollable song-list edit-list-song-select">
+        <li
+          ng-click="songListVM.addSelected(song)"
+          ng-repeat="song in songListVM.songsArray | orderBy:'title' | filter:songListVM.titleFilter"
+        >
+          <span ng-bind="song.title"></span>
+          [<span ng-bind="song.key"></span>]
+        </li>
+      </ul>
+    </form>
+
+  </form>
+</div>

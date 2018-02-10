@@ -30,7 +30,7 @@ directive('songViewer', function(
       vm.songs             = [];
       vm.displaySong       = undefined;
       vm.titleFilter       = '';
-      vm.blank             = 'No Filter';
+      vm.blank             = 'None';
       vm.instrumentOptions = [];
       vm.listOptions       = [];
       vm.playerOptions     = staticAppData.playerOptions;

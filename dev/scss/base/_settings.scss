@@ -42,7 +42,7 @@ $base-unit-quarter: $base-unit * 0.25;
 
 // Site wrapper
 $wrapper-width: 1600px;
-$header-height: 134px;
+$header-height: 135px;
 
 // Grid spacings
 $cell-padding: 0;
@@ -66,19 +66,6 @@ $base-rounded-corners: 7px;
 $link-transition-speed: 0.15s;
 $link-transition-type: ease-out;
 $link-transition-property: all;
-
-// Breakpoint mixins
-@mixin breakpoint($point) {
-  @if $point == laptop {
-    @media (min-width: 64em) { @content ; }
-  }
-  @else if $point == tablet {
-    @media (max-width: 50em) { @content ; }
-  }
-  @else if $point == phone {
-    @media (max-width: 28em)  { @content ; }
-  }
-}
 
 // Z-Index Layers
 $layer-1: 1;

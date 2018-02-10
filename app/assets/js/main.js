@@ -14803,6 +14803,36 @@ constant('staticAppData', {
     'carl',
     'mark'
   ],
+  highlightOptions: [
+    {
+      label: 'No Highlights',
+      action: ''
+    },
+    {
+      label: 'Singer',
+      action: 'singer'
+    },
+    {
+      label: 'Nate',
+      action: 'nate'
+    },
+    {
+      label: 'Adam',
+      action: 'adam'
+    },
+    {
+      label: 'Carl',
+      action: 'carl'
+    },
+    {
+      label: 'Mike',
+      action: 'mike'
+    },
+    {
+      label: 'Mark',
+      action: 'mark'
+    }
+  ],
   minuteOptions: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   ],
@@ -14892,7 +14922,7 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
       $(document).tooltip();
       var vm = this;
 
-      vm.openSection = 'Songs';
+      vm.openSection = 'Songlists';
 
       vm.status          = firebaseAuthFactory.getStatus();
       vm.showLogin       = false;
@@ -15330,6 +15360,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.editSongListItem  = undefined;
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
+      vm.showSelectSongs   = false;
       vm.showIcons         = true;
       vm.showKeys          = true;
       vm.songListsDB       = firebaseFactory.followSongLists();
@@ -15359,6 +15390,9 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.keyOptions        = staticAppData.key_options;
       vm.keyOptions.unshift(vm.blankFilter);
       vm.keyFilter         = vm.keyOptions[0];
+
+      vm.highlightOptions = staticAppData.highlightOptions;
+      vm.selectedHighlight = vm.highlightOptions[0];
 
       vm.count = 0;
 
@@ -15662,7 +15696,7 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
       vm.songs             = [];
       vm.displaySong       = undefined;
       vm.titleFilter       = '';
-      vm.blank             = 'No Filter';
+      vm.blank             = 'None';
       vm.instrumentOptions = [];
       vm.listOptions       = [];
       vm.playerOptions     = staticAppData.playerOptions;

@@ -28,6 +28,7 @@ directive('songListEditor', function(
       vm.editSongListItem  = undefined;
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
+      vm.showSelectSongs   = false;
       vm.showIcons         = true;
       vm.showKeys          = true;
       vm.songListsDB       = firebaseFactory.followSongLists();
@@ -57,6 +58,9 @@ directive('songListEditor', function(
       vm.keyOptions        = staticAppData.key_options;
       vm.keyOptions.unshift(vm.blankFilter);
       vm.keyFilter         = vm.keyOptions[0];
+
+      vm.highlightOptions = staticAppData.highlightOptions;
+      vm.selectedHighlight = vm.highlightOptions[0];
 
       vm.count = 0;
 

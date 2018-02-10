@@ -16,12 +16,8 @@
   }
 }
 
-.song-list-short {
-  height:$list-height-normal/3;
-
-  @include breakpoint(phone) {
-    height:$list-height-phone/3;
-  }
+.edit-list-song-select {
+  max-height: 330px;
 }
 
 .note {
@@ -41,21 +37,22 @@
   }
 }
 
-.grid > form > ul.songlist-songs {
+form > ul.songlist-songs {
   @extend %text-normal;
   height: auto;
-  min-height:$list-height-normal;
   list-style-type: none;
   li {
     cursor: move;
+    @include breakpoint(phone) {
+      padding: $base-unit-quarter 0;
+    }
   }
   @include breakpoint(phone) {
-    height: auto;
-    min-height:$list-height-phone;
+    padding: 0 $base-unit * 2; // for scrolling area
   }
 }
 
-.grid > form > ul.print-songlists {
+form > ul.print-songlists {
   min-height:$list-height-normal / 3;
 }
 

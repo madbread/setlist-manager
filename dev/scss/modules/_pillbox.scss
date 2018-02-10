@@ -7,12 +7,21 @@
   padding: 0;
 
   @include border-radius($base-rounded-corners);
+
+  @include breakpoint(phone) {
+    @include border-radius(0);
+    width: 100%;
+    display: flex;
+  }
 }
 
 .nav-pills li {
   display: inline-block;
   margin: 0;
   padding: 1px;
+  @include breakpoint(phone) {
+    flex-grow: 1;
+  }
 }
 
 .nav-pills button,
@@ -38,12 +47,17 @@
   }
 
   &.active {
-    background: $color-gold;;
+    background: $color-gold;
     color: $color-royal;
 
     &:hover {
       text-decoration: none;
     }
+  }
+
+  @include breakpoint(phone) {
+    font-size: $base-font-size * 0.65;
+    padding: 5px 10px;
   }
 }
 
