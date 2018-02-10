@@ -60,6 +60,36 @@ constant('staticAppData', {
     'carl',
     'mark'
   ],
+  highlightOptions: [
+    {
+      label: 'No Highlights',
+      action: ''
+    },
+    {
+      label: 'Singer',
+      action: 'singer'
+    },
+    {
+      label: 'Nate',
+      action: 'nate'
+    },
+    {
+      label: 'Adam',
+      action: 'adam'
+    },
+    {
+      label: 'Carl',
+      action: 'carl'
+    },
+    {
+      label: 'Mike',
+      action: 'mike'
+    },
+    {
+      label: 'Mark',
+      action: 'mark'
+    }
+  ],
   minuteOptions: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   ],

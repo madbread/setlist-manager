@@ -2,6 +2,10 @@ $list-height-normal: 300px;
 $list-height-phone: 150px;
 
 
+nav {
+  margin-bottom: $base-unit;
+}
+
 // Wrapper
 // ======================
 .wrapper {
@@ -9,34 +13,10 @@ $list-height-phone: 150px;
   margin: 0 auto;
 }
 
+.footer {
+  padding: $base-unit $base-unit-half;
+}
+
 // ================================================================
 // Grid Columns
 // ================================================================
-// ***** The ul here sets all height *****
-.grid > form > ul {
-  height:$list-height-normal;
-
-  @include breakpoint(phone) {
-    height:$list-height-phone;
-  }
-}
-
-// Full-screen 2-col layout
-.grid > form {
-  width: 49.9%;
-}
-
-
-.grid {
-  @include breakpoint(phone) {
-    width: 100%;
-    display: block !important;
-  }
-}
-
-.grid > form {
-  @include breakpoint(phone) {
-    width: 100%;
-    display: block;
-  }
-}

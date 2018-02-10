@@ -667,7 +667,7 @@ body,
 .but,
 .nav-pills button,
 .nav-pills a,
-.grid > form > ul.songlist-songs,
+form > ul.songlist-songs,
 .song-viewer h2 {
   font-size: 14px; }
 
@@ -751,28 +751,15 @@ th {
 input:focus {
   background: #fff9e6; }
 
+nav {
+  margin-bottom: 1em; }
+
 .wrapper {
   max-width: 1600px;
   margin: 0 auto; }
 
-.grid > form > ul {
-  height: 300px; }
-  @media (max-width: 28em) {
-    .grid > form > ul {
-      height: 150px; } }
-
-.grid > form {
-  width: 49.9%; }
-
-@media (max-width: 28em) {
-  .grid {
-    width: 100%;
-    display: block !important; } }
-
-@media (max-width: 28em) {
-  .grid > form {
-    width: 100%;
-    display: block; } }
+.footer {
+  padding: 1em 0.5em; }
 
 .icon {
   font-family: "wellspringiconsregular"; }
@@ -1400,11 +1387,25 @@ a.but-selection {
   margin: 0;
   padding: 0;
   border-radius: 7px; }
+  @media (max-width: 28em) {
+    .nav-pills {
+      border-radius: 0;
+      width: 100%;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex; } }
 
 .nav-pills li {
   display: inline-block;
   margin: 0;
   padding: 1px; }
+  @media (max-width: 28em) {
+    .nav-pills li {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1; } }
 
 .nav-pills button,
 .nav-pills a {
@@ -1429,6 +1430,11 @@ a.but-selection {
     .nav-pills button.active:hover,
     .nav-pills a.active:hover {
       text-decoration: none; }
+  @media (max-width: 28em) {
+    .nav-pills button,
+    .nav-pills a {
+      font-size: 10.4px;
+      padding: 5px 10px; } }
 
 .nav-pills button[disabled=disabled] {
   opacity: 0.2; }
@@ -1436,6 +1442,7 @@ a.but-selection {
     text-decoration: none; }
 
 .grid {
+  width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1451,6 +1458,9 @@ a.but-selection {
 .grid-padded {
   margin: 0.5em 1.25em;
   clear: both; }
+  @media (max-width: 28em) {
+    .grid-padded {
+      margin: 0; } }
 
 .grid-col-single {
   -webkit-box-flex: 1;
@@ -1540,11 +1550,8 @@ a.but-selection {
       .song-list > li {
         padding: 1em; } }
 
-.song-list-short {
-  height: 100px; }
-  @media (max-width: 28em) {
-    .song-list-short {
-      height: 50px; } }
+.edit-list-song-select {
+  max-height: 330px; }
 
 .note {
   font-family: liberation_sansbold_italic, sans-serif; }
@@ -1557,18 +1564,19 @@ a.but-selection {
   .add-song-floating-text {
     display: none; } }
 
-.grid > form > ul.songlist-songs {
+form > ul.songlist-songs {
   height: auto;
-  min-height: 300px;
   list-style-type: none; }
-  .grid > form > ul.songlist-songs li {
+  form > ul.songlist-songs li {
     cursor: move; }
+    @media (max-width: 28em) {
+      form > ul.songlist-songs li {
+        padding: 0.25em 0; } }
   @media (max-width: 28em) {
-    .grid > form > ul.songlist-songs {
-      height: auto;
-      min-height: 150px; } }
+    form > ul.songlist-songs {
+      padding: 0 2em; } }
 
-.grid > form > ul.print-songlists {
+form > ul.print-songlists {
   min-height: 100px; }
 
 .inline-controls input {
@@ -1590,8 +1598,11 @@ a.but-selection {
 body .ui-tooltip {
   border: 2px solid #1484C8; }
 
+.song-viewer-filters {
+  max-width: 700px; }
+
 .song-viewer {
-  padding-top: 134px; }
+  padding-top: 135px; }
   .song-viewer h2 {
     margin: 0 0 0.25em; }
   .song-viewer .display-song {
@@ -1618,7 +1629,7 @@ header {
   left: 0;
   right: 0;
   z-index: 10000;
-  height: 134px;
+  height: 135px;
   padding: 0 0.5em; }
 
 form {

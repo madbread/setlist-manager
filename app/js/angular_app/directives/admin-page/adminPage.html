@@ -1,23 +1,4 @@
 <div class="admin-page">
-  <button
-    ng-if="!adminVM.status.authorized"
-    ng-click="adminVM.showLogin = !adminVM.showLogin"
-    class="but-small float-right"
-  >Login</button>
-
-  <button
-    ng-if="adminVM.status.authorized"
-    ng-click="adminVM.logout()"
-    class="but-small float-right"
-  >Logout</button>
-
-  <div
-    ng-show="!adminVM.status.authorized"
-    class="admin-login-prompt"
-  >
-    <p>Please login to access application</p>
-  </div>
-
   <div
     ng-if="adminVM.status.authorized"
     class="admin-actions"
@@ -68,27 +49,29 @@
       <li ng-click="adminVM.showUpdateEmail = !adminVM.showUpdateEmail" class="hand color-royal">
         Request Password Update
       </li>
-      <!--
-      Uncomment to run populate script in firebasefactory.js
-      <li>
-        <button ng-click="adminVM.populate()">populate</button>
-      </li>
-      -->
-      <!--
-      Uncomment to add new instrument
-      <li>
-        Add Instrument:<br>
-        <input ng-model="adminVM.newInstrument">
-        <button
-          ng-disabled="!adminVM.newInstrument.length"
-          ng-click="adminVM.addInstrument()"
-          class="but"
-        >add</button>
-      </li>
-      -->
     </ul>
   </div>
   <div ng-include="'templates/admin-register-user.html'"></div>
   <div ng-include="'templates/admin-login.html'"></div>
   <div ng-include="'templates/admin-request-password-set.html'"></div>
+  <div class="footer">
+    <button
+      ng-if="!adminVM.status.authorized"
+      ng-click="adminVM.showLogin = !adminVM.showLogin"
+      class="but-small float-right"
+    >Login</button>
+
+    <button
+      ng-if="adminVM.status.authorized"
+      ng-click="adminVM.logout()"
+      class="but-small float-right"
+    >Logout</button>
+
+    <div
+      ng-show="!adminVM.status.authorized"
+      class="admin-login-prompt"
+    >
+      <p>Please login to access application</p>
+    </div>    
+  </div>
 </div>

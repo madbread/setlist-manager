@@ -5,47 +5,59 @@
       <button class="but-small" ng-click="songViewVM.randomSong()">Random</button>
       <button class="but-small" ng-click="songViewVM.clearAll()">clear all</button>
     </h2>
-    <label for="name-filter">Filter: </label>
-    <input
-      ng-model="songViewVM.titleFilter"
-      ng-change="songViewVM.filter()"
-      ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 400, 'blur': 0 } }"
-      placeholder="keyword"
-    >
-    <label for="songlist-filter">Songlist: </label>
-    <select
-      id="songlist-filter"
-      ng-change="songViewVM.setSonglist()"
-      ng-model="songViewVM.list"
-      ng-options="list as list.title for list in songViewVM.listOptions">
-    </select>
-    <br>
-    <label for="player-filter">Player:</label>
-    <select
-      id="player-filter"
-      ng-change="songViewVM.instrument = songViewVM.blank"
-      ng-model="songViewVM.player"
-      ng-options="player for player in songViewVM.playerOptions">
-    </select>
-
-    <span ng-show="songViewVM.player !== songViewVM.blank">
-      <label for="instrument-filter">Instrument:</label>
-      <select
-        id="instrument-filter"
-        ng-change="songViewVM.filter()"
-        ng-model="songViewVM.instrument"
-        ng-options="instrument for instrument in songViewVM.instrumentOptions">
-      </select>
-    </span>
-    <br>
-    <label for="instrument-filter">Key:</label>
-    <select
-      id="key-filter"
-      ng-change="songViewVM.filter()"
-      ng-model="songViewVM.key"
-      ng-options="key for key in songViewVM.keyOptions">
-    </select>
-
+    <div class="song-viewer-filters">
+      <div class="grid">
+        <div class="filter-input-container grid-col-single">
+          <label for="name-filter">Filter: </label>
+          <input
+            ng-model="songViewVM.titleFilter"
+            ng-change="songViewVM.filter()"
+            ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 400, 'blur': 0 } }"
+            placeholder="keyword"
+          >
+        </div>
+        <div class="filter-input-container grid-col-single">
+          <label for="songlist-filter">Songlist: </label>
+          <select
+            id="songlist-filter"
+            ng-change="songViewVM.setSonglist()"
+            ng-model="songViewVM.list"
+            ng-options="list as list.title for list in songViewVM.listOptions">
+          </select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="filter-input-container grid-col-single">
+          <label for="player-filter">Player:</label>
+          <select
+            id="player-filter"
+            ng-change="songViewVM.instrument = songViewVM.blank"
+            ng-model="songViewVM.player"
+            ng-options="player for player in songViewVM.playerOptions">
+          </select>
+        </div>
+        <div class="filter-input-container grid-col-single">
+          <span ng-show="songViewVM.player !== songViewVM.blank">
+            <label for="instrument-filter">On:</label>
+            <select
+              id="instrument-filter"
+              ng-change="songViewVM.filter()"
+              ng-model="songViewVM.instrument"
+              ng-options="instrument for instrument in songViewVM.instrumentOptions">
+            </select>
+          </span>
+        </div>
+        <div class="filter-input-container grid-col-single">
+          <label for="key-filter">Key:</label>
+          <select
+            id="key-filter"
+            ng-change="songViewVM.filter()"
+            ng-model="songViewVM.key"
+            ng-options="key for key in songViewVM.keyOptions">
+          </select>
+        </div>
+      </div>
+    </div>
     <div class="display-song">
       <span ng-show="songViewVM.displaySong">
         {{songViewVM.displaySong.title}} [{{songViewVM.displaySong.key}}]<br>
