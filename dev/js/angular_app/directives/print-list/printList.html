@@ -51,7 +51,7 @@
         <th ng-show="printListVM.cols.bpm">BPM</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="zebra">
       <tr ng-repeat="song in printListVM.songs | orderBy:'order'">
         <td ng-class="{'embolden': printListVM.bold}" ng-bind="song.title"></td>
         <td ng-show="printListVM.cols.nate" ng-bind="song.nate"></td>

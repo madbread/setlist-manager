@@ -30,8 +30,6 @@ directive('songListEditor', function(
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
       vm.showSelectSongs   = false;
-      vm.showIcons         = true;
-      vm.showKeys          = true;
       vm.songListsDB       = firebaseFactory.followSongLists();
       vm.songsDB           = firebaseFactory.followSongsObject();
       vm.songsArray        = [];
@@ -40,6 +38,13 @@ directive('songListEditor', function(
       vm.colorCategoryHash = {};
       vm.displayURL        = '';
       vm.printURL          = '';
+      vm.cols = {
+        nate: false,
+        mike: false,
+        adam: false,
+        carl: false,
+        mark: false
+      };
 
 
       firebaseFactory.followSongs().$loaded()
@@ -187,7 +192,6 @@ directive('songListEditor', function(
           function() {
             vm.editingNote   = false;
             vm.editingNoteId = undefined;
-            vm.showIcons = false;
           }
         );
       }
@@ -211,7 +215,6 @@ directive('songListEditor', function(
             vm.addingNote    = false;
             vm.addingNoteId  = undefined;
             vm.newNoteText   = '';
-            vm.showIcons = false;
           }
         );
       }

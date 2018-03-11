@@ -56,6 +56,20 @@
           ng-model="songListVM.editSongListItem.title">
       </div>
 
+      <div class="edit-list-display-cols">
+        <span>View: </span>
+        <label for="cb_Nate">Nate</label>
+        <input id="cb_Nate" type="checkbox" ng-model="songListVM.cols.nate">
+        <label for="cb_Mike">Mike</label>
+        <input id="cb_Mike" type="checkbox" ng-model="songListVM.cols.mike">
+        <label for="cb_Adam">Adam</label>
+        <input id="cb_Adam" type="checkbox" ng-model="songListVM.cols.adam">
+        <label for="cb_Carl">Carl</label>
+        <input id="cb_Carl" type="checkbox" ng-model="songListVM.cols.carl">
+        <label for="cb_Mark">Mark</label>
+        <input id="cb_Mark" type="checkbox" ng-model="songListVM.cols.mark">
+      </div>
+
       <div class="form-row">
         <span
           class="icon-help text-small"
@@ -67,67 +81,58 @@
           ng-model="songListVM.selectedHighlight"
           ng-change="songListVM.setSongColor(songListVM.selectedHighlight.action)"
         ></select>
-        <button ng-click="songListVM.showIcons = !songListVM.showIcons" class="but-small">
-          <span ng-show="!songListVM.showIcons">Show</span><span ng-show="songListVM.showIcons">Hide</span> Controls
-        </button>
-        <button ng-click="songListVM.showKeys = !songListVM.showKeys" class="but-small">
-          <span ng-show="!songListVM.showKeys">Show</span><span ng-show="songListVM.showKeys">Hide</span> Keys
-        </button>
+        <span ng-show="songListVM.colorCategory.length">
+          <span
+            ng-repeat="(text, color) in songListVM.colorCategoryHash"
+            class="legend-box"
+            ng-class="color"
+            ng-show="songListVM.colorsPresent.indexOf(text) !== -1"
+            ng-bind="text"
+          ></span>
+        </span>
       </div>
-      <div class="form-row" ng-show="songListVM.colorCategory.length">
-        <span
-          ng-repeat="(text, color) in songListVM.colorCategoryHash"
-          class="legend-box"
-          ng-class="color"
-          ng-show="songListVM.colorsPresent.indexOf(text) !== -1"
-          ng-bind="text"
-        ></span>
-      </div>
-      <ul
-        ui-sortable="songListVM.sortableSongs"
-        ng-model="songListVM.songsSorted"
-        class="songlist-songs"
-      >
-        <li
-          ng-repeat="id in songListVM.songsSorted"
-          ng-class="songListVM.colorCategoryHash[songListVM.songsDB[id][songListVM.colorCategory]]"
+      <table class="songlist-songs">
+        <thead>
+          <tr>
+            <th></th>
+            <th ng-show="songListVM.cols.nate">Nate</th>
+            <th ng-show="songListVM.cols.mike">Mike</th>
+            <th ng-show="songListVM.cols.adam">Adam</th>
+            <th ng-show="songListVM.cols.carl">Carl</th>
+            <th ng-show="songListVM.cols.mark">Mark</th>
+            <th class="col-width-small">Key</th>
+            <th class="col-width-small"></th>
+          </tr>
+        </thead>
+        <tbody
+          ui-sortable="songListVM.sortableSongs"
+          ng-model="songListVM.songsSorted"
         >
-          <span ng-bind="$index + 1"></span>)
-          <span ng-bind="songListVM.songsDB[id].title"></span>
-          <span ng-show="songListVM.showKeys">
-            [<span ng-bind="songListVM.songsDB[id].key"></span>]
-          </span>
+          <tr
+            ng-repeat="id in songListVM.songsSorted"
+            ng-class="songListVM.colorCategoryHash[songListVM.songsDB[id][songListVM.colorCategory]]"
+          >
+            <td>
+              <span ng-bind="$index + 1"></span>)
+              <span ng-bind="songListVM.songsDB[id].title"></span>
+            </td>
+            <td ng-show="songListVM.cols.nate" ng-bind="songListVM.songsDB[id].nate"></td>
+            <td ng-show="songListVM.cols.mike" ng-bind="songListVM.songsDB[id].mike"></td>
+            <td ng-show="songListVM.cols.adam" ng-bind="songListVM.songsDB[id].adam"></td>
+            <td ng-show="songListVM.cols.carl" ng-bind="songListVM.songsDB[id].carl"></td>
+            <td ng-show="songListVM.cols.mark" ng-bind="songListVM.songsDB[id].mark"></td>
+            <td ng-bind="songListVM.songsDB[id].key"></td>
+            <td>
+              <span
+                ng-click="songListVM.removeSong(id)"
+                class="icon-cancel hand color-warning"
+                title="Remove {{songListVM.songsDB[id].title}}"
+              ></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-          <span ng-show="songListVM.editingNote && songListVM.editingNoteId === id" class="inline-controls">
-            <input ng-model="songListVM.editSongListItem.notes[songListVM.editingNoteId]">
-            <button ng-click="songListVM.updateNote()" class="but-small">save</button>
-          </span>
-
-          <span ng-show="songListVM.addingNote && songListVM.addingNoteId === id" class="inline-controls">
-            <input ng-model="songListVM.newNoteText">
-            <button ng-click="songListVM.saveNewNote()" class="but-small">save</button>
-          </span>
-
-          <span
-            class="note hand"
-            ng-bind="songListVM.editSongListItem.notes[id]"
-            ng-if="songListVM.editSongListItem.notes[id]"
-            ng-show="songListVM.editingNoteId !== id && songListVM.addingNoteId !== id"
-            ng-click="songListVM.editNote(id)"
-          ></span>
-          <span
-            ng-show="songListVM.showIcons && songListVM.editingNoteId !== id && songListVM.addingNoteId !== id"
-            ng-click="songListVM.addNote(id)"
-            class="hand color-royal"
-          >note</span>
-          <span
-            ng-show="songListVM.showIcons"
-            ng-click="songListVM.removeSong(id)"
-            class="icon-cancel hand color-warning"
-            title="Remove {{songListVM.songsDB[id].title}}"
-          ></span>
-        </li>
-      </ul>
       <div class="align-right">
         <a class="but-selection" ng-click="songListVM.openSelectSongs()">
           Add Songs

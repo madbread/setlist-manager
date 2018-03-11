@@ -193,6 +193,14 @@
   color: $color-disabledtext;
 }
 
+.col-width-small {
+  width: $base-unit;
+}
+
+tbody.zebra tr:nth-child(even) {
+  background-color: $color-ltgrey;
+}
+
 // Fixes bug/feature in Firefox that makes :invalid fields glow
 :invalid {
   box-shadow: none;
