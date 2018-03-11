@@ -19,6 +19,7 @@ directive('songListEditor', function(
     ].join(''),
 
     controller: function($scope) {
+      var originalSongsDB = [];
       var vm = this;
 
       // vm data
@@ -32,15 +33,21 @@ directive('songListEditor', function(
       vm.showIcons         = true;
       vm.showKeys          = true;
       vm.songListsDB       = firebaseFactory.followSongLists();
-      vm.songsArray        = firebaseFactory.followSongs();
       vm.songsDB           = firebaseFactory.followSongsObject();
+      vm.songsArray        = [];
       vm.songsSorted       = [];
       vm.colorCategory     = '';
       vm.colorCategoryHash = {};
       vm.displayURL        = '';
       vm.printURL          = '';
 
-      var originalSongsDB  = angular.copy(vm.songsArray);
+
+      firebaseFactory.followSongs().$loaded()
+        .then(function(songs) {
+          vm.songsArray = songs;
+          var originalSongsDB  = angular.copy(vm.songsArray);
+          _init();
+        });
 
       // song filtering
       vm.titleFilter       = '';
@@ -327,7 +334,6 @@ directive('songListEditor', function(
 
       // ==========================================================================================
 
-      _init();
     },
   };
 });
