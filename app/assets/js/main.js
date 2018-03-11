@@ -15004,6 +15004,60 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
+directive('datepicker', ["pathsData", function(pathsData) {
+  'use strict';
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      hideIcon: '=',
+      date: '='
+    },
+    controllerAs: 'datepickerVM',
+    bindToController: true,
+    templateUrl: [
+      pathsData.directives,
+      'datepicker/datepicker.html'
+    ].join(''),
+    controller: function() {
+      var vm = this;
+      if (!vm.date) {
+        vm.date = '';
+      }
+    },
+    link: function(scope, elem, attr) {
+      var vm = scope.datepickerVM;
+      var dateConfig = {
+        buttonImage: '/assets/images/icon-cal.svg',
+        buttonImageOnly: true,
+        buttonText: 'Select date',
+        changeMonth: true,
+        changeYear: true,
+        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        dateFormat: 'M d, yy',
+        nextText: 'Á',
+        prevText: 'Â',
+        showOn: 'both',
+        showButtonPanel: true,
+        closeText: 'Close'
+      };
+      if (vm.hideIcon) {
+        dateConfig.buttonImage     = null;
+        dateConfig.buttonImageOnly = null;
+        dateConfig.buttonText      = null;
+        dateConfig.showOn          = 'focus';
+      }
+      elem.datepicker(dateConfig).keydown(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          $.datepicker._clearDate(this);
+          e.preventDefault();
+        }
+      });
+    }
+  };
+}]);
+
+angular.module('Setlists').
 directive('errorMessages', ["pathsData", function(pathsData) {
   'use strict';
 
@@ -15273,60 +15327,6 @@ directive('songEditor', ["firebaseFactory", "pathsData", "staticAppData", functi
 }]);
 
 angular.module('Setlists').
-directive('datepicker', ["pathsData", function(pathsData) {
-  'use strict';
-  return {
-    replace: true,
-    restrict: 'E',
-    scope: {
-      hideIcon: '=',
-      date: '='
-    },
-    controllerAs: 'datepickerVM',
-    bindToController: true,
-    templateUrl: [
-      pathsData.directives,
-      'datepicker/datepicker.html'
-    ].join(''),
-    controller: function() {
-      var vm = this;
-      if (!vm.date) {
-        vm.date = '';
-      }
-    },
-    link: function(scope, elem, attr) {
-      var vm = scope.datepickerVM;
-      var dateConfig = {
-        buttonImage: '/assets/images/icon-cal.svg',
-        buttonImageOnly: true,
-        buttonText: 'Select date',
-        changeMonth: true,
-        changeYear: true,
-        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        dateFormat: 'M d, yy',
-        nextText: 'Á',
-        prevText: 'Â',
-        showOn: 'both',
-        showButtonPanel: true,
-        closeText: 'Close'
-      };
-      if (vm.hideIcon) {
-        dateConfig.buttonImage     = null;
-        dateConfig.buttonImageOnly = null;
-        dateConfig.buttonText      = null;
-        dateConfig.showOn          = 'focus';
-      }
-      elem.datepicker(dateConfig).keydown(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) {
-          $.datepicker._clearDate(this);
-          e.preventDefault();
-        }
-      });
-    }
-  };
-}]);
-
-angular.module('Setlists').
 directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData", "staticAppData", function(
   $filter,
   baseUrl,
@@ -15372,8 +15372,8 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
 
       firebaseFactory.followSongs().$loaded()
         .then(function(songs) {
-          vm.songsArray = songs;
-          var originalSongsDB  = angular.copy(vm.songsArray);
+          vm.songsArray   = songs;
+          originalSongsDB = angular.copy(vm.songsArray);
           _init();
         });
 
@@ -15412,6 +15412,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
       vm.getListURL        = getListURL;
+      vm.openSelectSongs   = openSelectSongs;
 
       // ==========================================================================================
 
@@ -15432,12 +15433,20 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       }
 
       // ==========================================================================================
+
+      function openSelectSongs() {
+        filter();
+        vm.showSelectSongs = true;
+      }
+
+      // ==========================================================================================
       // Adds selected song as last one in list
 
       function addSelected(song) {
         if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
           vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
           _updateDB();
+          vm.songsArray = _.without(vm.songsArray, song);
         } else {
           alert(song.title + ' is already in the setlist.');
         }
@@ -15599,7 +15608,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
         if (newVal && newVal !== vm.blankFilter) {
           filter();
         } else if (newVal && newVal === vm.blankFilter) {
-          vm.songsArray = originalSongsDB;
+          vm.songsArray = angular.copy(originalSongsDB);
         }
       });
 
@@ -15624,9 +15633,16 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       });
 
       function filter() {
-        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
+        var currentSongs = vm.titleFilter.length ?
+          $filter('filter')(originalSongsDB, vm.titleFilter): angular.copy(originalSongsDB);
+        currentSongs = _.map(currentSongs, function(song) {
+          if (vm.songsSorted.indexOf(song.$id) === -1) {
+            return song;
+          }
+        });
+        vm.songsArray = _.without(currentSongs, undefined);
         if (vm.playerFilter !== vm.blankFilter && vm.instrumentFilter !== vm.blankFilter) {
-          vm.songsArray = $filter('filter')(currentSongs, function(song) {
+          vm.songsArray = $filter('filter')(vm.songsArray, function(song) {
             return song[vm.playerFilter] === vm.instrumentFilter;
           });
         }
@@ -15642,7 +15658,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
         vm.instrumentFilter = vm.instrumentOptions[0];
         vm.playerFilter     = vm.playerOptions[0];
         vm.keyFilter        = vm.keyOptions[0];
-        vm.songsArray       = originalSongsDB;
+        vm.songsArray       = angular.copy(originalSongsDB);
       }
 
       function countSongs() {
@@ -15665,68 +15681,6 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
     }],
   };
 }]);
-
-/**
-*  This factory provides a common way for
-*    directives to store API response data
-*    for further calls on the page
-*/
-angular.module('Setlists').
-factory('cacheFactory', function() {
-
-  var pageCache = {},
-      methods   = {},
-      available = _storageAvailable();
-
-  // Store value to cache and localstorage
-  methods.set = function(key, value) {
-    if (_.isString(key)) {
-      pageCache[key] = value;
-      if (!_.isString(value)) {
-        value = angular.toJson(value);
-      }
-      if (available) {
-        localStorage.setItem(key, value);
-      }
-    }
-  };
-
-  methods.get = function(key) {
-    if (available && localStorage.getItem(key)) {
-      return angular.fromJson(localStorage.getItem(key));
-    } else if (pageCache[key]) {
-      return pageCache[key];
-    } else {
-      return null;
-    }
-  };
-
-  methods.getHash = function() {
-    return pageCache;
-  };
-
-  methods.clearLocalStorage = function() {
-    pageCache = {};
-    if (available) {
-      localStorage.clear();
-    }
-  };
-
-  // helper methods
-  function _storageAvailable() {
-    try {
-      var x = 'storage_test';
-      localStorage.setItem(x, x);
-      localStorage.removeItem(x);
-      return true;
-    }
-    catch (e) {
-      return false;
-    }
-  }
-
-  return methods;
-});
 
 angular.module('Setlists').
 directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsData", "staticAppData", "urlParamsFactory", function(
@@ -15888,6 +15842,68 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
     },
   };
 }]);
+
+/**
+*  This factory provides a common way for
+*    directives to store API response data
+*    for further calls on the page
+*/
+angular.module('Setlists').
+factory('cacheFactory', function() {
+
+  var pageCache = {},
+      methods   = {},
+      available = _storageAvailable();
+
+  // Store value to cache and localstorage
+  methods.set = function(key, value) {
+    if (_.isString(key)) {
+      pageCache[key] = value;
+      if (!_.isString(value)) {
+        value = angular.toJson(value);
+      }
+      if (available) {
+        localStorage.setItem(key, value);
+      }
+    }
+  };
+
+  methods.get = function(key) {
+    if (available && localStorage.getItem(key)) {
+      return angular.fromJson(localStorage.getItem(key));
+    } else if (pageCache[key]) {
+      return pageCache[key];
+    } else {
+      return null;
+    }
+  };
+
+  methods.getHash = function() {
+    return pageCache;
+  };
+
+  methods.clearLocalStorage = function() {
+    pageCache = {};
+    if (available) {
+      localStorage.clear();
+    }
+  };
+
+  // helper methods
+  function _storageAvailable() {
+    try {
+      var x = 'storage_test';
+      localStorage.setItem(x, x);
+      localStorage.removeItem(x);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  return methods;
+});
 
 angular.module('Setlists').
 factory('firebaseAuthFactory', ["$firebaseAuth", function($firebaseAuth) {
