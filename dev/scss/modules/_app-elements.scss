@@ -37,11 +37,9 @@
   }
 }
 
-form > ul.songlist-songs {
+table.songlist-songs {
   @extend %text-normal;
-  height: auto;
-  list-style-type: none;
-  li {
+  tr {
     cursor: move;
     @include breakpoint(phone) {
       padding: $base-unit-quarter 0;
@@ -50,6 +48,16 @@ form > ul.songlist-songs {
   @include breakpoint(phone) {
     padding: 0 $base-unit * 2; // for scrolling area
   }
+}
+
+.edit-list-display-cols {
+  margin: $base-unit-half;
+}
+
+.edit-list-display-cols label,
+.edit-list-display-cols input {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 form > ul.print-songlists {
