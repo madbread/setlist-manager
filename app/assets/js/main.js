@@ -15170,9 +15170,9 @@ directive('printList', ["$q", "$filter", "cacheFactory", "firebaseFactory", "pat
       var listHash = {};
 
       vm.cols = {
-        nate: true,
+        nate: false,
         key: true,
-        bass: true,
+        bass: false,
         length: false,
         mike: false,
         adam: false,

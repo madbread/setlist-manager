@@ -8,3 +8,7 @@
   display: inline-block;
   min-width: 3em;
 }
+
+.print-records-page table {
+  @extend %text-large;
+}

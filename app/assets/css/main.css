@@ -681,7 +681,8 @@ h1,
 h3,
 h4,
 .icon-standard,
-.error-messages .media-figure {
+.error-messages .media-figure,
+.print-records-page table {
   font-size: 18px; }
 
 .text-largemed {
