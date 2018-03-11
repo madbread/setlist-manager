@@ -15004,34 +15004,49 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
-directive('errorMessages', ["pathsData", function(pathsData) {
+directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
+  firebaseAuthFactory,
+  firebaseDataUtilsFactory,
+  pathsData) {
   'use strict';
 
   return {
     restrict: 'E',
-    scope: {
-      messages: '=',
-    },
-    controllerAs: 'errorMessagesVM',
+    scope: {},
+    controllerAs: 'fireUtilVM',
     bindToController: true,
     replace: true,
     templateUrl: [
       pathsData.directives,
-      'error-messages/errorMessages.html'
+      'fire-util/fireUtil.html'
     ].join(''),
 
     controller: ["$scope", function($scope) {
       var vm = this;
-      vm.dismiss = dismiss;
 
-      $scope.$watchCollection(angular.bind(vm.messages, function() {
-        return vm.messages;
-      }), function(newVal) {
-        vm.messages = _.uniq(newVal);
-      });
+      vm.status   = firebaseAuthFactory.getStatus();
+      vm.messages = [];
+      vm.data = {};
 
-      function dismiss() {
-        vm.messages = [];
+      vm.source = 'data';
+      vm.target = 'data';
+
+      vm.loadDataFromSource = loadDataFromSource;
+      vm.copyDataToTarget = copyDataToTarget;
+
+      function loadDataFromSource() {
+        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
+          function(response) {
+            $scope.$applyAsync(function() {
+              // debugger;
+              vm.data = response.val();
+            });
+          }
+        );
+      }
+
+      function copyDataToTarget() {
+        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
       }
     }],
   };
@@ -15092,49 +15107,34 @@ directive('datepicker', ["pathsData", function(pathsData) {
 }]);
 
 angular.module('Setlists').
-directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
-  firebaseAuthFactory,
-  firebaseDataUtilsFactory,
-  pathsData) {
+directive('errorMessages', ["pathsData", function(pathsData) {
   'use strict';
 
   return {
     restrict: 'E',
-    scope: {},
-    controllerAs: 'fireUtilVM',
+    scope: {
+      messages: '=',
+    },
+    controllerAs: 'errorMessagesVM',
     bindToController: true,
     replace: true,
     templateUrl: [
       pathsData.directives,
-      'fire-util/fireUtil.html'
+      'error-messages/errorMessages.html'
     ].join(''),
 
     controller: ["$scope", function($scope) {
       var vm = this;
+      vm.dismiss = dismiss;
 
-      vm.status   = firebaseAuthFactory.getStatus();
-      vm.messages = [];
-      vm.data = {};
+      $scope.$watchCollection(angular.bind(vm.messages, function() {
+        return vm.messages;
+      }), function(newVal) {
+        vm.messages = _.uniq(newVal);
+      });
 
-      vm.source = 'data';
-      vm.target = 'data';
-
-      vm.loadDataFromSource = loadDataFromSource;
-      vm.copyDataToTarget = copyDataToTarget;
-
-      function loadDataFromSource() {
-        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
-          function(response) {
-            $scope.$applyAsync(function() {
-              // debugger;
-              vm.data = response.val();
-            });
-          }
-        );
-      }
-
-      function copyDataToTarget() {
-        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
+      function dismiss() {
+        vm.messages = [];
       }
     }],
   };
