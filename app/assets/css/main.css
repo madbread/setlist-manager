@@ -667,7 +667,7 @@ body,
 .but,
 .nav-pills button,
 .nav-pills a,
-form > ul.songlist-songs,
+table.songlist-songs,
 .song-viewer h2 {
   font-size: 14px; }
 
@@ -737,9 +737,6 @@ table {
 thead tr {
   background: #eef6f6;
   font-family: liberation_sansbold, sans-serif; }
-
-tbody tr:nth-child(even) {
-  background-color: #fbf9f9; }
 
 td,
 th {
@@ -1565,17 +1562,26 @@ a.but-selection {
   .add-song-floating-text {
     display: none; } }
 
-form > ul.songlist-songs {
-  height: auto;
-  list-style-type: none; }
-  form > ul.songlist-songs li {
-    cursor: move; }
-    @media (max-width: 28em) {
-      form > ul.songlist-songs li {
-        padding: 0.25em 0; } }
+table.songlist-songs tr {
+  cursor: move; }
   @media (max-width: 28em) {
-    form > ul.songlist-songs {
-      padding: 0 2em; } }
+    table.songlist-songs tr {
+      padding: 0.25em 0; } }
+
+@media (max-width: 28em) {
+  table.songlist-songs {
+    padding: 0 2em; } }
+
+.edit-list-display-cols {
+  margin: 0.5em; }
+
+.edit-list-display-cols label,
+.edit-list-display-cols input {
+  display: inline-block;
+  vertical-align: middle; }
+
+.edit-list-display-cols label {
+  cursor: pointer; }
 
 form > ul.print-songlists {
   min-height: 100px; }
@@ -1965,6 +1971,12 @@ form label.no-pad {
 
 .disabled {
   color: #bcbcbc; }
+
+.col-width-small {
+  width: 1em; }
+
+tbody.zebra tr:nth-child(even) {
+  background-color: #f0eeee; }
 
 :invalid {
   -webkit-box-shadow: none;

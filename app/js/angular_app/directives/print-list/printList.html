@@ -9,14 +9,16 @@
         <input id="cb_Adam" type="checkbox" ng-model="printListVM.cols.adam"><br>
         <label for="cb_Carl">Carl</label>
         <input id="cb_Carl" type="checkbox" ng-model="printListVM.cols.carl"><br>
+      </div>
+      <div class="grid-col-single">
         <label for="cb_Mike">Mike</label>
         <input id="cb_Mike" type="checkbox" ng-model="printListVM.cols.mike"><br>
         <label for="cb_Mark">Mark</label>
         <input id="cb_Mark" type="checkbox" ng-model="printListVM.cols.mark"><br>
-      </div>
-      <div class="grid-col-single">
         <label for="cb_Bass">Bass</label>
         <input id="cb_Bass" type="checkbox" ng-model="printListVM.cols.bass"><br>
+      </div>
+      <div class="grid-col-single">
         <label for="cb_Key">Key</label>
         <input id="cb_Key" type="checkbox" ng-model="printListVM.cols.key"><br>
         <label for="cb_Length">Length</label>
@@ -51,7 +53,7 @@
         <th ng-show="printListVM.cols.bpm">BPM</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="zebra">
       <tr ng-repeat="song in printListVM.songs | orderBy:'order'">
         <td ng-class="{'embolden': printListVM.bold}" ng-bind="song.title"></td>
         <td ng-show="printListVM.cols.nate" ng-bind="song.nate"></td>

@@ -14901,60 +14901,6 @@ constant('staticAppData', {
 });
 
 angular.module('Setlists').
-directive('datepicker', ["pathsData", function(pathsData) {
-  'use strict';
-  return {
-    replace: true,
-    restrict: 'E',
-    scope: {
-      hideIcon: '=',
-      date: '='
-    },
-    controllerAs: 'datepickerVM',
-    bindToController: true,
-    templateUrl: [
-      pathsData.directives,
-      'datepicker/datepicker.html'
-    ].join(''),
-    controller: function() {
-      var vm = this;
-      if (!vm.date) {
-        vm.date = '';
-      }
-    },
-    link: function(scope, elem, attr) {
-      var vm = scope.datepickerVM;
-      var dateConfig = {
-        buttonImage: '/assets/images/icon-cal.svg',
-        buttonImageOnly: true,
-        buttonText: 'Select date',
-        changeMonth: true,
-        changeYear: true,
-        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        dateFormat: 'M d, yy',
-        nextText: 'Á',
-        prevText: 'Â',
-        showOn: 'both',
-        showButtonPanel: true,
-        closeText: 'Close'
-      };
-      if (vm.hideIcon) {
-        dateConfig.buttonImage     = null;
-        dateConfig.buttonImageOnly = null;
-        dateConfig.buttonText      = null;
-        dateConfig.showOn          = 'focus';
-      }
-      elem.datepicker(dateConfig).keydown(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) {
-          $.datepicker._clearDate(this);
-          e.preventDefault();
-        }
-      });
-    }
-  };
-}]);
-
-angular.module('Setlists').
 directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseFactory,
@@ -15058,6 +15004,94 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
+directive('datepicker', ["pathsData", function(pathsData) {
+  'use strict';
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      hideIcon: '=',
+      date: '='
+    },
+    controllerAs: 'datepickerVM',
+    bindToController: true,
+    templateUrl: [
+      pathsData.directives,
+      'datepicker/datepicker.html'
+    ].join(''),
+    controller: function() {
+      var vm = this;
+      if (!vm.date) {
+        vm.date = '';
+      }
+    },
+    link: function(scope, elem, attr) {
+      var vm = scope.datepickerVM;
+      var dateConfig = {
+        buttonImage: '/assets/images/icon-cal.svg',
+        buttonImageOnly: true,
+        buttonText: 'Select date',
+        changeMonth: true,
+        changeYear: true,
+        dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        dateFormat: 'M d, yy',
+        nextText: 'Á',
+        prevText: 'Â',
+        showOn: 'both',
+        showButtonPanel: true,
+        closeText: 'Close'
+      };
+      if (vm.hideIcon) {
+        dateConfig.buttonImage     = null;
+        dateConfig.buttonImageOnly = null;
+        dateConfig.buttonText      = null;
+        dateConfig.showOn          = 'focus';
+      }
+      elem.datepicker(dateConfig).keydown(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) {
+          $.datepicker._clearDate(this);
+          e.preventDefault();
+        }
+      });
+    }
+  };
+}]);
+
+angular.module('Setlists').
+directive('errorMessages', ["pathsData", function(pathsData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {
+      messages: '=',
+    },
+    controllerAs: 'errorMessagesVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'error-messages/errorMessages.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+      vm.dismiss = dismiss;
+
+      $scope.$watchCollection(angular.bind(vm.messages, function() {
+        return vm.messages;
+      }), function(newVal) {
+        vm.messages = _.uniq(newVal);
+      });
+
+      function dismiss() {
+        vm.messages = [];
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
 directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseDataUtilsFactory,
@@ -15101,40 +15135,6 @@ directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "paths
 
       function copyDataToTarget() {
         firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
-      }
-    }],
-  };
-}]);
-
-angular.module('Setlists').
-directive('errorMessages', ["pathsData", function(pathsData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {
-      messages: '=',
-    },
-    controllerAs: 'errorMessagesVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'error-messages/errorMessages.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-      vm.dismiss = dismiss;
-
-      $scope.$watchCollection(angular.bind(vm.messages, function() {
-        return vm.messages;
-      }), function(newVal) {
-        vm.messages = _.uniq(newVal);
-      });
-
-      function dismiss() {
-        vm.messages = [];
       }
     }],
   };
@@ -15358,8 +15358,6 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
       vm.showSelectSongs   = false;
-      vm.showIcons         = true;
-      vm.showKeys          = true;
       vm.songListsDB       = firebaseFactory.followSongLists();
       vm.songsDB           = firebaseFactory.followSongsObject();
       vm.songsArray        = [];
@@ -15368,6 +15366,13 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.colorCategoryHash = {};
       vm.displayURL        = '';
       vm.printURL          = '';
+      vm.cols = {
+        nate: false,
+        mike: false,
+        adam: false,
+        carl: false,
+        mark: false
+      };
 
 
       firebaseFactory.followSongs().$loaded()
@@ -15515,7 +15520,6 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
           function() {
             vm.editingNote   = false;
             vm.editingNoteId = undefined;
-            vm.showIcons = false;
           }
         );
       }
@@ -15539,7 +15543,6 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
             vm.addingNote    = false;
             vm.addingNoteId  = undefined;
             vm.newNoteText   = '';
-            vm.showIcons = false;
           }
         );
       }
