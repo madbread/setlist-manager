@@ -81,13 +81,9 @@ directive('printList', function(
           thisSong.order   = order;
           thisSong.bassist = _.invert(thisSong).Bass;
 
-          // Do not show default bassist on print page
-          thisSong.bassist = thisSong.bassist === staticAppData.defaultBassist ?
-            '' : (_.isString(thisSong.bassist) ? thisSong.bassist.capitalize() : '');
-
-          // Do not show Nate's default instrument on print page
-          thisSong.nate = thisSong.nate === staticAppData.defaultNate ?
-            '' : thisSong.nate;
+          // Capitolize bassist name
+          thisSong.bassist = _.isString(thisSong.bassist) ?
+            thisSong.bassist.capitalize() : '';
 
           return thisSong;
         });
