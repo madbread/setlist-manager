@@ -44,8 +44,8 @@ directive('songListEditor', function(
 
       firebaseFactory.followSongs().$loaded()
         .then(function(songs) {
-          vm.songsArray = songs;
-          var originalSongsDB  = angular.copy(vm.songsArray);
+          vm.songsArray   = songs;
+          originalSongsDB = angular.copy(vm.songsArray);
           _init();
         });
 
@@ -84,6 +84,7 @@ directive('songListEditor', function(
       vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
       vm.getListURL        = getListURL;
+      vm.openSelectSongs   = openSelectSongs;
 
       // ==========================================================================================
 
@@ -104,12 +105,20 @@ directive('songListEditor', function(
       }
 
       // ==========================================================================================
+
+      function openSelectSongs() {
+        filter();
+        vm.showSelectSongs = true;
+      }
+
+      // ==========================================================================================
       // Adds selected song as last one in list
 
       function addSelected(song) {
         if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
           vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
           _updateDB();
+          vm.songsArray = _.without(vm.songsArray, song);
         } else {
           alert(song.title + ' is already in the setlist.');
         }
@@ -271,7 +280,7 @@ directive('songListEditor', function(
         if (newVal && newVal !== vm.blankFilter) {
           filter();
         } else if (newVal && newVal === vm.blankFilter) {
-          vm.songsArray = originalSongsDB;
+          vm.songsArray = angular.copy(originalSongsDB);
         }
       });
 
@@ -296,9 +305,16 @@ directive('songListEditor', function(
       });
 
       function filter() {
-        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
+        var currentSongs = vm.titleFilter.length ?
+          $filter('filter')(originalSongsDB, vm.titleFilter) : angular.copy(originalSongsDB);
+        currentSongs = _.map(currentSongs, function(song) {
+          if (vm.songsSorted.indexOf(song.$id) === -1) {
+            return song;
+          }
+        });
+        vm.songsArray = _.without(currentSongs, undefined);
         if (vm.playerFilter !== vm.blankFilter && vm.instrumentFilter !== vm.blankFilter) {
-          vm.songsArray = $filter('filter')(currentSongs, function(song) {
+          vm.songsArray = $filter('filter')(vm.songsArray, function(song) {
             return song[vm.playerFilter] === vm.instrumentFilter;
           });
         }
@@ -314,7 +330,7 @@ directive('songListEditor', function(
         vm.instrumentFilter = vm.instrumentOptions[0];
         vm.playerFilter     = vm.playerOptions[0];
         vm.keyFilter        = vm.keyOptions[0];
-        vm.songsArray       = originalSongsDB;
+        vm.songsArray       = angular.copy(originalSongsDB);
       }
 
       function countSongs() {

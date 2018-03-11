@@ -15004,55 +15004,6 @@ directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", f
 }]);
 
 angular.module('Setlists').
-directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
-  firebaseAuthFactory,
-  firebaseDataUtilsFactory,
-  pathsData) {
-  'use strict';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    controllerAs: 'fireUtilVM',
-    bindToController: true,
-    replace: true,
-    templateUrl: [
-      pathsData.directives,
-      'fire-util/fireUtil.html'
-    ].join(''),
-
-    controller: ["$scope", function($scope) {
-      var vm = this;
-
-      vm.status   = firebaseAuthFactory.getStatus();
-      vm.messages = [];
-      vm.data = {};
-
-      vm.source = 'data';
-      vm.target = 'data';
-
-      vm.loadDataFromSource = loadDataFromSource;
-      vm.copyDataToTarget = copyDataToTarget;
-
-      function loadDataFromSource() {
-        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
-          function(response) {
-            $scope.$applyAsync(function() {
-              // debugger;
-              vm.data = response.val();
-            });
-          }
-        );
-      }
-
-      function copyDataToTarget() {
-        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
-      }
-    }],
-  };
-}]);
-
-angular.module('Setlists').
 directive('datepicker', ["pathsData", function(pathsData) {
   'use strict';
   return {
@@ -15135,6 +15086,55 @@ directive('errorMessages', ["pathsData", function(pathsData) {
 
       function dismiss() {
         vm.messages = [];
+      }
+    }],
+  };
+}]);
+
+angular.module('Setlists').
+directive('fireUtil', ["firebaseAuthFactory", "firebaseDataUtilsFactory", "pathsData", function(
+  firebaseAuthFactory,
+  firebaseDataUtilsFactory,
+  pathsData) {
+  'use strict';
+
+  return {
+    restrict: 'E',
+    scope: {},
+    controllerAs: 'fireUtilVM',
+    bindToController: true,
+    replace: true,
+    templateUrl: [
+      pathsData.directives,
+      'fire-util/fireUtil.html'
+    ].join(''),
+
+    controller: ["$scope", function($scope) {
+      var vm = this;
+
+      vm.status   = firebaseAuthFactory.getStatus();
+      vm.messages = [];
+      vm.data = {};
+
+      vm.source = 'data';
+      vm.target = 'data';
+
+      vm.loadDataFromSource = loadDataFromSource;
+      vm.copyDataToTarget = copyDataToTarget;
+
+      function loadDataFromSource() {
+        firebaseDataUtilsFactory.readDataOnce(vm.source).then(
+          function(response) {
+            $scope.$applyAsync(function() {
+              // debugger;
+              vm.data = response.val();
+            });
+          }
+        );
+      }
+
+      function copyDataToTarget() {
+        firebaseDataUtilsFactory.setData(vm.target, angular.copy(vm.data));
       }
     }],
   };
@@ -15372,8 +15372,8 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
 
       firebaseFactory.followSongs().$loaded()
         .then(function(songs) {
-          vm.songsArray = songs;
-          var originalSongsDB  = angular.copy(vm.songsArray);
+          vm.songsArray   = songs;
+          originalSongsDB = angular.copy(vm.songsArray);
           _init();
         });
 
@@ -15412,6 +15412,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
       vm.getListURL        = getListURL;
+      vm.openSelectSongs   = openSelectSongs;
 
       // ==========================================================================================
 
@@ -15432,12 +15433,20 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       }
 
       // ==========================================================================================
+
+      function openSelectSongs() {
+        filter();
+        vm.showSelectSongs = true;
+      }
+
+      // ==========================================================================================
       // Adds selected song as last one in list
 
       function addSelected(song) {
         if (_.keys(vm.editSongListItem.songs).indexOf(song.$id) === -1) {
           vm.editSongListItem.songs[song.$id] = _.keys(vm.editSongListItem.songs).length;
           _updateDB();
+          vm.songsArray = _.without(vm.songsArray, song);
         } else {
           alert(song.title + ' is already in the setlist.');
         }
@@ -15599,7 +15608,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
         if (newVal && newVal !== vm.blankFilter) {
           filter();
         } else if (newVal && newVal === vm.blankFilter) {
-          vm.songsArray = originalSongsDB;
+          vm.songsArray = angular.copy(originalSongsDB);
         }
       });
 
@@ -15624,9 +15633,16 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       });
 
       function filter() {
-        var currentSongs = $filter('filter')(originalSongsDB, vm.titleFilter);
+        var currentSongs = vm.titleFilter.length ?
+          $filter('filter')(originalSongsDB, vm.titleFilter) : angular.copy(originalSongsDB);
+        currentSongs = _.map(currentSongs, function(song) {
+          if (vm.songsSorted.indexOf(song.$id) === -1) {
+            return song;
+          }
+        });
+        vm.songsArray = _.without(currentSongs, undefined);
         if (vm.playerFilter !== vm.blankFilter && vm.instrumentFilter !== vm.blankFilter) {
-          vm.songsArray = $filter('filter')(currentSongs, function(song) {
+          vm.songsArray = $filter('filter')(vm.songsArray, function(song) {
             return song[vm.playerFilter] === vm.instrumentFilter;
           });
         }
@@ -15642,7 +15658,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
         vm.instrumentFilter = vm.instrumentOptions[0];
         vm.playerFilter     = vm.playerOptions[0];
         vm.keyFilter        = vm.keyOptions[0];
-        vm.songsArray       = originalSongsDB;
+        vm.songsArray       = angular.copy(originalSongsDB);
       }
 
       function countSongs() {
