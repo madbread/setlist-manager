@@ -306,7 +306,7 @@ directive('songListEditor', function(
 
       function filter() {
         var currentSongs = vm.titleFilter.length ?
-          $filter('filter')(originalSongsDB, vm.titleFilter): angular.copy(originalSongsDB);
+          $filter('filter')(originalSongsDB, vm.titleFilter) : angular.copy(originalSongsDB);
         currentSongs = _.map(currentSongs, function(song) {
           if (vm.songsSorted.indexOf(song.$id) === -1) {
             return song;
