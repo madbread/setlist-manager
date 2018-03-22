@@ -4,12 +4,6 @@ constant('sampleDB', {
   "data" : {
     "songLists" : {
       "-KnCoUtm2svjssI15VCJ" : {
-        "notes" : {
-          "-KlWkZjSzfX6z0ncATKS" : "",
-          "-KlWq0i1krZf3O1vcp7b" : "",
-          "-Kl_YK-3FC93bq514Fyf" : "",
-          "-L31M9LMLdU6QHIuIr3t" : "-->"
-        },
         "songs" : {
           "-Kl04oyBIn1R-9JxK_KJ" : 0,
           "-Kl09C7Q1Q2C4LX-31CC" : 12,
@@ -35,9 +29,6 @@ constant('sampleDB', {
         "title" : "Fiddle Set"
       },
       "-L3JCuppTdqkfqapSYBU" : {
-        "notes" : {
-          "-KlWpBmF740Ery7CuXX9" : "sc"
-        },
         "songs" : {
           "-KlWjFORdNnL3HjKo6E0" : 6,
           "-KlWjPNlisc6uwFKsNos" : 0,

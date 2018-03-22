@@ -1551,9 +1551,6 @@ a.but-selection {
 .edit-list-song-select {
   max-height: 330px; }
 
-.note {
-  font-family: liberation_sansbold_italic, sans-serif; }
-
 .drop-zone {
   padding: 0.5em;
   border: 1px dotted #222; }

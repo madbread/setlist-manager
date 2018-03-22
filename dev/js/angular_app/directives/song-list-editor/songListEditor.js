@@ -23,9 +23,7 @@ directive('songListEditor', function(
       var vm = this;
 
       // vm data
-      vm.addingNote        = false;
       vm.colorsPresent     = [];
-      vm.editingNote       = false;
       vm.editSongListItem  = undefined;
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
@@ -77,16 +75,12 @@ directive('songListEditor', function(
       vm.count = 0;
 
       // vm functions
-      vm.addNote           = addNote;
       vm.addSelected       = addSelected;
       vm.addSongList       = addSongList;
       vm.displaySongList   = displaySongList;
-      vm.editNote          = editNote;
       vm.removeSong        = removeSong;
       vm.setSongColor      = setSongColor;
-      vm.saveNewNote       = saveNewNote;
       vm.toggleAddSongList = toggleAddSongList;
-      vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
       vm.getListURL        = getListURL;
       vm.openSelectSongs   = openSelectSongs;
@@ -170,53 +164,12 @@ directive('songListEditor', function(
 
       // ==========================================================================================
 
-      function editNote(songId) {
-        vm.editingNote   = true;
-        vm.editingNoteId = songId;
-      }
-
-      // ==========================================================================================
-
       function deleteList() {
         if (window.confirm('Are you sure you wish to delete "' + vm.editSongListItem.title + '" ?')) {
           firebaseFactory.deleteSongList(vm.editSongListItem);
           vm.editSongListItem = undefined;
           vm.selectedList = vm.songListsDB[0];
         }
-      }
-
-      // ==========================================================================================
-
-      function updateNote() {
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.editingNote   = false;
-            vm.editingNoteId = undefined;
-          }
-        );
-      }
-
-      // ==========================================================================================
-
-      function addNote(songId) {
-        vm.addingNote   = true;
-        vm.addingNoteId = songId;
-      }
-
-      // ==========================================================================================
-
-      function saveNewNote() {
-        if (!vm.editSongListItem.hasOwnProperty('notes')) {
-          vm.editSongListItem.notes = {};
-        }
-        vm.editSongListItem.notes[vm.addingNoteId] = vm.newNoteText;
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.addingNote    = false;
-            vm.addingNoteId  = undefined;
-            vm.newNoteText   = '';
-          }
-        );
       }
 
       // ==========================================================================================

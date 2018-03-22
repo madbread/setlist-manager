@@ -70,7 +70,7 @@ directive('songViewer', function(
         .then(function(response) {
           listHash = response.val();
           vm.listOptions = _.map(response.val());
-          vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
+          vm.listOptions.unshift({title: 'All Songs', songs: {}});
           // If params passed a valid list id, load it and apply filter
           if (listHash.hasOwnProperty(params.list)) {
             vm.list = _.find(vm.listOptions, function(option) {

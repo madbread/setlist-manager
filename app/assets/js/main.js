@@ -13385,12 +13385,6 @@ constant('sampleDB', {
   "data" : {
     "songLists" : {
       "-KnCoUtm2svjssI15VCJ" : {
-        "notes" : {
-          "-KlWkZjSzfX6z0ncATKS" : "",
-          "-KlWq0i1krZf3O1vcp7b" : "",
-          "-Kl_YK-3FC93bq514Fyf" : "",
-          "-L31M9LMLdU6QHIuIr3t" : "-->"
-        },
         "songs" : {
           "-Kl04oyBIn1R-9JxK_KJ" : 0,
           "-Kl09C7Q1Q2C4LX-31CC" : 12,
@@ -13416,9 +13410,6 @@ constant('sampleDB', {
         "title" : "Fiddle Set"
       },
       "-L3JCuppTdqkfqapSYBU" : {
-        "notes" : {
-          "-KlWpBmF740Ery7CuXX9" : "sc"
-        },
         "songs" : {
           "-KlWjFORdNnL3HjKo6E0" : 6,
           "-KlWjPNlisc6uwFKsNos" : 0,
@@ -15351,9 +15342,7 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       var vm = this;
 
       // vm data
-      vm.addingNote        = false;
       vm.colorsPresent     = [];
-      vm.editingNote       = false;
       vm.editSongListItem  = undefined;
       vm.newSongList       = angular.copy(staticAppData.new_songList);
       vm.showAddSongList   = false;
@@ -15405,16 +15394,12 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
       vm.count = 0;
 
       // vm functions
-      vm.addNote           = addNote;
       vm.addSelected       = addSelected;
       vm.addSongList       = addSongList;
       vm.displaySongList   = displaySongList;
-      vm.editNote          = editNote;
       vm.removeSong        = removeSong;
       vm.setSongColor      = setSongColor;
-      vm.saveNewNote       = saveNewNote;
       vm.toggleAddSongList = toggleAddSongList;
-      vm.updateNote        = updateNote;
       vm.deleteList        = deleteList;
       vm.getListURL        = getListURL;
       vm.openSelectSongs   = openSelectSongs;
@@ -15498,53 +15483,12 @@ directive('songListEditor', ["$filter", "baseUrl", "firebaseFactory", "pathsData
 
       // ==========================================================================================
 
-      function editNote(songId) {
-        vm.editingNote   = true;
-        vm.editingNoteId = songId;
-      }
-
-      // ==========================================================================================
-
       function deleteList() {
         if (window.confirm('Are you sure you wish to delete "' + vm.editSongListItem.title + '" ?')) {
           firebaseFactory.deleteSongList(vm.editSongListItem);
           vm.editSongListItem = undefined;
           vm.selectedList = vm.songListsDB[0];
         }
-      }
-
-      // ==========================================================================================
-
-      function updateNote() {
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.editingNote   = false;
-            vm.editingNoteId = undefined;
-          }
-        );
-      }
-
-      // ==========================================================================================
-
-      function addNote(songId) {
-        vm.addingNote   = true;
-        vm.addingNoteId = songId;
-      }
-
-      // ==========================================================================================
-
-      function saveNewNote() {
-        if (!vm.editSongListItem.hasOwnProperty('notes')) {
-          vm.editSongListItem.notes = {};
-        }
-        vm.editSongListItem.notes[vm.addingNoteId] = vm.newNoteText;
-        firebaseFactory.updateSongList(vm.editSongListItem).then(
-          function() {
-            vm.addingNote    = false;
-            vm.addingNoteId  = undefined;
-            vm.newNoteText   = '';
-          }
-        );
       }
 
       // ==========================================================================================
@@ -15757,7 +15701,7 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
         .then(function(response) {
           listHash = response.val();
           vm.listOptions = _.map(response.val());
-          vm.listOptions.unshift({title: 'All Songs', songs: {}, notes: {}});
+          vm.listOptions.unshift({title: 'All Songs', songs: {}});
           // If params passed a valid list id, load it and apply filter
           if (listHash.hasOwnProperty(params.list)) {
             vm.list = _.find(vm.listOptions, function(option) {
