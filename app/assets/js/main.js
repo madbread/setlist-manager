@@ -14901,367 +14901,6 @@ constant('staticAppData', {
 });
 
 angular.module('Setlists').
-factory('firebaseAuthFactory', ["$firebaseAuth", function($firebaseAuth) {
-  var methods = {};
-  var firebaseAuthObject = $firebaseAuth();
-  var status = {
-    authorized: false,
-    email: ''
-  };
-
-  firebaseAuthObject.$onAuthStateChanged(function(user) {
-    if (user) {
-      console.log(' ** USER is authorized **');
-      status.authorized = true;
-      status.email = user.email;
-    } else {
-      console.log(' ** USER Signed out **');
-      status.authorized = false;
-      status.email = '';
-    }
-  });
-
-  // Public Methods
-  // ==============================================================================================
-  methods.getStatus = function() {
-    return status;
-  };
-
-  methods.login = function(email, password) {
-    return firebaseAuthObject.$signInWithEmailAndPassword(email, password);
-  };
-
-  methods.logout = function() {
-    return firebaseAuthObject.$signOut();
-  };
-
-  methods.registerUser = function(email, password) {
-    return firebaseAuthObject.$createUserWithEmailAndPassword(email, password);
-  };
-
-  methods.updateEmail = function(email) {
-    return firebaseAuthObject.$sendPasswordResetEmail(email);
-  };
-
-  return methods;
-}]);
-
-angular.module('Setlists').
-factory('firebaseDataUtilsFactory', function() {
-  var db = firebase.database();
-  var methods = {};
-
-  // Public Methods
-  // ==============================================================================================
-  methods.setData = function(location, object) {
-    if (_.isString(location) &&
-        (location !== '' || window.confirm('You are about to overwrite all data. Proceed?'))) {
-      if (_.isObject(object)) {
-        db.ref('data/' + location).set(object);
-      } else {
-        db.ref('data/' + location).set({
-          data: object
-        });
-      }
-    }
-  };
-
-  methods.readDataOnce = function(location) {
-    if (location) {
-      return db.ref(location).once('value');
-    } else {
-      return db.ref().once('value');
-    }
-  };
-
-  return methods;
-});
-
-angular.module('Setlists').
-factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
-  var methods = {};
-
-  var instrumentsRef = firebase.database().ref('meta/instruments');
-  var instrumentsDB = $firebaseArray(instrumentsRef);
-
-  var songsRef = firebase.database().ref('data/songs');
-  var songsDB = $firebaseArray(songsRef);
-  var songsObject = $firebaseObject(songsRef);
-
-  var songListsRef = firebase.database().ref('data/songLists');
-  var songListsDB = $firebaseArray(songListsRef);
-  var songListsObject = $firebaseObject(songListsRef);
-
-  // ==============================================================================================
-
-  methods.readDataOnce = function(type) {
-    var returnVal;
-    switch (type) {
-      case 'instruments':
-        returnVal = instrumentsDB.$ref().once('value');
-        break;
-      case 'songs':
-        returnVal = songsDB.$ref().once('value');
-        break;
-      case 'songLists':
-        returnVal = songListsDB.$ref().once('value');
-        break;
-      case 'shows':
-        returnVal = showsDB.$ref().once('value');
-        break;
-      default:
-        returnVal = instrumentsDB.$ref().once('value');
-        break;
-    }
-    return returnVal;
-  };
-
-  // ==============================================================================================
-
-  methods.followInstruments = function() {
-    return instrumentsDB;
-  };
-  methods.addInstrument = function(instrument) {
-    instrumentsDB.$add(instrument);
-  };
-
-  // ==============================================================================================
-
-  methods.followSongs = function() {
-    return songsDB;
-  };
-  methods.followSongsObject = function() {
-    return songsObject;
-  };
-  methods.addSong = function(song) {
-    return songsDB.$add(song);
-  };
-  methods.updateSong = function(song) {
-    return songsDB.$save(song);
-  };
-  methods.deleteSong = function(song) {
-    // Remove song from all songlists
-    _.each(songListsDB, function(songList) {
-      if (_.keys(songList.songs).indexOf(song.$id) !== -1) {
-        methods.removeSongFromList(song.$id, songList);
-        methods.updateSongList(songList);
-      }
-    });
-    return songsDB.$remove(song);
-  };
-
-  // ==============================================================================================
-
-  methods.removeSongFromList = function(songId, songList) {
-    var removedIdx = angular.copy(songList.songs[songId]);
-    delete songList.songs[songId];
-    _.each(songList.songs, function(order, songId) {
-      if (order > removedIdx) {
-        songList.songs[songId]--;
-      }
-    });
-  };
-
-  // ==============================================================================================
-
-  methods.followSongLists = function() {
-    return songListsDB;
-  };
-  methods.followSongListsObject = function() {
-    return songListsObject;
-  };
-  methods.addSongList = function(songList) {
-    return songListsDB.$add(songList);
-  };
-  methods.updateSongList = function(songList) {
-    return songListsDB.$save(songList);
-  };
-  methods.deleteSongList = function(songList) {
-    return songListsDB.$remove(songList);
-  };
-
-  // ==============================================================================================
-
-  methods.populate = function() {
-    // Enter population function here
-  };
-
-  // ==============================================================================================
-
-  return methods;
-}]);
-
-/**
-*  This factory provides a common way for
-*    directives to store API response data
-*    for further calls on the page
-*/
-angular.module('Setlists').
-factory('cacheFactory', function() {
-
-  var pageCache = {},
-      methods   = {},
-      available = _storageAvailable();
-
-  // Store value to cache and localstorage
-  methods.set = function(key, value) {
-    if (_.isString(key)) {
-      pageCache[key] = value;
-      if (!_.isString(value)) {
-        value = angular.toJson(value);
-      }
-      if (available) {
-        localStorage.setItem(key, value);
-      }
-    }
-  };
-
-  methods.get = function(key) {
-    if (available && localStorage.getItem(key)) {
-      return angular.fromJson(localStorage.getItem(key));
-    } else if (pageCache[key]) {
-      return pageCache[key];
-    } else {
-      return null;
-    }
-  };
-
-  methods.getHash = function() {
-    return pageCache;
-  };
-
-  methods.clearLocalStorage = function() {
-    pageCache = {};
-    if (available) {
-      localStorage.clear();
-    }
-  };
-
-  // helper methods
-  function _storageAvailable() {
-    try {
-      var x = 'storage_test';
-      localStorage.setItem(x, x);
-      localStorage.removeItem(x);
-      return true;
-    }
-    catch (e) {
-      return false;
-    }
-  }
-
-  return methods;
-});
-
-/**
- *   Helper methods for manipuating data structures missing from _
- **/
-angular.module('Setlists').
-factory('dataUtilFactory', function() {
-  var methods = {};
-
-  methods.sortObjectByKey = function(object) {
-    var temp = {};
-    _.each(_.keys(object).sort(), function(typeKey) {
-      temp[typeKey] = object[typeKey];
-    });
-    return temp;
-  };
-
-  methods.stringReplace = function(string, oldChars, newChars) {
-    if (_.isString(string)) {
-      return string.split(oldChars).join(newChars);
-    } else {
-      return null;
-    }
-  };
-
-  methods.removeNullUndefinedKeys = function(obj) {
-    _.each(obj, function(v, k) {
-      if (v === undefined || v === null) {
-        delete obj[k];
-      }
-    });
-    return obj;
-  };
-
-  return methods;
-});
-
-/**
- *  This factory is used to get/set URL params and strings
- **/
-angular.module('Setlists').
-factory('urlParamsFactory', function() {
-  var methods   = {};
-  var urlParams = {}; // store params after first check
-
-  // get value of variable from URL string
-  methods.getQueryVariable = function(variable) {
-    if (_.isEmpty(urlParams)) {
-      methods.getAllQueryParamsObject();
-    }
-    return urlParams[variable] || false;
-  };
-
-  methods.getAllQueryParamsObject = function() {
-    if (_.isEmpty(urlParams)) {
-      var query  = window.location.search.substring(1),
-          vars   = query.split('&'),
-          params = {};
-      _.each(vars, function(item) {
-        if (item.length) {
-          var pair = item.split('=');
-          params[pair[0]] = decodeURIComponent(pair[1]);
-        }
-      });
-      urlParams = params;
-    }
-    return urlParams;
-  };
-
-  methods.getURLParamsFromObject = function(data) {
-    // remove keys with undefined or null data
-    data = _.omit(data, _.filter(_.keys(data), function(key) {
-      return _.isUndefined(data[key]) || _.isNull(data[key]);
-    }));
-    return jQuery.param(data);
-  };
-
-  /**
-  *   Accept a location string and an array of
-  *     paramaters: ['key=value', 'key2=value2', ...]
-  *
-  *   Return an encoded URL string
-  **/
-  methods.sanitize = function(location, params) {
-    var sanitizedURL  = '',
-        encodedParams = [],
-        urlParams;
-    if (params !== undefined && Array.isArray(params)) {
-      var equalsCount;
-      _.each(params, function(param) {
-        // Ensure there is exactly one '=' in each param
-        equalsCount = param.split('=').length - 1;
-
-        if (equalsCount === 1 &&
-            _.indexOf(param, '&') === -1 &&
-            _.indexOf(param, '?') === -1) {
-          encodedParams.push(encodeURI(param));
-        }
-      });
-      urlParams = '?' + encodedParams.join('&');
-    } else {
-      urlParams = '';
-    }
-    sanitizedURL = location + urlParams;
-    return sanitizedURL;
-  };
-
-  return methods;
-});
-
-angular.module('Setlists').
 directive('adminPage', ["firebaseAuthFactory", "firebaseFactory", "pathsData", function(
   firebaseAuthFactory,
   firebaseFactory,
@@ -16206,3 +15845,364 @@ directive('songViewer', ["$filter", "cacheFactory", "firebaseFactory", "pathsDat
     },
   };
 }]);
+
+/**
+*  This factory provides a common way for
+*    directives to store API response data
+*    for further calls on the page
+*/
+angular.module('Setlists').
+factory('cacheFactory', function() {
+
+  var pageCache = {},
+      methods   = {},
+      available = _storageAvailable();
+
+  // Store value to cache and localstorage
+  methods.set = function(key, value) {
+    if (_.isString(key)) {
+      pageCache[key] = value;
+      if (!_.isString(value)) {
+        value = angular.toJson(value);
+      }
+      if (available) {
+        localStorage.setItem(key, value);
+      }
+    }
+  };
+
+  methods.get = function(key) {
+    if (available && localStorage.getItem(key)) {
+      return angular.fromJson(localStorage.getItem(key));
+    } else if (pageCache[key]) {
+      return pageCache[key];
+    } else {
+      return null;
+    }
+  };
+
+  methods.getHash = function() {
+    return pageCache;
+  };
+
+  methods.clearLocalStorage = function() {
+    pageCache = {};
+    if (available) {
+      localStorage.clear();
+    }
+  };
+
+  // helper methods
+  function _storageAvailable() {
+    try {
+      var x = 'storage_test';
+      localStorage.setItem(x, x);
+      localStorage.removeItem(x);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  return methods;
+});
+
+angular.module('Setlists').
+factory('firebaseAuthFactory', ["$firebaseAuth", function($firebaseAuth) {
+  var methods = {};
+  var firebaseAuthObject = $firebaseAuth();
+  var status = {
+    authorized: false,
+    email: ''
+  };
+
+  firebaseAuthObject.$onAuthStateChanged(function(user) {
+    if (user) {
+      console.log(' ** USER is authorized **');
+      status.authorized = true;
+      status.email = user.email;
+    } else {
+      console.log(' ** USER Signed out **');
+      status.authorized = false;
+      status.email = '';
+    }
+  });
+
+  // Public Methods
+  // ==============================================================================================
+  methods.getStatus = function() {
+    return status;
+  };
+
+  methods.login = function(email, password) {
+    return firebaseAuthObject.$signInWithEmailAndPassword(email, password);
+  };
+
+  methods.logout = function() {
+    return firebaseAuthObject.$signOut();
+  };
+
+  methods.registerUser = function(email, password) {
+    return firebaseAuthObject.$createUserWithEmailAndPassword(email, password);
+  };
+
+  methods.updateEmail = function(email) {
+    return firebaseAuthObject.$sendPasswordResetEmail(email);
+  };
+
+  return methods;
+}]);
+
+angular.module('Setlists').
+factory('firebaseDataUtilsFactory', function() {
+  var db = firebase.database();
+  var methods = {};
+
+  // Public Methods
+  // ==============================================================================================
+  methods.setData = function(location, object) {
+    if (_.isString(location) &&
+        (location !== '' || window.confirm('You are about to overwrite all data. Proceed?'))) {
+      if (_.isObject(object)) {
+        db.ref('data/' + location).set(object);
+      } else {
+        db.ref('data/' + location).set({
+          data: object
+        });
+      }
+    }
+  };
+
+  methods.readDataOnce = function(location) {
+    if (location) {
+      return db.ref(location).once('value');
+    } else {
+      return db.ref().once('value');
+    }
+  };
+
+  return methods;
+});
+
+angular.module('Setlists').
+factory('firebaseFactory', ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
+  var methods = {};
+
+  var instrumentsRef = firebase.database().ref('meta/instruments');
+  var instrumentsDB = $firebaseArray(instrumentsRef);
+
+  var songsRef = firebase.database().ref('data/songs');
+  var songsDB = $firebaseArray(songsRef);
+  var songsObject = $firebaseObject(songsRef);
+
+  var songListsRef = firebase.database().ref('data/songLists');
+  var songListsDB = $firebaseArray(songListsRef);
+  var songListsObject = $firebaseObject(songListsRef);
+
+  // ==============================================================================================
+
+  methods.readDataOnce = function(type) {
+    var returnVal;
+    switch (type) {
+      case 'instruments':
+        returnVal = instrumentsDB.$ref().once('value');
+        break;
+      case 'songs':
+        returnVal = songsDB.$ref().once('value');
+        break;
+      case 'songLists':
+        returnVal = songListsDB.$ref().once('value');
+        break;
+      case 'shows':
+        returnVal = showsDB.$ref().once('value');
+        break;
+      default:
+        returnVal = instrumentsDB.$ref().once('value');
+        break;
+    }
+    return returnVal;
+  };
+
+  // ==============================================================================================
+
+  methods.followInstruments = function() {
+    return instrumentsDB;
+  };
+  methods.addInstrument = function(instrument) {
+    instrumentsDB.$add(instrument);
+  };
+
+  // ==============================================================================================
+
+  methods.followSongs = function() {
+    return songsDB;
+  };
+  methods.followSongsObject = function() {
+    return songsObject;
+  };
+  methods.addSong = function(song) {
+    return songsDB.$add(song);
+  };
+  methods.updateSong = function(song) {
+    return songsDB.$save(song);
+  };
+  methods.deleteSong = function(song) {
+    // Remove song from all songlists
+    _.each(songListsDB, function(songList) {
+      if (_.keys(songList.songs).indexOf(song.$id) !== -1) {
+        methods.removeSongFromList(song.$id, songList);
+        methods.updateSongList(songList);
+      }
+    });
+    return songsDB.$remove(song);
+  };
+
+  // ==============================================================================================
+
+  methods.removeSongFromList = function(songId, songList) {
+    var removedIdx = angular.copy(songList.songs[songId]);
+    delete songList.songs[songId];
+    _.each(songList.songs, function(order, songId) {
+      if (order > removedIdx) {
+        songList.songs[songId]--;
+      }
+    });
+  };
+
+  // ==============================================================================================
+
+  methods.followSongLists = function() {
+    return songListsDB;
+  };
+  methods.followSongListsObject = function() {
+    return songListsObject;
+  };
+  methods.addSongList = function(songList) {
+    return songListsDB.$add(songList);
+  };
+  methods.updateSongList = function(songList) {
+    return songListsDB.$save(songList);
+  };
+  methods.deleteSongList = function(songList) {
+    return songListsDB.$remove(songList);
+  };
+
+  // ==============================================================================================
+
+  methods.populate = function() {
+    // Enter population function here
+  };
+
+  // ==============================================================================================
+
+  return methods;
+}]);
+
+/**
+ *   Helper methods for manipuating data structures missing from _
+ **/
+angular.module('Setlists').
+factory('dataUtilFactory', function() {
+  var methods = {};
+
+  methods.sortObjectByKey = function(object) {
+    var temp = {};
+    _.each(_.keys(object).sort(), function(typeKey) {
+      temp[typeKey] = object[typeKey];
+    });
+    return temp;
+  };
+
+  methods.stringReplace = function(string, oldChars, newChars) {
+    if (_.isString(string)) {
+      return string.split(oldChars).join(newChars);
+    } else {
+      return null;
+    }
+  };
+
+  methods.removeNullUndefinedKeys = function(obj) {
+    _.each(obj, function(v, k) {
+      if (v === undefined || v === null) {
+        delete obj[k];
+      }
+    });
+    return obj;
+  };
+
+  return methods;
+});
+
+/**
+ *  This factory is used to get/set URL params and strings
+ **/
+angular.module('Setlists').
+factory('urlParamsFactory', function() {
+  var methods   = {};
+  var urlParams = {}; // store params after first check
+
+  // get value of variable from URL string
+  methods.getQueryVariable = function(variable) {
+    if (_.isEmpty(urlParams)) {
+      methods.getAllQueryParamsObject();
+    }
+    return urlParams[variable] || false;
+  };
+
+  methods.getAllQueryParamsObject = function() {
+    if (_.isEmpty(urlParams)) {
+      var query  = window.location.search.substring(1),
+          vars   = query.split('&'),
+          params = {};
+      _.each(vars, function(item) {
+        if (item.length) {
+          var pair = item.split('=');
+          params[pair[0]] = decodeURIComponent(pair[1]);
+        }
+      });
+      urlParams = params;
+    }
+    return urlParams;
+  };
+
+  methods.getURLParamsFromObject = function(data) {
+    // remove keys with undefined or null data
+    data = _.omit(data, _.filter(_.keys(data), function(key) {
+      return _.isUndefined(data[key]) || _.isNull(data[key]);
+    }));
+    return jQuery.param(data);
+  };
+
+  /**
+  *   Accept a location string and an array of
+  *     paramaters: ['key=value', 'key2=value2', ...]
+  *
+  *   Return an encoded URL string
+  **/
+  methods.sanitize = function(location, params) {
+    var sanitizedURL  = '',
+        encodedParams = [],
+        urlParams;
+    if (params !== undefined && Array.isArray(params)) {
+      var equalsCount;
+      _.each(params, function(param) {
+        // Ensure there is exactly one '=' in each param
+        equalsCount = param.split('=').length - 1;
+
+        if (equalsCount === 1 &&
+            _.indexOf(param, '&') === -1 &&
+            _.indexOf(param, '?') === -1) {
+          encodedParams.push(encodeURI(param));
+        }
+      });
+      urlParams = '?' + encodedParams.join('&');
+    } else {
+      urlParams = '';
+    }
+    sanitizedURL = location + urlParams;
+    return sanitizedURL;
+  };
+
+  return methods;
+});
